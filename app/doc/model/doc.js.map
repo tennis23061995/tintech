@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\doc\\model\\doc.js"
+    ],
+    "names": [
+        "findAll",
+        "db",
+        "where",
+        "model",
+        "select",
+        "findOne",
+        "find",
+        "getOneArticle",
+        "think",
+        "base"
+    ],
+    "mappings": "AAAA;AACA;;;;;;;;;;;;;;;;;;;;;;;;;;;;AAII;qBACAA,O,oBAAQC,E,EAAGC,K,EAAM;AACb,eAAO,KAAKC,KAAL,CAAWF,EAAX,EAAeC,KAAf,CAAqBA,KAArB,EAA4BE,MAA5B,EAAP;AACH,K;AACD;;;qBACAC,O,oBAAQJ,E,EAAGC,K,EAAM;AACb,eAAO,KAAKC,KAAL,CAAWF,EAAX,EAAeC,KAAf,CAAqBA,KAArB,EAA4BI,IAA5B,EAAP;AACH,K;;qBACDC,a,0BAAcN,E,EAAGC,K,EAAM;AACnB,eAAO,KAAKC,KAAL,CAAWF,EAAX,EAAeC,KAAf,CAAqBA,KAArB,EAA4BI,IAA5B,EAAP;AACH,K;;;EAXwBE,MAAML,KAAN,CAAYM,I",
+    "file": "..\\..\\..\\src\\doc\\model\\doc.js",
+    "sourcesContent": [
+        "'use strict';\r\n/**\r\n * model\r\n */\r\nexport default class extends think.model.base {\r\n    //返回全部列表\r\n    findAll(db,where){\r\n        return this.model(db).where(where).select();\r\n    }\r\n    //返回特定记录\r\n    findOne(db,where){\r\n        return this.model(db).where(where).find();\r\n    }\r\n    getOneArticle(db,where){\r\n        return this.model(db).where(where).find();\r\n    }\r\n}\r\n"
+    ]
+}

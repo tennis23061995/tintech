@@ -1,0 +1,50 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\topic\\model\\topic.js"
+    ],
+    "names": [
+        "findAll",
+        "db",
+        "where",
+        "model",
+        "select",
+        "findOne",
+        "find",
+        "updateRecord",
+        "data",
+        "update",
+        "addRecord",
+        "add",
+        "getTopicOneJoinRecord",
+        "tid",
+        "field",
+        "join",
+        "topic_item",
+        "on",
+        "getReplyListInfo",
+        "user",
+        "getTopicListJoinRecord",
+        "order",
+        "getPageSelect",
+        "page",
+        "pagesize",
+        "getPageCountSelect",
+        "countSelect",
+        "getMemberList",
+        "limit",
+        "decrepoint",
+        "count",
+        "decrement",
+        "increpoint",
+        "increment",
+        "getUserPic",
+        "think",
+        "base"
+    ],
+    "mappings": "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",
+    "file": "..\\..\\..\\src\\topic\\model\\topic.js",
+    "sourcesContent": [
+        "'use strict';\r\n/**\r\n * model\r\n */\r\nexport default class extends think.model.base {\r\n\r\n    //返回全部列表\r\n    findAll(db,where){\r\n        return this.model(db).where(where).select();\r\n    }\r\n    //返回特定记录\r\n    findOne(db,where){\r\n        return this.model(db).where(where).find();\r\n    }\r\n    //更新数据\r\n    updateRecord(db,where,data){\r\n        return this.model(db).where(where).update(data);\r\n    }\r\n    //添加数据\r\n    addRecord(db,data){\r\n        return this.model(db).add(data);\r\n    }\r\n\r\n    getTopicOneJoinRecord(tid){\r\n      return this.model('topic').field(\"*,li_topic.id as tid\").where({tid:tid}).join({\r\n           topic_item:{on:\"item,name\"}\r\n       }).find();\r\n    }\r\n\r\n    getReplyListInfo(where){\r\n      return this.model('topic_comment').field(\"*,li_topic_comment.id as tid,li_topic_comment.createtime as mytime\").where(where).join({\r\n           user:{on:\"author,name\"}\r\n       }).select();\r\n    }\r\n\r\n    getTopicListJoinRecord(where){\r\n      return this.model('topic').field(\"*,li_topic.id as tid,li_topic.createtime as mytime\").join({\r\n           user: {on: \"author,name\"},\r\n           topic_item:{on:\"item,name\"}\r\n       }).where(where).order(\"mytime DESC\").select();\r\n    }\r\n\r\n    //分页初始数据\r\n    getPageSelect(where,page,pagesize){\r\n      return this.model('topic').field(\"*,li_topic.id as tid\").join({\r\n           user: {on: \"author,name\"},\r\n           topic_item:{on:\"item,name\"}\r\n       }).where(where).order(\"li_topic.createtime DESC\").page(page,pagesize).select();\r\n    }\r\n    //分页thinkjs分页数据\r\n    getPageCountSelect(where,page,pagesize){\r\n      return this.model('topic').field(\"*,li_topic.id as tid\").join({\r\n           user: {on: \"author,name\"},\r\n           topic_item:{on:\"item,name\"}\r\n       }).where(where).order(\"li_topic.createtime DESC\").page(page,pagesize).countSelect();\r\n    }\r\n\r\n    getMemberList(where,limit){\r\n      return this.model('user').where(where).order(\"createtime DESC\").limit(limit).select();\r\n    }\r\n\r\n    decrepoint(where,count){\r\n        return this.model(\"user\").where(where).decrement('point',count);\r\n    }\r\n\r\n    increpoint(where,count){\r\n        return this.model(\"user\").where(where).increment('point',count);\r\n    }\r\n\r\n    getUserPic(where){\r\n       return this.model(\"user\").field(\"pic\").where(where).find();\r\n    }\r\n}\r\n"
+    ]
+}

@@ -1,0 +1,38 @@
+<style>
+  #menu ul{
+        padding: 0;
+        list-style: none;
+        //background: #f2f2f2;
+    }
+    #menu ul li{
+        display: inline-block;
+        position: relative;
+        line-height: 21px;
+        text-align: left;
+    }
+    #menu ul li a{
+        display: block;
+        padding: 8px 25px;
+        color: #333;
+        text-decoration: none;
+    }
+    #menu ul li a:hover{
+        color: #fff;
+        background: #0094ff;
+    }
+    #menu ul li ul.dropdown{
+        min-width: 100%; /* Set width of the dropdown */
+        background: #f2f2f2;
+        display: none;
+        position: absolute;
+        z-index: 999;
+        left: 0;
+    }
+    #menu ul li:hover ul.dropdown{
+        display: block;	/* Display the dropdown */
+    }
+  #menu ul li ul.dropdown li{
+        display: block;
+        min-width: 100%;
+    }
+</style><header class="head-region"><div class="container"><div class="row"><div class="col-md-1"><div class="logo"><a href="/" title="{{_web.sitename}}"><img src="{{_web.url}}{{theme_url}}/common/images/common/logo.png" alt="前端汇"></a></div></div><div class="col-md-9" id="menu">{% if navList.menu.length>0 %}<ul class="site-nav site-navbar">{% for item in navList.menu %}<li class="item"><a href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }}</a> {% if item.submenus.length>0 %}<ul class="dropdown">{% for it in item.submenus %}<li><a href="#">{{it.itemname}}</a></li>{% endfor %}</ul>{% endif %}</li>{% endfor %}</ul>{% endif %}</div><div class="col-md-2"><div class="navto-search" style="margin-left:40px;margin-top:15px"><a href="javascript:;" class="search-show active"><span style="color:#ccc;margin-right:10px">Tìm Kiếm</span><i class="fa fa-search"></i></a></div></div></div></div></header><div class="site-search"><div class="container"><form method="get" class="site-search-form" action="/search?keyword="><input class="search-input" name="keyword" type="text" placeholder="Hãy nhập thông tin cần tìm"><button class="search-btn" type="submit"><i class="fa fa-search"></i></button></form></div></div>

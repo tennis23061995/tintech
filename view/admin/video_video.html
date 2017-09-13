@@ -1,0 +1,123 @@
+{% extends "../admin/inc/admin_base.html" %}
+{% block head %}
+    {{ super() }}
+    <link rel="stylesheet" type="text/css" href="{{_web.url}}static/admin/vendors/wangeditor/css/wangEditor.min.css">
+    <link rel="stylesheet" href="{{_web.url}}static/admin/vendors/webuploader/eviz/upload.css"/>
+    <script src="{{_web.url}}static/admin/vendors/webuploader/eviz/jquery.form.js"></script>
+    <script src="{{_web.url}}static/admin/vendors/webuploader/eviz/uploader.js"></script>
+    <link rel="stylesheet" href="{{_web.url}}static/admin/css/admin/article/article.css">
+    <link rel="stylesheet" href="{{_web.url}}static/select2/css/select2.min.css">
+{% endblock %}
+
+{% block content %}
+    <form class="form form-horizontal" id="form-article-add">
+        <input type="hidden" value="{{article.id}}" id="aid"/>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Tiêu đề：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text title" data_required="1" value="{{article.title}}" placeholder="" id="" name="title">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Từ khóa：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+              <select id='keywords' multiple style='width:100%'>
+                {% for item in tags.tags %}
+                <option value="{{item.value}}" selected>{{item.text}}</option>
+                {%endfor%}
+              </select>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red"></span>Thêm từ khóa：</label>
+            <div class="formControls col-xs-6 col-sm-7">
+                <input type="text" class="input-text tags" placeholder="" id="" name="title">
+            </div class="col-xs-2 col-sm-3">
+            <div>
+              <button class="btn btn-primary" id="btn-add-tags" type="button">Thêm mới</button>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Danh mục：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                    <span class="select-box">
+                        <select name="itemselect" class="select" id="itemselect">
+                            <option value="0">Chọn danh mục</option>
+                            {% if navList.menu.length>0 %}
+
+                               {% for item in navList.menu %}
+                                  <option value="{{item.parentmenu.id}}" {%if itemselectedId==item.parentmenu.id %}selected{%endif%}>{{item.parentmenu.itemname}}</option>
+                                      {% if item.submenus.length>0 %}
+
+                                        {% for it in item.submenus %}
+                                        <option value="{{it.id}}" {%if itemselectedId==it.id %}selected{%endif%}>-{{it.itemname}}</option>
+
+                                          {% endfor %}
+
+                                      {% endif %}
+                                  </li>
+                               {% endfor %}
+                            </ul>
+                            {% endif %}
+                        </select>
+            </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Link video: </label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text linkvideo" value="{{article.linkvideo}}" placeholder="" id="" name="linkvideo">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Tác giả：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text author" value="{{_web.author}}" placeholder="" id="author" name="">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Nguồn video：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                <input type="text" class="input-text from" value="{{article.from}}" placeholder="" id="" name="">
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Public：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="check-box" style="padding-left: 0px;">
+                    <input type="checkbox" id="ispublished" {% if article.ispublished==1 %}checked{%endif%}>
+                    <label for="checkbox-pinglun">&nbsp;</label>
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2">Hình nhỏ(thumbnail)：</label>
+            <div class="formControls col-xs-8 col-sm-9 skin-minimal">
+                <div class="show-img-upload">
+                    <form>
+                        <a class="add-img-btn" style="background-image:url({% if article.picurl %}/{{article.picurl}}{%else%}/static/admin/vendors/webuploader/eviz/add_img.png{%endif%});background-position: left;">
+                            <input filetype="img" type="file" id="uploadfile" name="file" accept="image/jpg,image/jpeg,image/png,image/gif,image/bmp">
+                        </a>
+                    </form>
+                    <div id="list"></div>
+                    <input type="hidden" id="picUrl" value="{{article.picurl}}">
+                </div>
+            </div>
+        </div>
+        <div class="row cl">
+            <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+                <button id="previewArticle" class="btn btn-primary radius" pid="{{article.id}}" type="submit"><i class="Hui-iconfont">&#xe632;</i>Lưu nháp</button>
+                <button id="addArticle" class="btn btn-secondary radius" type="button"><i class="Hui-iconfont">&#xe632;</i> Lưu</button>
+                <button onClick="window.location.href='/admin/content/index'" class="btn btn-default radius" type="button">&nbsp;&nbsp;Hủy bỏ&nbsp;&nbsp;</button>
+            </div>
+        </div>
+    </form>
+{% endblock %}
+
+{% block footer_other %}
+<script type="text/javascript" src="{{_web.url}}static/admin/js/jquery/jquery.validate.min.js"></script>
+<script type="text/javascript" src="{{_web.url}}static/filemanager/ckeditor/ckeditor.js"></script>
+  <!--<script type="text/javascript" src="{{_web.url}}static/admin/vendors/wangeditor/js/wangEditor.min.js"></script>-->
+  <script type="text/javascript" src="{{_web.url}}static/select2/js/select2.min.js"></script>
+  <script type="text/javascript" src="{{_web.url}}static/admin/js/admin/video.js"></script>
+{% endblock %}

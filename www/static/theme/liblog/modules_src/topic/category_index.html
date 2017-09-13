@@ -1,0 +1,67 @@
+{% extends "../topic/inc/topic_base.html" %}
+{% block head %}
+    <title>{{title}}-{{_web.sitename}}</title>
+    <meta name="keywords" content="{{_web.keywords}}">
+    <meta name="description" content="{{_web.description}}">
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+    <div class="article" id="topicList">
+       <div class="topnews">
+         <div class="h2">
+             <ol class="breadcrumb">
+                 <li><a href="{{_web.url}}"><i class="fa fa-home" aria-hidden="true"></i></a></li>
+                 <li><a href="/chu-de/{{category.urlrewrite}}-{{category.id}}">{{category.itemname}}</a></li>
+                 <!-- <li class="active">{{blogInfo.title}}</li> -->
+             </ol>
+         </div>
+         {% if itemList.length>0 %}
+         {% for item in itemList %}
+             <div class="cell">
+                <a class="user_avatar pull-left" href="/personal/@{{item.author}}">
+                  <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.pic=='' else item.pic}}" title="{{item.author}}">
+                </a>
+                <span class="reply_count pull-left">
+                  <span class="count_of_replies" title="回复数">
+                    {{item.replycount}}
+                  </span>
+                  <span class="count_seperator">/</span>
+                  <span class="count_of_visits" title="点击数">
+                    {{item.view}}
+                  </span>
+                </span>
+                <span class="last_time pull-right">
+                  <a href="/personal/@{{item.updateauthor}}">
+                    <img class="user_small_avatar" src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.updatepic=='' else item.updatepic}}" data-author="{{item.updateauthor}}">
+                  </a>
+                  <span class="last_active_time">
+                    <time class="timeago" datetime="{{think.datetime(item.updatetime)}}"></time>
+                  </span>
+                </span>
+                <div class="topic_title_wrapper">
+                        <span class="topiclist-tab"><a href="/chu-de/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+                        <a class="topic_title" href="/chu-de/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.tid}}" title="{{item.title}}">
+                          {{item.title}}
+                        </a>
+                </div>
+              </div>
+          {%endfor%}
+          {%else%}
+          <center>Hiện không có chủ đề nào</center>
+          {%endif%}
+       </div>
+       {% if pageData.count>20 %}
+          {% include "../common/inc/pagination.html"%}
+       {%endif%}
+       <div class="" style="clear:both;"></div>
+    </div>
+{% endblock %}
+{% block footer_other %}
+    <script type="text/javascript">
+        $(".topic-tab").on('click',function(){
+          $(".topic-tab").removeClass("current-tab");
+          $(this).addClass("current-tab");
+        })
+    </script>
+{% endblock %}

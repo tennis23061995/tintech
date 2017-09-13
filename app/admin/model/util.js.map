@@ -1,0 +1,46 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\model\\util.js"
+    ],
+    "names": [
+        "getIndex",
+        "info",
+        "model",
+        "db",
+        "where",
+        "page",
+        "pagesize",
+        "select",
+        "itemList",
+        "console",
+        "log",
+        "countSelect",
+        "result",
+        "Page",
+        "think",
+        "adapter",
+        "pageData",
+        "pagination",
+        "getItem",
+        "title",
+        "item",
+        "id",
+        "edit",
+        "find",
+        "add",
+        "doSave",
+        "status",
+        "isEmpty",
+        "update",
+        "data",
+        "rs",
+        "doSaveTags",
+        "base"
+    ],
+    "mappings": "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",
+    "file": "..\\..\\..\\src\\admin\\model\\util.js",
+    "sourcesContent": [
+        "'use strict';\nexport default class extends think.model.base {\n\n      async getIndex(info){\n\n             let itemList=await this.model(info.db).where(info.where).page(info.page,info.pagesize).select();\n             console.log(itemList);\n             let result = await this.model(info.db).where(info.where).page(info.page,info.pagesize).countSelect();\n             let Page=think.adapter(\"template\", \"page\");\n             let page = new Page();\n             let pageData=page.pagination(result,info.page);\n\n             return {\n                itemList:itemList,\n                pageData:pageData\n             };\n      }\n      async getItem(info){\n             let title=\"\",item={};\n             if(info.id){\n                  title=info.edit;\n                  item=await this.model(info.db).where({id:info.id}).find();\n              }else{\n                  title=info.add;\n                  item={}\n             }\n             return{\n               title:title,\n               item:item\n             }\n     }\n     async doSave(info){\n             let status=0\n             if(!think.isEmpty(info.id)){\n                 let rs=await this.model(info.db).where({id:info.id}).update(info.data);\n                 if(rs) status=1;\n             }else{\n                 let rs=await this.model(info.db).add(info.data);\n                 if(rs) status=1;\n             }\n             return{\n               status:status\n             }\n     }\n     async doSaveTags(info){\n             let status=0\n             if(!think.isEmpty(info.id)){\n                 let rs=await this.model(info.db).where({id:info.id}).update(info.data);\n                 if(rs) status=1;\n                 var item=await this.model(info.db).where({id:info.id}).find();\n                 return{\n                   status:status,\n                   data:item\n                 }\n             }else{\n                 let rs=await this.model(info.db).add(info.data);\n                 if(rs) status=1;\n                 var item=await this.model(info.db).where({id:rs}).find();\n                 return{\n                   status:status,\n                   data:item\n                 }\n             }\n     }\n}\n"
+    ]
+}

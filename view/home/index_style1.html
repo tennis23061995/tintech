@@ -1,0 +1,46 @@
+
+{% if topList.length>0 %}
+  <div class="col-md-7 col-lg-7">
+{% for item in topList %}
+
+  <!-- artigo em destaque -->
+  <div class="featured-article">
+      <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+      <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}" alt="" class="thumb img-responsive">
+    <div class="block-title">
+      <h4>{{item.title}}</h4>
+      <p class="description">
+          <a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a>
+          <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+      </p>
+    </div>
+    </a>
+  </div>
+  <!-- /.featured-article -->
+
+ {% endfor %}
+ </div>
+ {% endif %}
+ {% if newsList.length>0 %}
+ <div class="col-md-5 col-lg-5">
+
+   <ul class="media-list main-list">
+
+ {% for item in newsList %}
+ <li class="media">
+  <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+    <img class="media-object img-responsive" src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}" alt="...">
+  </a>
+  <div class="media-body">
+      <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><h4 class="media-heading">{{item.title}}</h4></a>
+      <p class="by-author">
+        <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+        <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+      </p>
+  </div>
+</li>
+  {% endfor %}
+</ul>
+
+</div>
+{% endif %}

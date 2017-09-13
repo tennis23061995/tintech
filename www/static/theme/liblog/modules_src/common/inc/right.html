@@ -1,0 +1,38 @@
+<div class="cloud main-right qqregion">
+  <div class="fb-page" data-href="https://www.facebook.com/tintech.vn/" data-tabs="timeline" data-height="200" data-small-header="false" data-adapt-container-width="true" data-hide-cover="false" data-show-facepile="true"><blockquote cite="https://www.facebook.com/tintech.vn/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/tintech.vn/">Trang Tin Tức Công Nghệ - Tintech.vn</a></blockquote></div>
+    <!-- <div class="fb-page" data-href="https://www.facebook.com/shareseo.vn/" data-tabs="timeline" data-height="200" data-small-header="true" data-adapt-container-width="true" data-hide-cover="true" data-show-facepile="true"><blockquote cite="https://www.facebook.com/shareseo.vn/" class="fb-xfbml-parse-ignore"><a href="https://www.facebook.com/shareseo.vn/">Cộng Đồng Seo</a></blockquote></div> -->
+</div>
+<div class="tab main-right" id="lp_right_select">
+    <div class="tab-top">
+        <ul class="hd" id="tb">
+            <li class="cur"><a href="javascript:void(0);">Xem Nhiều</a></li>
+            <li><a href="javascript:void(0);">Mới Nhất</a></li>
+        </ul>
+    </div>
+    <div class="tab-main main-right" id="tb-main">
+        <div class="bd bd-news" style="display:block;">
+            <ul>
+                {% article data = "popularList",limit= "5",type="hot"%} {% for item in popularList %}
+                <li>  <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">
+										{{item.title}}
+									</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="bd bd-news">
+            <ul>
+                {% article data = "newestList",limit= "5"%} {% for item in newestList %}
+                <li>  <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">{{item.title}}</a></li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+<div class="cloud main-right">
+    <h3>Xu Hướng</h3>
+    <ul>
+        {% for item in tagList %}
+        <li><a href="/xu-huong/{{item.urlrewrite}}-{{item.id}}">{{item.tagname}}</a></li>
+        {% endfor %}
+    </ul>
+</div>

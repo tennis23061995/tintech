@@ -1,0 +1,38 @@
+<div class="topnews">
+  <div class="h2">
+     <ol class="breadcrumb">
+         <li><a href="{{_web.url}}"><i class="fa fa-home"></i></a></li>
+         {% if category.categoryparent!=null %}
+         <li><a href="/{{category.categoryparent.urlrewrite}}-{{category.categoryparent.id}}">{{category.categoryparent.itemname}}</a></li>
+         <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
+         {% else %}
+          <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
+         {% endif %}
+     </ol>
+  </div>
+  <div class="row" style="padding-top: 0">
+  {{content|safe }}
+  </div>
+  <div style="margin-top:10px; font-size:20px;font-weight:bold">Tin mới</div>
+  {% for item in itemList %}
+  <div class="blogs">
+     <figure>
+       <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
+      </figure>
+      <ul class="articleul">
+      <h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
+       <p class="abstract">{{item.abstract}}</p>
+       <p class="by-author">
+         <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+         <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+       </p>
+      </ul>
+    </div>
+  {%endfor%}
+</div>
+{% block pagination %}
+    {%if pageData.count>10 %}
+       {% include "../../common/inc/pagination.html" %}
+    {%endif%}
+    <div style="clear:both"></div>
+{% endblock %}

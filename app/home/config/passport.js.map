@@ -1,0 +1,42 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\home\\config\\passport.js"
+    ],
+    "names": [
+        "FacebookStrategy",
+        "require",
+        "Strategy",
+        "configAuth",
+        "module",
+        "exports",
+        "passport",
+        "serializeUser",
+        "user",
+        "done",
+        "id",
+        "deserializeUser",
+        "User",
+        "findById",
+        "err",
+        "use",
+        "clientID",
+        "facebookAuth",
+        "clientSecret",
+        "callbackURL",
+        "profileFields",
+        "token",
+        "refreshToken",
+        "profile",
+        "console",
+        "log",
+        "process",
+        "nextTick",
+        "findOne"
+    ],
+    "mappings": ";;AAAA,IAAIA,mBAAmBC,QAAQ,mBAAR,EAA6BC,QAApD;AACA;;AAEA;AACA;AACA;AACA,IAAIC,aAAaF,QAAQ,WAAR,CAAjB;;AAEA;AACAG,OAAOC,OAAP,GAAiB,UAASC,QAAT,EAAkB;AACjC;AACE;AACA;AACA;AACA;;AAEA;AACAA,WAASC,aAAT,CAAuB,UAASC,IAAT,EAAeC,IAAf,EAAoB;AACzCA,SAAK,IAAL,EAAWD,KAAKE,EAAhB;AACD,GAFD;;AAIA;AACAJ,WAASK,eAAT,CAAyB,UAASD,EAAT,EAAaD,IAAb,EAAkB;AACzCG,SAAKC,QAAL,CAAcH,EAAd,EAAkB,UAASI,GAAT,EAAcN,IAAd,EAAmB;AACnCC,WAAKK,GAAL,EAAUN,IAAV;AACD,KAFD;AAGD,GAJD;;AAQF;AACA;AACA;;AAEAF,WAASS,GAAT,CAAa,IAAIf,gBAAJ,CAAqB;AAChC;AACAgB,cAAab,WAAWc,YAAX,CAAwBD,QAFL;AAGhCE,kBAAaf,WAAWc,YAAX,CAAwBC,YAHL;AAIhCC,iBAAahB,WAAWc,YAAX,CAAwBE,WAJL;AAKhCC,mBAAgB,CAAC,QAAD,EAAW,aAAX;AALgB,GAArB;;AAQb;AACA,YAASC,KAAT,EAAgBC,YAAhB,EAA8BC,OAA9B,EAAuCd,IAAvC,EAA4C;AAC9Ce,YAAQC,GAAR,CAAY,UAAZ;AACI;AACAC,YAAQC,QAAR,CAAiB,YAAU;AACzB;AACAf,WAAKgB,OAAL,CAAa,EAAE,eAAcL,QAAQb,EAAxB,EAAb,EAA2C,UAASI,GAAT,EAAcN,IAAd,EAAmB;AAC5D;AACA;AACA,YAAGM,GAAH,EAAO;AACL,iBAAOL,KAAKK,GAAL,CAAP;AACD;AACD;AACA,YAAGN,IAAH,EAAQ;AACN,iBAAOC,KAAK,IAAL,EAAWD,IAAX,CAAP;AACD,SAFD,MAEK;AACH;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACA;AACD;AAEF,OA9BD;AA+BD,KAjCD;AAkCD,GA9CY,CAAb;AAkDD,CA3ED",
+    "file": "..\\..\\..\\src\\home\\config\\passport.js",
+    "sourcesContent": [
+        "var FacebookStrategy = require('passport-facebook').Strategy;\r\n//var TwitterStrategy = require('passport-twitter').Strategy;\r\n\r\n//load user model\r\n//var User    = require('../app/models/user');\r\n//load auth variables\r\nvar configAuth = require('./auth.js');\r\n\r\n//expose this function to our app using module.exports\r\nmodule.exports = function(passport){\r\n  // =========================================================================\r\n    // passport session setup ==================================================\r\n    // =========================================================================\r\n    // required for persistent login sessions\r\n    // passport needs ability to serialize and unserialize users out of session\r\n\r\n    //used to serialize the user for the session\r\n    passport.serializeUser(function(user, done){\r\n      done(null, user.id);\r\n    });\r\n\r\n    //used to deserialize the user\r\n    passport.deserializeUser(function(id, done){\r\n      User.findById(id, function(err, user){\r\n        done(err, user);\r\n      });\r\n    });\r\n\r\n\r\n\r\n  // =========================================================================\r\n  // FACEBOOK ================================================================\r\n  // =========================================================================\r\n\r\n  passport.use(new FacebookStrategy({\r\n    // pull in our app id and secret from our auth.js file\r\n    clientID    :configAuth.facebookAuth.clientID,\r\n    clientSecret:configAuth.facebookAuth.clientSecret,\r\n    callbackURL :configAuth.facebookAuth.callbackURL,\r\n    profileFields : ['emails', 'displayName']\r\n  },\r\n\r\n  //facebook will send back the token and profile\r\n  function(token, refreshToken, profile, done){\r\nconsole.log(\"facebook\");\r\n    //asynchronous\r\n    process.nextTick(function(){\r\n      // find the user in the database based on their facebook id\r\n      User.findOne({ 'facebook.id':profile.id }, function(err, user){\r\n        // if there is an error, stop everything and return that\r\n        // ie an error connecting to the database\r\n        if(err){\r\n          return done(err);\r\n        }\r\n        //if the user is found then log them in\r\n        if(user){\r\n          return done(null, user);\r\n        }else{\r\n          //if there is no user found with that facebook id, create a new user\r\n          // var newUser = new User();\r\n          //\r\n          // //set all of the facebook information in our user model\r\n          // newUser.facebook.id     = profile.id;//set the users facebook id\r\n          // newUser.facebook.token  = token; //we will save the token that facebook provides to the user\r\n          // newUser.facebook.name   = profile.displayName; //look at the passport user profile to see how names are returned\r\n          // newUser.facebook.email  = profile.emails[0].value; //facebook can return more than one email, so we return first\r\n          //\r\n          // //save user to the database\r\n          // newUser.save(function(err){\r\n          //   if(err){\r\n          //     throw err;\r\n          //   }\r\n          //\r\n          //   //if successful return the new user\r\n          //   return done(null, newUser)\r\n          // });\r\n        }\r\n\r\n      });\r\n    });\r\n  }));\r\n\r\n\r\n\r\n};\r\n"
+    ]
+}

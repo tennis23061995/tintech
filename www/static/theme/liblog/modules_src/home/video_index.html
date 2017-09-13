@@ -1,0 +1,309 @@
+{% extends "../common/inc/base_video.html" %}
+{% block head %}
+    <title>{{_web.sitename}}</title>
+    <meta name="keywords" content="{{_web.keywords}}">
+    <meta name="description" content="{{_web.description}}">
+    {{ super() }}
+    <style>
+    #search-video
+{
+    margin-top:40px;
+    margin-bottom:20px;
+}
+
+.video-list-thumbs li
+{
+    padding-left:5px;
+    padding-right:5px;
+}
+
+.video-list-thumbs > li{
+    margin-bottom:12px;
+}
+.video-list-thumbs > li:last-child{}
+.video-list-thumbs > li > a{
+	display:block;
+	position:relative;
+	background-color: #111;
+	color: #fff;
+	padding: 8px;
+	border-radius:3px
+    transition:all 500ms ease-in-out;
+    border-radius:4px
+}
+.video-list-thumbs > li > a:hover{
+	box-shadow:0 2px 5px rgba(0,0,0,.3);
+	text-decoration:none
+}
+.video-list-thumbs h2{
+	bottom: 0;
+	font-size: 14px;
+	height: 33px;
+	margin: 8px 0 0;
+}
+.video-list-thumbs .glyphicon-play-circle{
+    font-size: 60px;
+    opacity: 0.6;
+    position: absolute;
+    right: 39%;
+    top: 31%;
+    text-shadow: 0 1px 3px rgba(0,0,0,.5);
+    transition:all 500ms ease-in-out;
+}
+.video-list-thumbs > li > a:hover .glyphicon-play-circle{
+	color:#fff;
+	opacity:1;
+	text-shadow:0 1px 3px rgba(0,0,0,.8);
+}
+.video-list-thumbs .duration{
+	background-color: rgba(0, 0, 0, 0.4);
+	border-radius: 2px;
+	color: #fff;
+	font-size: 11px;
+	font-weight: bold;
+	left: 12px;
+	line-height: 13px;
+	padding: 2px 3px 1px;
+	position: absolute;
+	top: 12px;
+    transition:all 500ms ease;
+}
+.video-list-thumbs > li > a:hover .duration{
+	background-color:#000;
+}
+@media (min-width:320px) and (max-width: 480px) {
+	.video-list-thumbs .glyphicon-play-circle{
+    font-size: 35px;
+    right: 36%;
+    top: 27%;
+	}
+	.video-list-thumbs h2{
+		bottom: 0;
+		font-size: 12px;
+		height: 22px;
+		margin: 8px 0 0;
+	}
+}
+.dropdown-menu>li>a
+{
+  padding: 3px;
+}
+.dropdown-menu>li>ul
+{
+  padding: 0px 12px;
+}
+
+    </style>
+    <!-- <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/index/index_topic.css" rel="stylesheet"> -->
+{% endblock %}
+
+{% block content %}
+<form method="get" action="/home/video/index">
+       <div class="container" id="search-video">
+           <div class="row">
+               <div class="col-xs-8 col-xs-offset-2">
+                   <div class="input-group">
+                       <div class="input-group-btn search-panel">
+                           <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+                             {% if category.id %}
+                               <span id="search_concept">{{category.itemname}}</span> <span class="caret"></span>
+                               {% else %}
+                               <span id="search_concept">Thể Loại</span> <span class="caret"></span>
+                              {% endif %}
+                           </button>
+                           {% if navList.menu.length>0 %}
+                           <ul class="dropdown-menu" role="menu">
+                              {% for item in navList.menu %}
+                                 <li>
+                                     <a data-id={{item.parentmenu.id }} href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }}</a>
+                                     {% if item.submenus.length>0 %}
+                                     <ul>
+                                       {% for it in item.submenus %}
+                                         <li><a data-id={{it.id}} href="/{{ it.urlrewrite }}-{{ it.id }}">-{{ it.itemname }}</a></li>
+                                         {% endfor %}
+                                     </ul>
+                                     {% endif %}
+                                 </li>
+                              {% endfor %}
+                           </ul>
+                           {% endif %}
+
+                           <!-- <ul class="dropdown-menu" role="menu">
+                               <li><a href="#contains" data-id="1">Contains</a></li>
+                               <li><a href="#its_equal">It's equal</a></li>
+                               <li><a href="#greather_than">Greather than ></a></li>
+                               <li><a href="#less_than">Less than < </a></li>
+                               <li class="divider"></li>
+                               <li><a href="#all">Anything</a></li>
+                           </ul> -->
+                       </div>
+                       <input type="text" class="form-control" style="z-index:0" name="keyword" value="{{keyword}}" placeholder="Search term...">
+                       <input type="hidden" name="category" value="{{category.id}}" id="search_param">
+                       <span class="input-group-btn">
+                           <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
+                       </span>
+                   </div>
+               </div>
+           </div>
+       </div>
+
+       </form>
+       <div class="container" id="list-video">
+         <ul class="list-unstyled video-list-thumbs" id="search-listitem">
+         </ul>
+         <div class="clearfix"></div>
+           <div class="loading-info" style="display:none;text-align:center">
+               <img src="/Images/loading.gif" />
+           </div>
+           <!-- <ul class="list-unstyled video-list-thumbs">
+               <li class="col-lg-3 col-sm-4 col-xs-6">
+                   <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+                       <img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" />
+                       <h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2>
+                       <span class="glyphicon glyphicon-play-circle"></span>
+                       <span class="duration">03:15</span>
+                   </a>
+               </li>
+               <li class="col-lg-3 col-sm-4 col-xs-6">
+                   <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+                       <img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" />
+                       <h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2>
+                       <span class="glyphicon glyphicon-play-circle"></span>
+                       <span class="duration">03:15</span>
+                   </a>
+               </li>
+               <li class="col-lg-3 col-sm-4 col-xs-6">
+                   <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+                       <img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" />
+                       <h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2>
+                       <span class="glyphicon glyphicon-play-circle"></span>
+                       <span class="duration">03:15</span>
+                   </a>
+               </li>
+               <li class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                   <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+                       <img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" />
+                       <h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2>
+                       <span class="glyphicon glyphicon-play-circle"></span>
+                       <span class="duration">03:15</span>
+                   </a>
+               </li>
+               <li class="col-lg-3 col-md-4 col-sm-4 col-xs-6">
+                   <a href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga">
+                       <img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" />
+                       <h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2>
+                       <span class="glyphicon glyphicon-play-circle"></span>
+                       <span class="duration">03:15</span>
+                   </a>
+               </li>
+           </ul> -->
+       </div>
+{% endblock %}
+{% block video_other %}
+<div id="myVideo" class="modal fade" role="dialog">
+    <div class="modal-dialog modal-lg">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                <h5 class="modal-title">Modal Header</h5>
+            </div>
+            <div class="modal-body">
+
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+{% block footer_other %}
+<script id="cy_cmt_num" src="//changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysoRJNxO"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script>
+    $(document).ready(function (e) {
+        $('.search-panel .dropdown-menu').find('a').click(function (e) {
+            e.preventDefault();
+            var param = $(this).attr("href").replace("#", "");
+            var concept = $(this).text();
+            $('.search-panel span#search_concept').text(concept);
+            $('.input-group #search_param').val($(this).attr("data-id"));
+            $('.search-panel .dropdown-menu').toggle();
+            window.location.href="/home/video/index?category="+$(this).attr("data-id");
+        });
+    });
+    var stopajax = true;
+    var track_page = 1; //track user scroll as page number, right now page number is 1
+    var loading = false;
+    function load_contents(track_page) {
+        stopajax=false;
+        var data = {};
+        data['page'] = track_page;
+        data['keyword'] = $("#search-video input[name=keyword]").val();
+        data['category'] = $("#search-video input[name=category]").val();
+          data['__CSRF__']=G_csrf;
+        console.log(data);
+        //  alert(language);
+        //alert(effectStatus);
+        if (loading == false) {
+            loading = true;  //set loading flag on
+            $('.loading-info').show(); //show loading animation
+            $.post('/home/video/getdatavideo', data, function (data) {
+                console.log(data);
+                //window.scrollTo(0, $("#search-listitem").offset().top);
+                loading = false; //set loading flag off once the content is loaded
+                $("#item-count").html("(" + data.total + " kết quả)");
+
+                    if (data.data.total == 0) {
+                        //notify user if nothing to load
+                        $('.loading-info').html("Không còn video nữa!");
+                        stopajax = false;
+                        return;
+                    }
+                    else {
+                        var content = "";
+                        for(var i=0;i<data.data.content.length;i++)
+                        {
+                            content += '<li class="col-lg-3 col-sm-4 col-xs-6"><a data-id="1" class="btn-video" href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga"><img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" /><h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2><span class="glyphicon glyphicon-play-circle"></span><span class="duration">03:15</span>  </a></li>';
+                        }
+                        $('.loading-info').hide(); //hide loading animation once data is received
+                        $("#search-listitem").append(content); //append data into #results element
+                    }
+                    stopajax = true;
+
+
+            }).fail(function (xhr, ajaxOptions, thrownError) { //any errors?
+                alert(thrownError); //alert with HTTP error
+            })
+        }
+    }
+    load_contents(track_page)
+    $(window).scroll(function () { //detect page scroll
+        if ($(window).scrollTop() + $(window).height() > $(document).height() - 100 && stopajax == true) { //if user scrolled to bottom of the page
+            track_page++; //page number increment
+            load_contents(track_page); //load content
+        }
+    });
+    $("body").on("click",".btn-video", function (e) {
+      e.preventDefault();
+      var newData={
+          id:$(this).attr("data-id"),
+          __CSRF__:G_csrf
+      }
+           $.post("/home/index/getvideo", function (data) {
+               var content = '<video width="100%"  controls><source src="' + data.content + '" type="video/mp4"><source src="mov_bbb.ogg" type="video/ogg">Your browser does not support HTML5 video.</video>'
+               $("#myVideo .modal-body").html(content);
+               $('#myVideo').modal('show');
+           })
+       })
+       $('#myVideo').on('shown.bs.modal', function () {
+         $("#myVideo .modal-dialog").css("margin-top","0");
+               var top = ($(window).height() / 2) - ($("#myVideo .modal-content").height() / 2);
+               if (top >= 0) $("#myVideo .modal-content").css("top", top + "px");
+           });
+           $(".search-panel").on("click",".btn",function(){
+             $(".search-panel .dropdown-menu").toggle();
+           });
+</script>
+
+{% endblock %}

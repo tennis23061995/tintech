@@ -1,0 +1,162 @@
+{% extends "../common/inc/base_home.html" %}
+{% block head %}
+    <title>{{_web.sitename}}</title>
+    <meta name="keywords" content="{{_web.keywords}}">
+    <meta name="description" content="{{_web.description}}">
+    {{ super() }}
+    <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/index/index_topic.css" rel="stylesheet">
+{% endblock %}
+{% block content_top %}
+    <section class="focusbox-wrapper container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="focusmo">
+            <ul>
+              {% article data = "largetopList",limit= "1",flag="flag_a"%}
+              {% for item in largetopList %}
+                {% set curlrewrite = "category" %}
+                {% for menu in navList.menu %}
+                {% if menu.id===item.menu.parentmenu.item %}
+                    {% set curlrewrite = menu.parentmenu.urlrewrite %}
+                {% endif %}
+                {%endfor%}
+              <li class="large">
+                <span>
+                  <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+                    <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" alt="" class="thumb" title="{{item.title}}">
+                    <span>
+                      <h4>{{item.title}}</h4></span>
+                  </a>
+                </span>
+              </li>
+              {%endfor%}
+              {% article data = "topList",limit= "4",flag="totop"%}
+              {% for item in topList %}
+                <li>
+                  <span>
+                      <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+                      <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" alt="" class="thumb" title="{{item.title}}">
+                      <span>
+                        <h4>{{item.title}}</h4></span>
+                    </a>
+                  </span>
+                </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="most-comment-posts">
+            <h3 class="widget_titx">
+              <strong>Nổi bật</strong></h3>
+            <ul>
+              {% article data = "torecomList",limit= "9",flag="torecom"%}
+              {% for item in torecomList %}
+                <li class="item-{{loop.index}}">
+                  <span class="label label-1">{{loop.index}}</span>
+                    <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">
+                    {{item.title}}
+                  </a>
+                </li>
+              {%endfor%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+{% block content %}
+  {% for menu in navList.menu %}
+  <div class="topnews">
+
+    <div class="h2" id="menu-{{menu.parentmenu.id}}">
+      <!-- {% if menu.submenus.length>0 %}
+      <div class="navbar-header pull-right">
+                      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-{{menu.parentmenu.id}}">
+                          <i class="fa fa-bars" aria-hidden="true"></i>
+                      </button>
+
+                  </div>
+                  {% endif %} -->
+     <span>
+       <a href="/{{menu.parentmenu.urlrewrite}}-{{menu.parentmenu.id}}">Tất Cả>></a>
+     </span>
+     <a href="#" class="submenuclick" data-parentid={{menu.parentmenu.id}} data-id={{menu.parentmenu.id}}>{{menu.parentmenu.itemname}}</a>
+       {% if menu.submenus.length>0 %}
+     <div class="collapse navbar-collapse pull-right" id="navbar-collapse-{{menu.parentmenu.id}}">
+                     <ul class="nav navbar-nav">
+                       {% for submenu in menu.submenus %}
+                         <li><a href="#" class="submenuclick" data-parentid={{submenu.parentid}} data-id={{submenu.id}}>{{submenu.itemname}}</a></li>
+                  {% endfor %}
+                     </ul>
+                 </div>
+                   {% endif %}
+    </div>
+
+    <div class="row" id="menunews-{{menu.parentmenu.id}}">
+      {% if menu.parentmenu.style==1 %}
+  {% article data = "topList",limit= "2",cid=menu.submenusid,iscategory=true %}
+
+     {% set comma = "" %}
+     {% if topList.length>0 %}
+     {% set i = 0 %}
+     {% for im in topList %}
+     {% set i=i+1 %}
+      {% if i!=topList.length %}
+    {% set comma=comma+im.id+"," %}
+    {% else %}
+    {% set comma=comma+im.id %}
+    {% endif %}
+       {% endfor %}
+     {% endif %}
+     {% article data = "newsList",limit= "6",rejectnews=comma,cid=menu.submenusid,iscategory=true %}
+   {% include "./inc/index_style1.html" %}
+{% elif menu.parentmenu.style==2 %}
+{% article data = "topList",limit= "2",cid=menu.submenusid,iscategory=true %}
+{% set comma = "" %}
+{% if topList.length>0 %}
+{% set i = 0 %}
+{% for im in topList %}
+{% set i=i+1 %}
+ {% if i!=topList.length %}
+{% set comma=comma+im.id+"," %}
+{% else %}
+{% set comma=comma+im.id %}
+{% endif %}
+  {% endfor %}
+{% endif %}
+ {% article data = "newsList",rejectnews=comma,limit= "3",cid=menu.submenusid,iscategory=true %}
+ {% if newsList.length>0 %}
+ {% set comma = comma+"," %}
+ {% set i = 0 %}
+ {% for im in newsList %}
+ {% set i=i+1 %}
+  {% if i!=newsList.length %}
+ {% set comma=comma+im.id+"," %}
+ {% else %}
+ {% set comma=comma+im.id %}
+ {% endif %}
+   {% endfor %}
+ {% endif %}
+  {% article data = "newsList1",rejectnews=comma,limit= "3",cid=menu.submenusid,iscategory=true %}
+
+  {% include "./inc/index_style2.html" %}
+  {% elif menu.parentmenu.style==3 %}
+  {% article data = "topList",limit= "6",cid=menu.submenusid,iscategory=true %}
+    {% include "./inc/index_style3.html" %}
+{% endif %}
+
+
+	</div>
+
+  </div>
+  {%endfor%}
+
+{% endblock %}
+
+<!-- {% block footer_other %}
+<script id="cy_cmt_num" src="//changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysoRJNxO"></script>
+<script>
+
+</script>
+{% endblock %} -->

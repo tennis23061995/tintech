@@ -1,0 +1,56 @@
+{% extends "../admin/inc/admin_base.html" %}
+{% block head %}
+{{ super() }}
+{% endblock %}
+
+{% block content %}
+<form class="form form-horizontal" id="form-article-add">
+    <input type="hidden" value="" id="aid" />
+    <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Bình luận：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+            <label class="radio-inline">
+                {% if sysdata.allowcomment===1 %}
+                <input type="radio" name="allowcomment" value="1" checked="checked">Bật
+                {% else %}
+                <input type="radio" name="allowcomment" value="1">Bật
+                {% endif %}
+            </label><span>&nbsp;&nbsp;</span>
+            <label class="radio-inline">
+                {% if sysdata.allowcomment===0 %}
+                <input type="radio" name="allowcomment" value="0" checked="checked">Tắt
+                {% else %}
+                <input type="radio" name="allowcomment" value="0">Tắt
+                {% endif %}
+            </label>
+        </div>
+    </div>
+    <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>APP ID：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+            <input type="text" class="input-text appid" value="{{sysdata.appid}}" placeholder="" id="" name="">
+        </div>
+    </div>
+    <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>APP KEY：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+            <input type="text" class="input-text appkey" value="{{sysdata.appkey}}" placeholder="" id="" name="">
+        </div>
+    </div>
+    <div class="row cl">
+        <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Mã code：</label>
+        <div class="formControls col-xs-8 col-sm-9">
+            <textarea class="form-control textarea appcode" name="link" rows="4" cols="50" placeholder="安装代码" style="width: 100%; height: 98px;resize:none">{{sysdata.appcode}}</textarea>
+        </div>
+    </div>
+    <div class="row cl">
+        <div class="col-xs-8 col-sm-9 col-xs-offset-4 col-sm-offset-2">
+            <button class="btn btn-secondary radius" id="savetag" type="button"><i class="Hui-iconfont">&#xe632;</i> Lưu</button>
+            <button onClick="window.location.href='/admin/system'" class="btn btn-default radius" type="button">&nbsp;&nbsp;Hủy bỏ&nbsp;&nbsp;</button>
+        </div>
+    </div>
+</form>
+{% endblock %}
+{% block footer_other %}
+<script type="text/javascript" src="{{_web.url}}static/admin/js/admin/system_setcomment.js"></script>
+{% endblock %}

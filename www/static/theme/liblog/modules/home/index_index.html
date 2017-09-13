@@ -1,0 +1,56 @@
+{% extends "../common/inc/base_home.html" %} {% block head %}<title>{{_web.sitename}}</title><meta name="keywords" content="{{_web.keywords}}"><meta name="description" content="{{_web.description}}">{{ super() }}<style>
+    /* image thumbnail */
+.thumb {
+    display: block;
+	width: 100%;
+	margin: 0;
+}
+
+/* Style to article Author */
+.by-author {
+	font-style: italic;
+	line-height: 1.3;
+	color: #aab6aa;
+}
+
+/* Main Article [Module]
+-------------------------------------
+* Featured Article Thumbnail
+* have a image and a text title.
+*/
+.featured-article {
+
+	height: 300px;
+	position: relative;
+	margin-bottom: 1em;
+}
+
+.featured-article .block-title {
+	/* Position & Box Model */
+	position: absolute;
+	bottom: 0;
+	left: 0;
+	z-index: 1;
+	/* background */
+	background: rgba(0,0,0,0.7);
+	/* Width/Height */
+	padding: .5em;
+	width: 100%;
+	/* Text color */
+	color: #fff;
+}
+
+.featured-article .block-title h2 {
+	margin: 0;
+}
+
+/* Featured Articles List [BS3]
+--------------------------------------------
+* show the last 3 articles post
+*/
+
+.main-list .media {
+	padding-bottom: 1.1em;
+	border-bottom: 1px solid #e8e8e8;
+}
+    </style><link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/index/index_topic.css" rel="stylesheet">{% endblock %} {% block content_top %}<section class="focusbox-wrapper container"><div class="row"><div class="col-md-9"><div class="focusmo"><ul>{% article data = "largetopList",limit= "1",flag="flag_a"%} {% for item in largetopList %} {% set curlrewrite = "category" %} {% for menu in navList.menu %} {% if menu.id===item.menu.parentmenu.item %} {% set curlrewrite = menu.parentmenu.urlrewrite %} {% endif %} {%endfor%}<li class="large"><span><a href="{{curlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}.html" target="_blank"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" class="thumb" title="{{item.title}}"> <span><h4>{{item.title}}</h4></span></a></span></li>{%endfor%} {% article data = "topList",limit= "4",flag="totop"%} {% for item in topList %}<li><span><a href="/page/{{item.id}}.html" target="_blank"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" class="thumb" title="{{item.title}}"> <span><h4>{{item.title}}</h4></span></a></span></li>{% endfor %}</ul></div></div><div class="col-md-3"><div class="most-comment-posts"><h3 class="widget_titx"><strong>Nổi bật</strong></h3><ul>{% article data = "torecomList",limit= "9",flag="torecom"%} {% for item in torecomList %}<li class="item-{{loop.index}}"><span class="label label-1">{{loop.index}}</span> <a href="/page/{{item.id}}.html" title="{{item.title}}">{{item.title}}</a></li>{%endfor%}</ul></div></div></div></section>{% endblock %} {% block content %} {% for menu in navList.menu %}<div class="topnews"><div class="h2"><span><a href="/tat-ca/{{menu.parentmenu.urlrewrite}}-{{menu.parentmenu.id}}" target="_blank">Tất Cả>></a></span> {{menu.parentmenu.itemname}}</div><div class="row">{% article data = "topList",limit= "1",cid=menu.submenusid,flag="totop",iscategory=true %} {% if topList.length>0 %}<div class="col-md-7 col-lg-7">{% for item in topList %}<div class="featured-article"><a href="#"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}" class="thumb img-responsive"></a><div class="block-title"><h2>{{item.title}}</h2><p class="by-author"><small>By Jhon Doe</small></p></div></div>{% endfor %}</div>{% endif %} {% article data = "topList",limit= "4",cid=menu.submenusid,iscategory=true %} {% if topList.length>0 %}<div class="col-md-5 col-lg-5"><div class="row"><ul class="media-list main-list">{% for item in topList %}<li class="media"><a class="pull-left" href="#"><img class="media-object img-responsive" src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}" alt="..."></a><div class="media-body"><h4 class="media-heading">{{item.title}}</h4><p class="by-author">By Jhon Doe</p></div></li>{% endfor %}</ul></div></div>{% endif %}</div></div>{%endfor%} {% endblock %} {% block footer_other %}<script id="cy_cmt_num" src="//changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysoRJNxO"></script>{% endblock %}

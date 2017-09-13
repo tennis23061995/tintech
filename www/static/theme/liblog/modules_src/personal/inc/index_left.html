@@ -1,0 +1,124 @@
+<div class="tabbable-panel">
+    <div class="tabbable-line">
+        <ul class="nav nav-tabs" id="nav-tabs">
+          <li class="" pid="paneOneArticle">
+              <a href="javascript:void(0);">Bài viết bạn theo dõi</a>
+          </li>
+
+          <li class="" pid="paneThreeArticle">
+              <a href="javascript:void(0);">Bài viết bạn bình luận</a>
+          </li>
+            <li class="" pid="paneOne">
+                <a href="javascript:void(0);">Chủ đề bạn theo dõi</a>
+            </li>
+
+            <li class="" pid="paneThree">
+                <a href="javascript:void(0);">Chủ đề bạn bình luận</a>
+            </li>
+            <li class="" pid="paneTwo">
+                <a href="javascript:void(0);">Chủ đề của tôi</a>
+            </li>
+        </ul>
+        <div class="tab-content">
+          <div class="tab-pane pane-content" id="paneOneArticle">
+            {% if collectListArticle.length>0 %}
+              <ul class="itemlist">
+                  {% for item in collectListArticle %}
+                        <li>
+                          <span class="li_pic">
+                            <a href="">
+                              <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.pic=='' else item.pic}}" title="{{item.author}}">
+
+                            </a>
+                          </span>
+                          <span class="li_title"><a href="{{item.url}}" target="_blank">{{item.title}}</a></span>
+                          <span class="li_time"><time class="timeago" datetime="{{think.datetime(item.mytime)}}"></time></span>
+                        </li>
+                  {%endfor%}
+              </ul>
+            {%else%}
+                <div class="hasnt-article">Không có dữ liệu</div>
+            {%endif%}
+          </div>
+          <!-- 问答 -->
+          <div class="tab-pane" id="paneThreeArticle">
+              {% if replyListArticle.articlecomment.length>0 %}
+                <ul class="itemlist">
+                    {% for item in replyListArticle.articlecomment %}
+                          <li>
+                            <span class="li_pic">
+                              <a href="">
+                                <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.acc.pic=='' else item.acc.pic}}" title="{{item.acc.author}}">
+                              </a>
+                            </span>
+                            <span class="li_title"><a href="/{{item.article.itemurlrewrite}}-{{item.article.item}}/{{item.article.urlrewrite}}-{{item.article.id}}">{{item.comment}}</a></span>
+                            <span class="li_time"><time class="timeago" datetime="{{think.datetime(item.createtime)}}"></time></span>
+                          </li>
+                    {%endfor%}
+                </ul>
+            {%else%}
+                  <div class="hasnt-article">Không có dữ liệu</div>
+            {%endif%}
+          </div>
+            <div class="tab-pane pane-content" id="paneOne">
+              {% if collectList.length>0 %}
+                <ul class="itemlist">
+                    {% for item in collectList %}
+                          <li>
+                            <span class="li_pic">
+                              <a href="">
+                                <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.pic=='' else item.pic}}" title="{{item.author}}">
+
+                              </a>
+                            </span>
+                            <span class="li_title"><a href="{{item.url}}" target="_blank">{{item.title}}</a></span>
+                            <span class="li_time"><time class="timeago" datetime="{{think.datetime(item.mytime)}}"></time></span>
+                          </li>
+                    {%endfor%}
+                </ul>
+              {%else%}
+                  <div class="hasnt-article">Không có dữ liệu</div>
+              {%endif%}
+            </div>
+            <!-- 问答 -->
+            <div class="tab-pane" id="paneThree">
+                {% if replyList.topiccomment.length>0 %}
+                  <ul class="itemlist">
+                      {% for item in replyList.topiccomment %}
+                            <li>
+                              <span class="li_pic">
+                                <a href="">
+                                  <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.acc.pic=='' else item.acc.pic}}" title="{{item.acc.author}}">
+                                </a>
+                              </span>
+                              <span class="li_title"><a href="/chu-de/{{item.topic.itemurlrewrite}}-{{item.topic.item}}/{{item.topic.urlrewrite}}-{{item.topic.id}}">{{item.comment}}</a></span>
+                              <span class="li_time"><time class="timeago" datetime="{{think.datetime(item.createtime)}}"></time></span>
+                            </li>
+                      {%endfor%}
+                  </ul>
+              {%else%}
+                    <div class="hasnt-article">Không có dữ liệu</div>
+              {%endif%}
+            </div>
+            <div class="tab-pane pane-content" id="paneTwo">
+              {% if topicList.length>0 %}
+                <ul class="itemlist">
+                    {% for item in topicList %}
+                          <li>
+                            <span class="li_pic">
+                              <a href="">
+                                <img src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.pic=='' else item.pic}}" title="{{item.author}}">
+                              </a>
+                            </span>
+                            <span class="li_title"><a href="/chu-de/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.tid}}" target="_blank">{{item.title}}</a></span>
+                            <span class="li_time"><time class="timeago" datetime="{{think.datetime(item.mytime)}}"></time></span>
+                          </li>
+                    {%endfor%}
+                </ul>
+                {%else%}
+                  <div class="hasnt-article">Không có dữ liệu</div>
+              {%endif%}
+            </div>
+        </div>
+    </div>
+</div>

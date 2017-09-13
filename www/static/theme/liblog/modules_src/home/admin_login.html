@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html ng-app="myApp">
+    {%include "../common/inc/header.html"%}
+    <link rel="stylesheet" href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/admin/login/login.css">
+    <title>{{title}}</title>
+<body>
+    <div class="login-regions">
+        <div class="panel panel-success">
+            <div class="panel-heading">
+                <h3 class="panel-title">Đăng nhập quản trị viên </h3>
+            </div>
+            <div class="panel-body">
+                <div>
+                    <div class="form-group">
+                        <label for="username">Tài khoản</label>
+                        <input type="text" class="form-control" id="username" placeholder="Hãy nhập tài khoản" style="width: 440px;">
+                        <input type="hidden" id="csrf" value="{{csrf}}">
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Mật khẩu</label>
+                        <input type="password" class="form-control" id="password" placeholder="Hãy nhập mật khẩu"style="width: 440px;">
+                    </div>
+                    <!-- <div class="form-group code-region" id="captcha">
+                      <input type="hidden" name="name" value="" id="challenge">
+                      <input type="hidden" name="name" value="" id="seccode">
+                      <input type="hidden" name="name" value="" id="validate">
+                    </div>
+                    <p id="wait" class="show">Đang tải mã xác minh......</p> -->
+                    <button type="submit" class="btn btn-default" id="loginBtn">Đăng nhập</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="footer" style="text-align:center">
+        <div class="container">
+            <p>
+                Copyright © 2017 | Powered by <a href="/" title="Tintech.vn">Tintech.vn</a>
+            </p>
+        </div>
+    </footer>
+    <script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/jquery/jquery-1.9.1.min.js"></script>
+    <script type="text/javascript" src="//static.geetest.com/static/tools/gt.js"></script>
+    <script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/pagecommon/footer.js"></script>
+    <!--访客统计代码-->
+    {{_web.tongji|safe}}
+    <!--访客统计代码-->
+    <script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/admin/login.js"></script>
+</body>
+</html>

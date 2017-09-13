@@ -1,0 +1,50 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\home\\model\\home.js"
+    ],
+    "names": [
+        "addUser",
+        "data",
+        "model",
+        "add",
+        "saveUserInfo",
+        "where",
+        "update",
+        "findUser",
+        "select",
+        "findAll",
+        "db",
+        "findOne",
+        "find",
+        "updateRecord",
+        "addRecord",
+        "getArticleList",
+        "order",
+        "limit",
+        "getPopularList",
+        "addViewCount",
+        "increment",
+        "getPageSelect",
+        "page",
+        "pagesize",
+        "getPageCountSelect",
+        "countSelect",
+        "getPageVideoSelect",
+        "getPageVideoCountSelect",
+        "getReplyListInfo",
+        "field",
+        "join",
+        "user",
+        "on",
+        "increpoint",
+        "count",
+        "think",
+        "base"
+    ],
+    "mappings": "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",
+    "file": "..\\..\\..\\src\\home\\model\\home.js",
+    "sourcesContent": [
+        "'use strict';\n/**\n * model\n */\nexport default class extends think.model.base {\n\n    // 添加新用户\n    addUser(data){\n          return this.model('user').add(data);\n    }\n    //保存用户信息\n    saveUserInfo(data,where){\n          return this.model('user').where(where).update(data);\n    }\n\n    //查找用户\n    findUser(where){\n          return this.model('user').where(where).select();\n    }\n\n    //返回全部列表\n    findAll(db,where){\n        return this.model(db).where(where).select();\n    }\n    //返回特定记录\n    findOne(db,where){\n        return this.model(db).where(where).find();\n    }\n    //更新数据\n    updateRecord(db,where,data){\n        return this.model(db).where(where).update(data);\n    }\n    //添加数据\n    addRecord(db,data){\n        return this.model(db).add(data);\n    }\n    //返回文章列表\n    getArticleList(where){\n        return this.model(\"article\").where(where).order(\"createtime DESC\").limit(3).select();\n    }\n    //返回点击排行列表\n    getPopularList(where){\n        return this.model(\"article\").where(where).order(\"view DESC\").limit(5).select();\n    }\n    //返回点击排行列表\n    addViewCount(where){\n        return this.model(\"article\").where(where).increment('view',1);\n    }\n    //分页初始数据\n    getPageSelect(where,page,pagesize){\n        return this.model(\"article\").where(where).order(\"createtime DESC\").page(page,pagesize).select();\n    }\n    //分页thinkjs分页数据\n    getPageCountSelect(where,page,pagesize){\n        return this.model(\"article\").where(where).order(\"createtime DESC\").page(page,pagesize).countSelect();\n    }\n    getPageVideoSelect(where,page,pagesize){\n        return this.model(\"video\").where(where).order(\"createtime DESC\").page(page,pagesize).select();\n    }\n    //分页thinkjs分页数据\n    getPageVideoCountSelect(where,page,pagesize){\n        return this.model(\"video\").where(where).order(\"createtime DESC\").page(page,pagesize).countSelect();\n    }\n\n    getReplyListInfo(where){\n      return this.model('article_comment').field(\"*,li_article_comment.id as tid,li_article_comment.createtime as mytime\").where(where).join({\n           user:{on:\"author,name\"}\n       }).select();\n    }\n    increpoint(where,count){\r\n        return this.model(\"user\").where(where).increment('point',count);\r\n    }\r\n}\n"
+    ]
+}

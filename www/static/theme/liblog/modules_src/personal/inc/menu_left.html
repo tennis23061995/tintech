@@ -1,0 +1,14 @@
+<ul class="menu" style="background-color: #f5f5f5">
+  <li {% if tab=="userinfo" %}class="active"{%endif%}>
+    <a class="item" href="/personal/setting/index">
+      <i class="icon icon-user"></i>Thông tin cơ bản</a>
+  </li>
+  <li {% if tab=="userpass" %}class="active"{%endif%}>
+    <a class="item" href="/personal/setting/password">
+      <i class="icon icon-lock2"></i>Đổi mật khẩu</a>
+  </li>
+  <li {% if tab=="userpic" %}class="active"{%endif%}>
+    <a class="item" href="/personal/setting/pic">
+      <i class="icon icon-kindle"></i>Ảnh đại diện</a>
+  </li>
+</ul>

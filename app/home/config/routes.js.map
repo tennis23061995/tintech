@@ -1,0 +1,35 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\home\\config\\routes.js"
+    ],
+    "names": [
+        "module",
+        "exports",
+        "app",
+        "passport",
+        "get",
+        "req",
+        "res",
+        "render",
+        "message",
+        "flash",
+        "post",
+        "authenticate",
+        "successRedirect",
+        "failureRedirect",
+        "failureFlash",
+        "isLoggedIn",
+        "user",
+        "scope",
+        "logout",
+        "redirect",
+        "next",
+        "isAuthenticated"
+    ],
+    "mappings": ";;AAAA;AACAA,OAAOC,OAAP,GAAiB,UAASC,GAAT,EAAcC,QAAd,EAAwB;;AAErC;AACA;AACA;AACAD,QAAIE,GAAJ,CAAQ,GAAR,EAAa,UAASC,GAAT,EAAcC,GAAd,EAAmB;AAC5BA,YAAIC,MAAJ,CAAW,WAAX,EAD4B,CACH;AAC5B,KAFD;;AAIA;AACA;AACA;AACA;AACAL,QAAIE,GAAJ,CAAQ,QAAR,EAAkB,UAASC,GAAT,EAAcC,GAAd,EAAmB;;AAEjC;AACAA,YAAIC,MAAJ,CAAW,WAAX,EAAwB,EAAEC,SAASH,IAAII,KAAJ,CAAU,cAAV,CAAX,EAAxB;AACH,KAJD;;AAMA;AACAP,QAAIQ,IAAJ,CAAS,QAAT,EAAmBP,SAASQ,YAAT,CAAsB,aAAtB,EAAqC;AACtDC,yBAAiB,UADqC,EACzB;AAC7BC,yBAAkB,QAFoC,EAE1B;AAC5BC,sBAAe,MAHuC,CAGhC;AAHgC,KAArC,CAAnB;;AAMA;AACA;AACA;AACA;AACAZ,QAAIE,GAAJ,CAAQ,SAAR,EAAmB,UAASC,GAAT,EAAcC,GAAd,EAAmB;;AAElC;AACAA,YAAIC,MAAJ,CAAW,YAAX,EAAyB,EAAEC,SAASH,IAAII,KAAJ,CAAU,eAAV,CAAX,EAAzB;AACH,KAJD;;AAMA;AACAP,QAAIQ,IAAJ,CAAS,SAAT,EAAoBP,SAASQ,YAAT,CAAsB,cAAtB,EAAsC;AACxDC,yBAAkB,UADsC,EAC1B;AAC9BC,yBAAkB,SAFsC,EAE3B;AAC7BC,sBAAe,IAHyC,CAGpC;AAHoC,KAAtC,CAApB;;AAMA;AACA;AACA;AACA;AACA;AACAZ,QAAIE,GAAJ,CAAQ,UAAR,EAAoBW,UAApB,EAAgC,UAASV,GAAT,EAAcC,GAAd,EAAmB;AAC/CA,YAAIC,MAAJ,CAAW,aAAX,EAA0B;AACtBS,kBAAOX,IAAIW,IADW,CACN;AADM,SAA1B;AAGH,KAJD;;AAMA;AACA;AACA;AACAd,QAAIE,GAAJ,CAAQ,gBAAR,EAA0BD,SAASQ,YAAT,CAAsB,UAAtB,EAAkC,EAAEM,OAAQ,OAAV,EAAlC,CAA1B;;AAEA;AACAf,QAAIE,GAAJ,CAAQ,yBAAR,EACID,SAASQ,YAAT,CAAsB,UAAtB,EAAkC;AAChCC,yBAAkB,UADc;AAEhCC,yBAAkB;AAFc,KAAlC,CADJ;;AAMA;AACA;AACA;AACA;AACAX,QAAIE,GAAJ,CAAQ,eAAR,EAAyBD,SAASQ,YAAT,CAAsB,SAAtB,CAAzB;;AAEA;AACAT,QAAIE,GAAJ,CAAQ,wBAAR,EACED,SAASQ,YAAT,CAAsB,SAAtB,EAAiC;AAC/BC,yBAAkB,UADa;AAE/BC,yBAAkB;AAFa,KAAjC,CADF;;AAQA;AACA;AACA;AACAX,QAAIE,GAAJ,CAAQ,SAAR,EAAmB,UAASC,GAAT,EAAcC,GAAd,EAAmB;AAClCD,YAAIa,MAAJ;AACAZ,YAAIa,QAAJ,CAAa,GAAb;AACH,KAHD;AAIH,CAxFD;;AA0FA;AACA,SAASJ,UAAT,CAAoBV,GAApB,EAAyBC,GAAzB,EAA8Bc,IAA9B,EAAoC;;AAEhC;AACA,QAAIf,IAAIgB,eAAJ,EAAJ,EACI,OAAOD,MAAP;;AAEJ;AACAd,QAAIa,QAAJ,CAAa,GAAb;AACH",
+    "file": "..\\..\\..\\src\\home\\config\\routes.js",
+    "sourcesContent": [
+        "// app/routes.js\r\nmodule.exports = function(app, passport) {\r\n\r\n    // =====================================\r\n    // HOME PAGE (with login links) ========\r\n    // =====================================\r\n    app.get('/', function(req, res) {\r\n        res.render('index.ejs'); // load the index.ejs file\r\n    });\r\n\r\n    // =====================================\r\n    // LOGIN ===============================\r\n    // =====================================\r\n    // show the login form\r\n    app.get('/login', function(req, res) {\r\n\r\n        // render the page and pass in any flash data if it exists\r\n        res.render('login.ejs', { message: req.flash('loginMessage') });\r\n    });\r\n\r\n    // process the login form\r\n    app.post('/login', passport.authenticate('local-login', {\r\n      successRedirect: '/profile', // redirect to the secure profile section\r\n      failureRedirect : '/login', //redirect back to the signup page if ther is and error\r\n      failureFlash : 'true' //allow flash messages\r\n    }));\r\n\r\n    // =====================================\r\n    // SIGNUP ==============================\r\n    // =====================================\r\n    // show the signup form\r\n    app.get('/signup', function(req, res) {\r\n\r\n        // render the page and pass in any flash data if it exists\r\n        res.render('signup.ejs', { message: req.flash('signupMessage') });\r\n    });\r\n\r\n    // process the signup form\r\n    app.post('/signup', passport.authenticate('local-signup', {\r\n      successRedirect : '/profile', //redirect to the secure profile section\r\n      failureRedirect : '/signup', //redirect back to the signup page if there is an Error\r\n      failureFlash : true //allow flash messages\r\n    }));\r\n\r\n    // =====================================\r\n    // PROFILE SECTION =====================\r\n    // =====================================\r\n    // we will want this protected so you have to be logged in to visit\r\n    // we will use route middleware to verify this (the isLoggedIn function)\r\n    app.get('/profile', isLoggedIn, function(req, res) {\r\n        res.render('profile.ejs', {\r\n            user : req.user // get the user out of session and pass to template\r\n        });\r\n    });\r\n\r\n    // =====================================\r\n    // FACEBOOK ROUTES =====================\r\n    // =====================================\r\n    app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));\r\n\r\n    //handle the callback after facebook has authenticated the user\r\n    app.get('/auth/facebook/callback',\r\n        passport.authenticate('facebook', {\r\n          successRedirect : '/profile',\r\n          failureRedirect : '/'\r\n    }));\r\n\r\n    // =====================================\r\n    // TWITTER ROUTES ======================\r\n    // =====================================\r\n    // route for twitter authentication and login\r\n    app.get('/auth/twitter', passport.authenticate('twitter'));\r\n\r\n    // handle the callback after twitter has authenticated the user\r\n    app.get('/auth/twitter/callback',\r\n      passport.authenticate('twitter', {\r\n        successRedirect : '/profile',\r\n        failureRedirect : '/'\r\n      })\r\n    )\r\n\r\n\r\n    // =====================================\r\n    // LOGOUT ==============================\r\n    // =====================================\r\n    app.get('/logout', function(req, res) {\r\n        req.logout();\r\n        res.redirect('/');\r\n    });\r\n};\r\n\r\n// route middleware to make sure a user is logged in\r\nfunction isLoggedIn(req, res, next) {\r\n\r\n    // if user is authenticated in the session, carry on\r\n    if (req.isAuthenticated())\r\n        return next();\r\n\r\n    // if they aren't redirect them to the home page\r\n    res.redirect('/');\r\n}\r\n"
+    ]
+}

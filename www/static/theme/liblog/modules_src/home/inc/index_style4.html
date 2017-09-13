@@ -1,0 +1,18 @@
+{% if topList.length>0 %}
+
+<div class="col-md-12 col-lg-12">
+            <ul class="media-list main-list">
+              {% for item in topList %}
+                <li class="media">
+                    <a  href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+                        <img class="media-object" src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" alt="...">
+                    </a>
+                    <div class="media-body">
+                          <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><h4 class="media-heading">{{item.title}}</h4></a>
+                        <p class="by-author">By Jhon Doe</p>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}

@@ -1,0 +1,27 @@
+<style>
+.style3
+{
+  height: 235px;
+}
+</style>
+{% if topList.length>0 %}
+{% for item in topList %}
+<div class="col-md-4 col-lg-4">
+    <!-- artigo em destaque -->
+    <div class="featured-article style3">
+        <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+            <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"  alt="" class="thumb">
+
+        <div class="block-title">
+            <h4>{{item.title}}</h4>
+            <p class="description">
+                <a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a>
+                <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+            </p>
+        </div>
+        </a>
+    </div>
+    <!-- /.featured-article -->
+</div>
+{% endfor %}
+{% endif %}

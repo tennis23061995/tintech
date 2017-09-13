@@ -1,0 +1,15 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\home\\config\\auth.js"
+    ],
+    "names": [
+        "module",
+        "exports"
+    ],
+    "mappings": ";;AAAA;AACAA,OAAOC,OAAP,GAAiB;;AAEf,kBAAe;AACb,gBAAgB,kBADH;AAEb,oBAAgB,kCAFH;AAGb,mBAAgB;AAHH,GAFA;;AAQf,iBAAc;AACZ,mBAAmB,2BADP;AAEZ,sBAAmB,oDAFP;AAGZ,mBAAmB;AAHP,GARC;;AAcf,gBAAe;AACb,gBAAgB,QADH;AAEb,oBAAgB,QAFH;AAGb,mBAAgB;AAHH;;AAdA,CAAjB",
+    "file": "..\\..\\..\\src\\home\\config\\auth.js",
+    "sourcesContent": [
+        "//expose our config directly to our application using module.exports\r\nmodule.exports = {\r\n\r\n  'facebookAuth':{\r\n    'clientID'    : '1239269852779405',\r\n    'clientSecret': '51a25ba4c3370774f36cf0db0b6a1c19',\r\n    'callbackURL' : 'http://localhost:3000/auth/facebook/callback'\r\n  },\r\n\r\n  'twitterAuth':{\r\n    'consumerKey'    : 'Ics32wOowtid0vGhdbT9jwHCp',\r\n    'consumerSecret' : 'OkUEtFpNiSEdNQzIkor1mCBac9shE909tCpUToO4RKJsceRyqB',\r\n    'callbackURL'    : 'http://localhost:3000/auth/twitter/callback'\r\n  },\r\n\r\n  'googleAuth' : {\r\n    'clientID'    : 'client',\r\n    'clientSecret': 'secret',\r\n    'callbackURL' : 'http://localhost:3000/auth/google/callback'\r\n  }\r\n\r\n}\r\n"
+    ]
+}

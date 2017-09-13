@@ -1,0 +1,57 @@
+{% block head %}
+    <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/topic/reply.css" rel="stylesheet">
+{% endblock %}
+{% if replycount!=0 %}
+  <div class="replylist">
+    <div class="header">
+      <span class="col_fade">{{replycount}} bình luận</span>
+    </div>
+    {% for item in replyList %}
+      <div class="cell reply_area reply_item">
+         <div class="author_content">
+            <a href="/personal/@{{item.author}}" class="user_avatar"> <img width="50px" src="{{_web.url}}{{theme_url}}/{{'common/images/pic/man.jpg' if item.pic=='' else item.pic}}" title="{{item.author}}" /></a>
+            <div class="user_info">
+               <a class="dark reply_author" href="/personal/@{{item.author}}">{{item.nickname}}</a>
+               <a class="reply_time">#{{loop.index}}•
+                  <time class="timeago" datetime="{{think.datetime(item.mytime)}}"></time>
+               </a>
+            </div>
+            <div class="user_action">
+               <span>
+                 <i class="fa up_btn fa-thumbs-o-up {%if item.like>0 %}haslike{%endif%}" title="喜欢" rid={{item.tid}} login="{{loginuserinfo.name}}"></i>
+                 <span class="likeCount">{%if item.like>0 %}{{item.like}}{%endif%}</span><span class="up-count"> </span>
+                {% if item.author==loginuserinfo.name %}
+                  <span><i class="fa fa-icon fa-pencil-square-o fa-edit edit2_btn" rid={{item.tid}} title="编辑"></i></span>
+                  <i class="fa fa-icon fa-trash" rid={{item.tid}} tid="{{blogInfo.id}}" title="删除"></i>
+                {%endif%}
+              </span>
+               <span> <i class="fa fa-reply reply2_btn" title="回复" rname="{{item.author}}" rnickname="{{item.nickname}}"></i> </span>
+            </div>
+         </div>
+         <div class="reply_content from-SuperZee">
+          <div class="markdown-text">
+            {{item.oldcomment|safe}}
+          </div>
+         </div>
+     </div>
+    {%endfor%}
+  </div>
+{%endif%}
+{% if islogin==1 %}
+  <div class="reply-region">
+     <div class="topnews" id="createreply">
+       <div class="reply">
+         <div class="header">
+          <span class="col_fade">Bình luận</span>
+         </div>
+         <div id="editor" style="height:400px;max-height:500px;margin:15px 0;"></div>
+         <input type="hidden" value="{{loginuserinfo.nickname}}" id="replynickname">
+         <input type="hidden" value="{{loginuserinfo.name}}" id="replyauthor">
+         <input type="hidden" value="{{blogInfo.title}}" id="replytitle">
+         <input type="hidden" value="{{loginuserinfo.pic}}" id="replypic">
+         <input type="hidden" value="{{blogInfo.id}}" id="tid">
+       </div>
+     </div>
+     <span class="span-success" id="savetopic">Gửi</span>
+  </div>
+{%endif%}

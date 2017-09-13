@@ -1,0 +1,199 @@
+<style>
+.logo-web{position:relative;z-index:123;padding:0 10px;font:18px verdana;color:#6DDB07;float:left;}
+.logo-web a{color:#6DDB07;}
+nav{position:relative;margin:0 auto;}
+#cssmenu,#cssmenu ul,#cssmenu ul li,#cssmenu ul li a,#cssmenu #head-mobile{border:0;list-style:none;line-height:1;display:block;position:relative;-webkit-box-sizing:border-box;-moz-box-sizing:border-box;box-sizing:border-box}
+#cssmenu:after,#cssmenu > ul:after{content:".";display:block;clear:both;visibility:hidden;line-height:0;height:0}
+#cssmenu #head-mobile{display:none}
+#cssmenu{font-family:sans-serif;background:rgb(117,176,32)}
+#cssmenu > ul > li{float:left}
+#cssmenu > ul > li > a{padding:23px;font-size:16px;letter-spacing:1px;text-decoration:none;color:#fff;font-weight:700;}
+#cssmenu > ul > li:hover > a,#cssmenu ul li.active a{color:#fff}
+#cssmenu > ul > li:hover,#cssmenu ul li.active:hover,#cssmenu ul li.active,#cssmenu ul li.has-sub.active:hover{background:#448D00!important;-webkit-transition:background .3s ease;-ms-transition:background .3s ease;transition:background .3s ease;}
+#cssmenu > ul > li.has-sub > a{padding-right:30px}
+#cssmenu > ul > li.has-sub > a:after{position:absolute;top:29px;right:11px;width:8px;height:2px;display:block;background:#ddd;content:''}
+#cssmenu > ul > li.has-sub > a:before{position:absolute;top:26px;right:14px;display:block;width:2px;height:8px;background:#ddd;content:'';-webkit-transition:all .25s ease;-ms-transition:all .25s ease;transition:all .25s ease}
+#cssmenu > ul > li.has-sub:hover > a:before{top:23px;height:0}
+#cssmenu ul ul{position:absolute;left:-9999px;z-index: 1}
+#cssmenu ul ul li{height:0;-webkit-transition:all .25s ease;-ms-transition:all .25s ease;background:#333;transition:all .25s ease}
+#cssmenu ul ul li:hover{}
+#cssmenu li:hover > ul{left:auto}
+#cssmenu li:hover > ul > li{height:35px}
+#cssmenu ul ul ul{margin-left:100%;top:0}
+#cssmenu ul ul li a{border-bottom:1px solid rgba(150,150,150,0.15);padding:11px 15px;width:180px;font-size:14px;text-decoration:none;color:#fff;font-weight:400;}
+#cssmenu ul ul li:last-child > a,#cssmenu ul ul li.last-item > a{border-bottom:0}
+#cssmenu ul ul li:hover > a,#cssmenu ul ul li a:hover{color:#fff}
+#cssmenu ul ul li.has-sub > a:after{position:absolute;top:16px;right:11px;width:8px;height:2px;display:block;background:#ddd;content:''}
+#cssmenu ul ul li.has-sub > a:before{position:absolute;top:13px;right:14px;display:block;width:2px;height:8px;background:#ddd;content:'';-webkit-transition:all .25s ease;-ms-transition:all .25s ease;transition:all .25s ease}
+#cssmenu ul ul > li.has-sub:hover > a:before{top:17px;height:0}
+#cssmenu ul ul li.has-sub:hover,#cssmenu ul li.has-sub ul li.has-sub ul li:hover{background:#363636;}
+#cssmenu ul ul ul li.active a{border-left:1px solid #333}
+#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active> a{border-top:1px solid #333}
+.menu-button{
+  display: none;
+}
+@media screen and (max-width:1024px){
+.logo-web{position:absolute;top:0;left: 0;width:100%;height:46px;text-align:center ;float:none}
+.logo-web2{display:none}
+nav{width:100%;}
+#cssmenu{width:100%;}
+#cssmenu ul{width:100%;display:none}
+#cssmenu ul li{width:100%;border-top:1px solid #444}
+#cssmenu ul li:hover{background:#363636;}
+#cssmenu ul ul li,#cssmenu li:hover > ul > li{height:auto}
+#cssmenu ul li a,#cssmenu ul ul li a{width:100%;border-bottom:0}
+#cssmenu > ul > li{float:none}
+#cssmenu ul ul li a{padding-left:25px}
+#cssmenu ul ul li{background:#333!important;}
+#cssmenu ul ul li:hover{background:#363636!important}
+#cssmenu ul ul ul li a{padding-left:35px}
+#cssmenu ul ul li a{color:#fff;background:none}
+#cssmenu ul ul li:hover > a,#cssmenu ul ul li.active > a{color:#fff}
+#cssmenu ul ul,#cssmenu ul ul ul{position:relative;left:0;width:100%;margin:0;text-align:left}
+#cssmenu > ul > li.has-sub > a:after,#cssmenu > ul > li.has-sub > a:before,#cssmenu ul ul > li.has-sub > a:after,#cssmenu ul ul > li.has-sub > a:before{display:none}
+#cssmenu #head-mobile{display:block;padding:30px;color:#fff;font-size:12px;font-weight:700}
+.menu-button{ position: absolute;
+  display:  block;
+    left:15px;
+    top: 13px;
+    cursor: pointer;
+    z-index: 12399994;
+    color: #fff;
+    font-size: 28px;}
+#cssmenu .submenu-button{position:absolute;z-index:99;right:0;top:0;display:block;border-left:1px solid #444;height:62px;width:46px;cursor:pointer}
+#cssmenu .submenu-button.submenu-opened{background:#262626}
+#cssmenu ul ul .submenu-button{height:34px;width:34px}
+#cssmenu .submenu-button:after{position:absolute;top:29px;right:19px;width:8px;height:2px;display:block;background:#fff;content:''}
+#cssmenu ul ul .submenu-button:after{top:15px;right:13px}
+#cssmenu .submenu-button.submenu-opened:after{background:#fff}
+#cssmenu .submenu-button:before{position:absolute;top:26px;right:22px;display:block;width:2px;height:8px;background:#fff;content:''}
+#cssmenu ul ul .submenu-button:before{top:12px;right:16px}
+#cssmenu .submenu-button.submenu-opened:before{display:none}
+#cssmenu ul ul ul li.active a{border-left:none}
+#cssmenu > ul > li.has-sub > ul > li.active > a,#cssmenu > ul ul > li.has-sub > ul > li.active > a{border-top:none}
+}
+.menu
+{
+  background: rgb(117,176,32);
+}
+.search{
+  position: absolute;
+    right:20px;
+    top: 13px;
+    cursor: pointer;
+    z-index: 12399994;
+    color: #fff;
+    font-size: 28px;
+}
+.logo-web img{
+  width: 60px;
+}
+.proinfo
+{
+  position: absolute;
+  top:0;
+  right: 80px;
+  z-index: 1000;
+}
+#userInfo
+{
+  height: 62px;
+
+}
+#userMenu
+{
+  right: 0;
+  left: auto;
+}
+@media screen and (max-width:479px){
+  .focusbox-wrapper {
+      padding-right: 5px;
+      padding-left: 5px;
+    }
+    #content .container
+    {
+      padding-right: 10px;
+      padding-left: 10px;
+    }
+}
+@media screen and (max-width:480px){
+  .proinfo
+  {
+right: 50px;
+top:-8px;
+  }
+}
+@media screen and (min-width:480px) and (max-width:768px){
+  .proinfo
+  {
+right: 60px;
+  }
+.menu .row {
+    margin-right: -25px;
+    margin-left: -25px;
+}
+}
+@media screen and (min-width:769px) and (max-width:1024px){
+  .proinfo
+  {
+right: 60px;
+  }
+.menu .row {
+    margin-right: -40px;
+    margin-left: -40px;
+}
+.focusbox-wrapper {
+    width: 99%;
+  }
+  #content .container
+  {
+width: 99%;
+  }
+.menu .container
+  {
+width: 96%;
+  }
+}
+
+</style>
+<header class="menu">
+    <div class="container">
+      <div class="row">
+        <nav id='cssmenu'>
+<div class="logo-web"><a href="/"><img src="/static/theme/liblog/res/common/images/common/logo.png" alt="前端汇" /> </a></div>
+<div id="head-mobile"></div>
+<div class="menu-button"><i class="fa fa-bars"></i></div>
+{% if navList.menu.length>0 %}
+<ul class="parentmenu">
+   {% for item in navList.menu %}
+      <li>
+          <a href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }}</a>
+          {% if item.submenus.length>0 %}
+          <ul>
+            {% for it in item.submenus %}
+              <li><a href="/{{ it.urlrewrite }}-{{ it.id }}">{{it.itemname}}</a></li>
+              {% endfor %}
+          </ul>
+          {% endif %}
+      </li>
+   {% endfor %}
+   <li><a href="/home/video/index">Video</a></li>
+</ul>
+{% endif %}
+
+<div class="search">
+
+        <i class="fa fa-search"></i>
+
+</div>
+</nav>
+      </div>
+    </div>
+</header>
+<div class="search-news hidden">
+  <div class="container">
+    <form method="get" class="site-search-form" action="/home/search/index?keyword=">
+      <input class="search-input" name="keyword" type="text" placeholder="Hãy nhập thông tin cần tìm"><button class="search-btn" type="submit"><i class="fa fa-search"></i></button>
+    </form>
+  </div>
+</div>

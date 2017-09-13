@@ -1,0 +1,23 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\conf.js"
+    ],
+    "names": [
+        "express",
+        "require",
+        "router",
+        "Router",
+        "get",
+        "req",
+        "res",
+        "json",
+        "module",
+        "exports"
+    ],
+    "mappings": ";;AAAA,IAAIA,UAAUC,QAAQ,SAAR,CAAd;AACA,IAAIC,SAASF,QAAQG,MAAR,EAAb;;AAEAD,OAAOE,GAAP,CAAW,GAAX,EAAgB,UAAUC,GAAV,EAAeC,GAAf,EAAoB;;AAEhCA,QAAIC,IAAJ,CAAS;AACL,sBAAuB,EADlB;AAEL,6BAAuB,EAFlB;AAGL,4BAAuB,EAHlB;AAIL,6BAAuB,KAJlB;AAKL,8BAAuB,KALlB;AAML,+BAAuB,KANlB;AAOL,gCAAuB,KAPlB;AAQL,2BAAuB,MARlB;AASL,4BAAuB,MATlB;AAUL,uBAAuB,UAVlB;AAWL,mBAAuB,kBAXlB;AAYL,qBAAuB,oBAZlB;AAaL,qBAAuB,iBAblB;AAcL,mBAAuB,eAdlB;AAeL,mBAAuB,eAflB;AAgBL,qBAAuB,iBAhBlB;AAiBL,qBAAuB,oBAjBlB;AAkBL,kBAAuB,iBAlBlB;AAmBL,oBAAuB,mBAnBlB;AAoBL,uBAAuB,sBApBlB;AAqBL,sBAAuB,iBArBlB;AAsBL,oBAAuB,eAtBlB;AAuBL,oBAAuB,eAvBlB;AAwBL,sBAAuB,iBAxBlB;AAyBL,yBAAuB,wBAzBlB;AA0BL,uBAAuB,MA1BlB;AA2BL,6BAAuB,kQA3BlB;AA4BL,2BAAuB,EA5BlB;AA6BL,2BAAuB,MA7BlB;AA8BL,0BAAuB,MA9BlB;AA+BL,gBAAuB,MA/BlB;AAgCL,sBAAuB,kBAhClB;AAiCL,yBAAuB;AAjClB,KAAT;AAmCH,CArCD;;AAuCAC,OAAOC,OAAP,GAAiBP,MAAjB",
+    "file": "..\\..\\..\\src\\admin\\controller\\conf.js",
+    "sourcesContent": [
+        "var express = require('express');\nvar router = express.Router();\n\nrouter.get('/', function (req, res) {\n    \n    res.json({\n        \"FILES_ROOT\":          \"\",\n        \"RETURN_URL_PREFIX\":   \"\",\n        \"SESSION_PATH_KEY\":    \"\",\n        \"THUMBS_VIEW_WIDTH\":   \"140\",\n        \"THUMBS_VIEW_HEIGHT\":  \"120\",\n        \"PREVIEW_THUMB_WIDTH\": \"300\",\n        \"PREVIEW_THUMB_HEIGHT\":\"200\",\n        \"MAX_IMAGE_WIDTH\":     \"1000\",\n        \"MAX_IMAGE_HEIGHT\":    \"1000\",\n        \"INTEGRATION\":         \"ckeditor\",\n        \"DIRLIST\":             \"/fileman/dirlist\",\n        \"CREATEDIR\":           \"/fileman/createdir\",\n        \"DELETEDIR\":           \"/fileman/delete\",\n        \"MOVEDIR\":             \"/fileman/move\",\n        \"COPYDIR\":             \"/fileman/copy\",\n        \"RENAMEDIR\":           \"/fileman/rename\",\n        \"FILESLIST\":           \"/fileman/fileslist\",\n        \"UPLOAD\":              \"/fileman/upload\",\n        \"DOWNLOAD\":            \"/fileman/download\",\n        \"DOWNLOADDIR\":         \"/fileman/downloaddir\",\n        \"DELETEFILE\":          \"/fileman/delete\",\n        \"MOVEFILE\":            \"/fileman/move\",\n        \"COPYFILE\":            \"/fileman/copy\",\n        \"RENAMEFILE\":          \"/fileman/rename\",\n        \"GENERATETHUMB\":       \"/fileman/generatethumb\",\n        \"DEFAULTVIEW\":         \"list\",\n        \"FORBIDDEN_UPLOADS\":   \"zip js jsp jsb mhtml mht xhtml xht php phtml php3 php4 php5 phps shtml jhtml pl sh py cgi exe application gadget hta cpl msc jar vb jse ws wsf wsc wsh ps1 ps2 psc1 psc2 msh msh1 msh2 inf reg scf msp scr dll msi vbs bat com pif cmd vxd cpl htpasswd htaccess\",\n        \"ALLOWED_UPLOADS\":     \"\",\n        \"FILEPERMISSIONS\":     \"0644\",\n        \"DIRPERMISSIONS\":      \"0755\",\n        \"LANG\":                \"auto\",\n        \"DATEFORMAT\":          \"dd/MM/yyyy HH:mm\",\n        \"OPEN_LAST_DIR\":       \"yes\"\n    });\n});\n\nmodule.exports = router;"
+    ]
+}

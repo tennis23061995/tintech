@@ -1,0 +1,66 @@
+{% extends "../common/inc/base_home.html" %}
+{% block head %}
+		<title>{{categoryName}}-{{_web.sitename}}</title>
+		<meta name="keywords" content="{{categoryName}},{{_web.keywords}}">
+		<meta name="description" content="{{categoryName}}-{{_web.sitename}}">
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+		<div class="topnews">
+			<div class="h2">
+				 <ol class="breadcrumb">
+						 <li><a href="{{_web.url}}"><i class="fa fa-home"></i></a></li>
+						 <li class="active">Tìm Kiếm</li>
+				 </ol>
+			</div>
+			{% if itemList.length>0 %}
+				{% for item in itemList %}
+				<div class="blogs">
+					 <figure>
+						 <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
+						</figure>
+						<ul class="articleul">
+						<h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
+						 <p class="abstract">{{item.abstract}}</p>
+						 <p class="by-author">
+							 <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+							 <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+						 </p>
+						</ul>
+					</div>
+				{%endfor%}
+			{%else%}
+			<div class="nocontent">
+				Rất tiếc, không có kết quả nào khớp với từ khóa tìm kiếm của bạn.
+			</div>
+			<div class="topnews">
+				<div class="h2">
+					Bạn có thể quan tâm
+				</div>
+				{% for item in torecomList %}
+				<div class="blogs">
+					 <figure>
+						 <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
+						</figure>
+						<ul class="articleul">
+						<h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
+						 <p class="abstract">{{item.abstract}}</p>
+						 <p class="by-author">
+							 <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+							 <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+						 </p>
+						</ul>
+					</div>
+				{%endfor%}
+			</div>
+			{%endif%}
+		</div>
+		{%if pageData.count>10 %}
+			 {% include "../common/inc/pagination_search.html" %}
+		{%endif%}
+{% endblock %}
+
+{% block footer_other %}
+<script id="cy_cmt_num" src="//changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysoRJNxO"></script>
+{% endblock %}

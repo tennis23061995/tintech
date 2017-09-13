@@ -1,0 +1,45 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\common\\service\\alioss.js"
+    ],
+    "names": [
+        "init",
+        "http",
+        "upload",
+        "imgobj",
+        "co",
+        "require",
+        "OSS",
+        "client",
+        "Wrapper",
+        "region",
+        "think",
+        "config",
+        "accessKeyId",
+        "accessKeySecret",
+        "bucket",
+        "console",
+        "log",
+        "filepath",
+        "path",
+        "basename",
+        "newpath",
+        "liFormatDate",
+        "Date",
+        "toLocaleDateString",
+        "uploadPath",
+        "resolve",
+        "reject",
+        "result",
+        "put",
+        "err",
+        "service",
+        "base"
+    ],
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;AACA;;;;;;;;;;;;;;AAEE;;;;mBAIAA,I,iBAAKC,I,EAAK;AACR,kCAAMD,IAAN,YAAWC,IAAX;AACD,G;AACD;;;mBACAC,M,mBAAOC,M,EAAO;AACV,QAAIC,KAAKC,QAAQ,IAAR,CAAT;AACA,QAAIC,MAAMD,QAAQ,SAAR,CAAV;AACA,QAAIE,SAAS,IAAID,IAAIE,OAAR,CAAgB;AACzBC,cAAQC,MAAMC,MAAN,CAAa,YAAb,CADiB;AAEzBC,mBAAaF,MAAMC,MAAN,CAAa,iBAAb,CAFY;AAGzBE,uBAAiBH,MAAMC,MAAN,CAAa,qBAAb,CAHQ;AAIzBG,cAAQJ,MAAMC,MAAN,CAAa,YAAb;AAJiB,KAAhB,CAAb;AAMAI,YAAQC,GAAR,CAAYN,MAAMC,MAAN,CAAa,YAAb,CAAZ;AACAI,YAAQC,GAAR,CAAYN,MAAMC,MAAN,CAAa,iBAAb,CAAZ;AACAI,YAAQC,GAAR,CAAYN,MAAMC,MAAN,CAAa,qBAAb,CAAZ;AACA,QAAIM,WAAWd,OAAOe,IAAtB;AACA,QAAIC,WAAW,eAAKA,QAAL,CAAcF,QAAd,CAAf;AACA,QAAIG,UAAUC,aAAa,IAAIC,IAAJ,GAAWC,kBAAX,EAAb,CAAd;AACA,QAAIC,aAAad,MAAMC,MAAN,CAAa,aAAb,IAA8BS,OAA9B,GAAwCD,QAAzD;;AAEA,WAAO,sBAAY,UAASM,OAAT,EAAiBC,MAAjB,EAAwB;AACzC,UAAIC,SAASpB,OAAOqB,GAAP,CAAWJ,UAAX,EAAuBP,QAAvB,CAAb;AACE,UAAGU,MAAH,EAAU;AACRF,gBAAQE,MAAR;AACD,OAFD,MAEK;AACHD,eAAOG,GAAP;AACD;AACJ,KAPM,CAAP;AAQH,G;;;EAlC0BnB,MAAMoB,OAAN,CAAcC,I",
+    "file": "..\\..\\..\\src\\common\\service\\alioss.js",
+    "sourcesContent": [
+        "'use strict';\nimport path from \"path\";\nexport default class extends think.service.base {\n  /**\n   * init\n   * @return {}         []\n   */\n  init(http){\n    super.init(http);\n  }\n  //初始化\n  upload(imgobj){\n      var co = require('co');\n      var OSS = require('ali-oss')\n      var client = new OSS.Wrapper({\n          region: think.config('OSS.region'),\n          accessKeyId: think.config('OSS.accessKeyId'),\n          accessKeySecret: think.config('OSS.accessKeySecret'),\n          bucket: think.config('OSS.bucket')\n      });\n      console.log(think.config('OSS.region'));\n      console.log(think.config('OSS.accessKeyId'));\n      console.log(think.config('OSS.accessKeySecret'));\n      let filepath = imgobj.path;\n      let basename = path.basename(filepath);\n      let newpath = liFormatDate(new Date().toLocaleDateString());\n      let uploadPath = think.config('OSS.img_url') + newpath + basename;\n\n      return new Promise(function(resolve,reject){\n        let result = client.put(uploadPath, filepath);\n          if(result){\n            resolve(result);\n          }else{\n            reject(err);\n          }\n      })\n  }\n}\n"
+    ]
+}

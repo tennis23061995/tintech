@@ -1,0 +1,26 @@
+{% extends "../topic/inc/topic_base.html" %}
+{% block head %}
+    <title>{{title}}-{{_web.sitename}}</title>
+    <meta name="keywords" content="{{_web.keywords}}">
+    <meta name="description" content="{{_web.description}}">
+    {{ super() }}
+{% endblock %}
+
+{% block content %}
+{% if navList.menu.length>0 %}
+
+   {% for item in navList.menu %}
+   <div class="list-group">
+      <a href="/chu-de/{{item.parentmenu.urlrewrite}}-{{item.parentmenu.id}}" style="font-size: 16px;z-index:0" class="list-group-item active">{{item.parentmenu.itemname}}</a>
+          {% if item.submenus.length>0 %}
+
+            {% for it in item.submenus %}
+            <a href="/chu-de/{{it.urlrewrite}}-{{it.id}}" class="list-group-item">{{it.itemname}}</a>
+              {% endfor %}
+
+          {% endif %}
+    </div>
+   {% endfor %}
+
+{% endif %}
+{% endblock %}

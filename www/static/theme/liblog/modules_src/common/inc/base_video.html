@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:fb="http://ogp.me/ns/fb#">
+
+<head>
+  {% block head %}
+  {% include "../inc/header.html" %}
+  {% endblock %}
+</head>
+
+<body>
+    {% include "../inc/menu.html" %} {% block content_top %}{% endblock %}
+    <div id="content">
+      {% block content %}{% endblock %} {% block pagination %}{% endblock %}
+    </div>
+    {% block video_other %}{% endblock %}
+    {% include "../inc/footer.html" %} {% block footer_other %}{% endblock %}
+</body>
+
+</html>

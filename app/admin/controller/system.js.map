@@ -1,0 +1,28 @@
+{
+    "version": 3,
+    "sources": [
+        "..\\..\\..\\src\\admin\\controller\\system.js"
+    ],
+    "names": [
+        "indexAction",
+        "assign",
+        "model",
+        "findOne",
+        "sysdata",
+        "display",
+        "editAction",
+        "post",
+        "mydata",
+        "updateRecord",
+        "id",
+        "rs",
+        "success",
+        "commenteditAction",
+        "setcommentAction"
+    ],
+    "mappings": "AAAA;;;;;;;;;;;;;;;;;;;;;;;;AAEA;;;;;;;;;;;;;;qBAIUA,W;;;;;;;AACF,iCAAKC,MAAL,CAAY,OAAZ,EAAoB,MAApB;;mCACkB,KAAKC,KAAL,CAAW,OAAX,EAAoBC,OAApB,CAA4B,QAA5B,C;;;AAAdC,mC;;AACJ,iCAAKH,MAAL,CAAY,SAAZ,EAAsBG,OAAtB;6DACO,KAAKC,OAAL,E;;;;;;;;;;;;;;;;;qBAELC,U;;;;;;;;mCACwB,KAAKC,IAAL,E;;;AAAdC,kC;;mCACS,KAAKN,KAAL,CAAW,OAAX,EAAoBO,YAApB,CAAiC,QAAjC,EAA0C,EAACC,IAAG,CAAJ,EAA1C,EAAiDF,MAAjD,C;;;AAATG,8B;;iCACDA,E;;;;;8DAAW,KAAKC,OAAL,E;;;;;;;;;;;;;;;;;qBAEpBC,iB;;;;;;;;mCACgB,KAAKN,IAAL,E;;;AAAdC,kC;;mCACS,KAAKN,KAAL,CAAW,OAAX,EAAoBO,YAApB,CAAiC,gBAAjC,EAAkD,EAACC,IAAG,CAAJ,EAAlD,EAAyDF,MAAzD,C;;;AAATG,8B;;iCACDA,E;;;;;8DAAW,KAAKC,OAAL,E;;;;;;;;;;;;;;;;;qBAEZE,gB;;;;;;;AACF,iCAAKb,MAAL,CAAY,OAAZ,EAAoB,MAApB;;mCACkB,KAAKC,KAAL,CAAW,OAAX,EAAoBC,OAApB,CAA4B,gBAA5B,EAA6C,EAACO,IAAG,CAAJ,EAA7C,C;;;AAAdN,mC;;AACJ,iCAAKH,MAAL,CAAY,SAAZ,EAAsBG,OAAtB;8DACO,KAAKC,OAAL,E",
+    "file": "..\\..\\..\\src\\admin\\controller\\system.js",
+    "sourcesContent": [
+        "'use strict';\n\nimport Base from './base.js';\n\nexport default class extends Base {\n\n    async indexAction() {\n        this.assign(\"title\",\"系统设置\");\n        let sysdata=await this.model('admin').findOne('system');\n        this.assign('sysdata',sysdata);\n        return this.display();\n     }\n    async editAction(){\n                let mydata =await this.post();\n                let rs=await this.model('admin').updateRecord('system',{id:1},mydata);\n                if(rs) return this.success();\n    }\n    async commenteditAction(){\n        let mydata =await this.post();\n        let rs=await this.model('admin').updateRecord('system_comment',{id:1},mydata);\n        if(rs) return this.success();\n    }\n    async setcommentAction(){\n        this.assign(\"title\",\"评论设置\");\n        let sysdata=await this.model('admin').findOne('system_comment',{id:1});\n        this.assign('sysdata',sysdata);\n        return this.display();\n    }\n}\n"
+    ]
+}

@@ -1,0 +1,128 @@
+<a id="back-top" class="w-gotop" href="javascript:void(0)"></a>
+<footer class="footer">
+    <div class="footer_logo">
+        <div class="logo">
+            <a href="/" title="{{_web.sitename}}">
+                <img src="{{_web.url}}{{theme_url}}/common/images/common/logo.png" alt="{{_web.sitename}}">
+            </a>
+        </div>
+        <div class="brand">Tintech.vn<br>Copyright © 2017</div>
+    </div>
+    <div class="footer_right">
+            <p>
+
+                Chịu trách nhiệm nội dung: Phan Thanh Tâm
+            </p>
+            <p><span>Điện thoại: 01669091806</span>
+            <span>Email:
+            <a href="rogerphan1806@gmail.com" class="email">rogerphan1806@gmail.com</a>
+                <span>
+
+            </span>
+            </p>
+<p>Website đang chờ cấp giấy phép của Sở Thông tin và Truyền thông TP Hồ Chí Minh.</p>
+        </div>
+    <div style="clear:both"></div>
+</footer>
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=1239269852779405";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/jquery/jquery-1.9.1.min.js"></script>
+
+<!-- build:js -->
+<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/pagecommon/footer.js"></script>
+<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.js"></script>
+<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.vi.js"></script>
+<!-- endbuild -->
+<script type="text/javascript">
+    $('.timeago').timeago();
+    $(".submenuclick").click(function(e){
+      e.preventDefault();
+      var newData={
+          id:$(this).attr("data-id"),
+          __CSRF__:G_csrf
+      }
+      var parentid=$(this).attr("data-parentid");
+      $.ajax({
+          url:'/home/index/getnews',
+          data:newData,
+          type:'POST',
+          success:function(json){
+            console.log(json.data)
+              if(json.errno===0){
+                  console.log(parentid)
+                  $("#menunews-"+parentid).html(json.data.content);
+              }else{
+                  alert(json.errmsg)
+              }
+          }
+      })
+    });
+    (function($) {
+$.fn.menumaker = function(options) {
+ var cssmenu = $(this), settings = $.extend({
+   format: "dropdown",
+   sticky: false
+ }, options);
+ return this.each(function() {
+   $(this).find(".menu-button").on('click', function(){
+    // $(this).toggleClass('menu-opened');
+
+     var mainmenu = $(this).next('ul');
+     if (mainmenu.hasClass('open')) {
+
+       mainmenu.slideToggle().removeClass('open');
+       $(this).find("i").removeClass("fa-remove").addClass('fa-bars');
+     }
+     else {
+       mainmenu.slideToggle().addClass('open');
+$(this).find("i").removeClass("fa-bars").addClass('fa-remove');
+       if (settings.format === "dropdown") {
+         mainmenu.find('ul').show();
+       }
+     }
+   });
+   cssmenu.find('li ul').parent().addClass('has-sub');
+multiTg = function() {
+     cssmenu.find(".has-sub").prepend('<span class="submenu-button"></span>');
+     cssmenu.find('.submenu-button').on('click', function() {
+       $(this).toggleClass('submenu-opened');
+       if ($(this).siblings('ul').hasClass('open')) {
+         $(this).siblings('ul').removeClass('open').slideToggle();
+       }
+       else {
+         $(this).siblings('ul').addClass('open').slideToggle();
+       }
+     });
+   };
+   if (settings.format === 'multitoggle') multiTg();
+   else cssmenu.addClass('dropdown');
+   if (settings.sticky === true) cssmenu.css('position', 'fixed');
+resizeFix = function() {
+  var mediasize = 1024;
+     if ($( window ).width() > mediasize) {
+       cssmenu.find('ul').show();
+     }
+    //  if ($(window).width() <= mediasize) {
+    //    cssmenu.find('ul').hide().removeClass('open');
+    //  }
+   };
+   resizeFix();
+   return $(window).on('resize', resizeFix);
+ });
+  };
+})(jQuery);
+
+(function($){
+$(document).ready(function(){
+$("#cssmenu").menumaker({
+   format: "multitoggle"
+});
+});
+})(jQuery);
+</script>
