@@ -5,6 +5,7 @@
          <li class="active"><a href="/xu-huong/{{category.urlrewrite}}-{{category.id}}">{{category.tagname}}</a></li>
      </ol>
   </div>
+  {% if itemList.length!=0 %}
   {% for item in itemList %}
   <div class="blogs">
      <figure>
@@ -20,6 +21,9 @@
       </ul>
     </div>
   {%endfor%}
+  {%else%}
+  <div style="text-align:center">Hiện không có bài viết nào</div>
+  {%endif%}
 </div>
 {% block pagination %}
     {%if pageData.count>10 %}
