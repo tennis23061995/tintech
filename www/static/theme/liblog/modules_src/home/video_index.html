@@ -38,7 +38,7 @@
 .video-list-thumbs h2{
 	bottom: 0;
 	font-size: 14px;
-	height: 33px;
+	height: 40px;
 	margin: 8px 0 0;
 }
 .video-list-thumbs .glyphicon-play-circle{
@@ -71,7 +71,14 @@
 .video-list-thumbs > li > a:hover .duration{
 	background-color:#000;
 }
+.video-list-thumbs img{
+  height: 190px;
+  width: 100%;
+}
 @media (min-width:320px) and (max-width: 480px) {
+  .video-list-thumbs img{
+    height: 100px;
+  }
 	.video-list-thumbs .glyphicon-play-circle{
     font-size: 35px;
     right: 36%;
@@ -80,7 +87,6 @@
 	.video-list-thumbs h2{
 		bottom: 0;
 		font-size: 12px;
-		height: 22px;
 		margin: 8px 0 0;
 	}
 }
@@ -108,18 +114,19 @@
                              {% if category.id %}
                                <span id="search_concept">{{category.itemname}}</span> <span class="caret"></span>
                                {% else %}
-                               <span id="search_concept">Thể Loại</span> <span class="caret"></span>
+                               <span id="search_concept">Tất Cả</span> <span class="caret"></span>
                               {% endif %}
                            </button>
                            {% if navList.menu.length>0 %}
                            <ul class="dropdown-menu" role="menu">
+                             <li><a class="btn-video-detail" data-id="all" href="#">Tất Cả</a></li>
                               {% for item in navList.menu %}
                                  <li>
-                                     <a data-id={{item.parentmenu.id }} href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }}</a>
+                                     <a class="btn-video-detail" data-id={{item.parentmenu.id }} href="#">{{ item.parentmenu.itemname }}</a>
                                      {% if item.submenus.length>0 %}
                                      <ul>
                                        {% for it in item.submenus %}
-                                         <li><a data-id={{it.id}} href="/{{ it.urlrewrite }}-{{ it.id }}">-{{ it.itemname }}</a></li>
+                                         <li><a class="btn-video-detail" data-id={{it.id}} href="#">-{{ it.itemname }}</a></li>
                                          {% endfor %}
                                      </ul>
                                      {% endif %}
@@ -137,7 +144,7 @@
                                <li><a href="#all">Anything</a></li>
                            </ul> -->
                        </div>
-                       <input type="text" class="form-control" style="z-index:0" name="keyword" value="{{keyword}}" placeholder="Search term...">
+                       <input type="text" class="form-control" style="z-index:0" name="keyword" value="{{keyword}}" placeholder="Hãy nhập...">
                        <input type="hidden" name="category" value="{{category.id}}" id="search_param">
                        <span class="input-group-btn">
                            <button class="btn btn-default" type="submit"><span class="glyphicon glyphicon-search"></span></button>
@@ -207,7 +214,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
-                <h5 class="modal-title">Modal Header</h5>
+                <h4 class="modal-title"></h4>
+                <div><span class="category"></span><span class="from"></span></div>
             </div>
             <div class="modal-body">
 
@@ -221,17 +229,12 @@
 <script id="cy_cmt_num" src="//changyan.sohu.com/upload/plugins/plugins.list.count.js?clientId=cysoRJNxO"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 <script>
-    $(document).ready(function (e) {
-        $('.search-panel .dropdown-menu').find('a').click(function (e) {
+
+        $('body').on('click','.btn-video-detail',function (e) {
             e.preventDefault();
-            var param = $(this).attr("href").replace("#", "");
-            var concept = $(this).text();
-            $('.search-panel span#search_concept').text(concept);
-            $('.input-group #search_param').val($(this).attr("data-id"));
-            $('.search-panel .dropdown-menu').toggle();
-            window.location.href="/home/video/index?category="+$(this).attr("data-id");
+            window.location.href="/video?category="+$(this).attr("data-id");
         });
-    });
+
     var stopajax = true;
     var track_page = 1; //track user scroll as page number, right now page number is 1
     var loading = false;
@@ -264,7 +267,13 @@
                         var content = "";
                         for(var i=0;i<data.data.content.length;i++)
                         {
-                            content += '<li class="col-lg-3 col-sm-4 col-xs-6"><a data-id="1" class="btn-video" href="#" title="Claudio Bravo, antes su debut con el Barça en la Liga"><img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="Barca" class="img-responsive" height="130px" /><h2>Claudio Bravo, antes su debut con el Barça en la Liga</h2><span class="glyphicon glyphicon-play-circle"></span><span class="duration">03:15</span>  </a></li>';
+                          if(data.data.content[i].picurl=="")
+                          {
+                              content += '<li class="col-lg-3 col-sm-4 col-xs-6"><a data-id="'+data.data.content[i].id+'" class="btn-video" href="#" title="'+data.data.content[i].title+'"><img src="http://i.ytimg.com/vi/ZKOtE9DOwGE/mqdefault.jpg" alt="'+data.data.content[i].title+'" class="img-responsive" height="130px" /><h2>'+data.data.content[i].title+'</h2><span class="glyphicon glyphicon-play-circle"></span> <span class="duration">'+data.data.content[i].itemname+'</span></a></li>';
+                          }
+                          else {
+                            content += '<li class="col-lg-3 col-sm-4 col-xs-6"><a data-id="'+data.data.content[i].id+'" class="btn-video" href="#" title="'+data.data.content[i].title+'"><img src="/'+data.data.content[i].picurl+'" alt="'+data.data.content[i].title+'" class="img-responsive" height="130px" /><h2>'+data.data.content[i].title+'</h2><span class="glyphicon glyphicon-play-circle"></span> <span class="duration">'+data.data.content[i].itemname+'</span></a></li>';
+                          }
                         }
                         $('.loading-info').hide(); //hide loading animation once data is received
                         $("#search-listitem").append(content); //append data into #results element
@@ -285,14 +294,21 @@
         }
     });
     $("body").on("click",".btn-video", function (e) {
+      $("#myVideo .modal-header .category").html("");
+      $("#myVideo .modal-body").html("");
+      $("#myVideo .modal-header .from").html("");
+      $("#myVideo .modal-title").html("");
       e.preventDefault();
       var newData={
           id:$(this).attr("data-id"),
           __CSRF__:G_csrf
       }
-           $.post("/home/index/getvideo", function (data) {
-               var content = '<video width="100%"  controls><source src="' + data.content + '" type="video/mp4"><source src="mov_bbb.ogg" type="video/ogg">Your browser does not support HTML5 video.</video>'
+           $.post("/home/index/getvideo",newData, function (data) {
+               var content = '<video width="100%"  controls><source src="' + data.data.content.linkvideo + '" type="video/mp4"><source src="mov_bbb.ogg" type="video/ogg">Your browser does not support HTML5 video.</video>'
                $("#myVideo .modal-body").html(content);
+               if(data.data.content.from!="")$("#myVideo .modal-header .from").html(" | Nguồn: "+data.data.content.from);
+               $("#myVideo .modal-header .category").html('<a class="btn-video-detail" data-id="'+data.data.content.item+'">'+data.data.content.itemname+'</a>');
+               $("#myVideo .modal-title").html(data.data.content.title);
                $('#myVideo').modal('show');
            })
        })
