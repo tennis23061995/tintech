@@ -1,8 +1,8 @@
 {% extends "../common/inc/base_home.html" %}
 {% block head %}
     <title>{{category.category.itemname}}</title>
-    <meta name="keywords" content="{{_web.keywords}}">
-    <meta name="description" content="{{category.category.itemname}} - {{_web.description}}">
+    <meta name="keywords" content="{{category.category.keywords}}">
+    <meta name="description" content="{{category.category.description}}">
     {{ super() }}
     <!-- <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/index/index_topic.css" rel="stylesheet"> -->
 {% endblock %}
