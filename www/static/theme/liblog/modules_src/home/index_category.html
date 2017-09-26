@@ -1,8 +1,12 @@
 {% extends "../common/inc/base_home.html" %}
 {% block head %}
 		<title>{{category.tagname}}</title>
-		<meta name="keywords" content="{{categoryName}},{{_web.keywords}}">
-		<meta name="description" content="{{category.tagname}} - {{_web.sitename}}">
+		<meta name="keywords" content="{{category.tagname}}, {{_web.keywords}}">
+		{% if category.id%2==0 %}
+		<meta name="description" content="{{category.tagname}} - Cập nhật thông tin Công Nghệ mới nhất về {{category.tagname}}, các bài viết hay, tin tức hot nhất mỗi ngày, hình ảnh mới, Video Clip Reviews, đánh giá chuyên sâu về {{category.tagname}}...">
+		{%else%}
+		<meta name="description" content="{{category.tagname}} - Tin tức {{category.tagname}} mới và sắp ra mắt trong nước và quốc tế, những đánh giá chi tiết các {{category.tagname}} mới , cùng rất nhiều nhận xét, lời khuyên bổ ích khi chọn lựa {{category.tagname}}...">
+		{%endif%}
     {{ super() }}
 {% endblock %}
 
