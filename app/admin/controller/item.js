@@ -252,20 +252,21 @@ var _class = function (_Base) {
               break;
 
             case 45:
-              _context3.next = 47;
+              think.cache('menuList', null);
+              _context3.next = 48;
               return this.model('util').doSave(info);
 
-            case 47:
+            case 48:
               mydata = _context3.sent;
 
               if (!(mydata.status === 1)) {
-                _context3.next = 50;
+                _context3.next = 51;
                 break;
               }
 
               return _context3.abrupt("return", this.success({ parentid: info.data.parentid }));
 
-            case 50:
+            case 51:
             case "end":
               return _context3.stop();
           }
@@ -295,20 +296,22 @@ var _class = function (_Base) {
                 arr: this.post('delarr[]')
               };
               where = { id: ["IN", info.arr] };
-              _context4.next = 4;
+
+              think.cache('menuList', null);
+              _context4.next = 5;
               return this.model("admin").deleteRecord(info.db, where);
 
-            case 4:
+            case 5:
               rs = _context4.sent;
 
               if (!rs) {
-                _context4.next = 7;
+                _context4.next = 8;
                 break;
               }
 
               return _context4.abrupt("return", this.success());
 
-            case 7:
+            case 8:
             case "end":
               return _context4.stop();
           }
