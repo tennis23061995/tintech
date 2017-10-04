@@ -47,8 +47,13 @@
 }
 .markdown-body .cloud
 {
+  margin-top: -10px;
   margin-bottom: 5px;
   padding: 5px 0;
+}
+.from
+{
+  margin-bottom: 10px;
 }
 .markdown-body .recom ul
 {
@@ -120,9 +125,9 @@
             {{blogInfo.content|safe}}
             {%endif%}
         </div>
-        {%if blogInfo.from!="" %}
+        {%if blogInfo.from!="" or (source.id!=null and source.id!=0) %}
         <div class="from">
-            Nguồn：{{blogInfo.from}}
+            {{blogInfo.from}} {%if source.id!=null and source.id!=0 %}{%if blogInfo.from!="" %} - {%endif%}<a href="{{source.url}}">{{source.name}}</a>{%endif%}
         </div>
         {%endif%}
         {%if listtags.tags.length>0 %}
