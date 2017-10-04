@@ -138,7 +138,7 @@ var _class = function (_think$controller$bas) {
 
             case 35:
               submenu = _context.sent;
-              submenusid = [];
+              submenusid = [parseInt(lstparentmenu[i].id)];
 
               for (j = 0; j < submenu.length; j++) {
                 submenusid.push(submenu[j].id);
