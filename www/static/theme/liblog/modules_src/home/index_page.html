@@ -139,6 +139,22 @@
             <ul>
         </div>
         {%endif%}
+        <div style="margin-top:10px; font-size:20px;font-weight:bold">Tin mới</div>
+        {% for item in itemList %}
+        <div class="blogs">
+           <figure>
+             <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
+            </figure>
+            <ul class="articleul">
+            <h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
+             <p class="abstract">{{item.abstract}}</p>
+             <p class="by-author">
+               <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+               <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+             </p>
+            </ul>
+          </div>
+        {%endfor%}
         <!-- <div class="copyrights">
             感谢你的阅读，本文由 <a href="http://www.jsout.com">前端汇</a> 版权所有。<br />
             如若转载，请注明出处：前端汇（{{_web.url}}page/{{blogInfo.id}}.html）
@@ -160,91 +176,7 @@
             </div>
         </div>
           {%endif%} -->
-          {% for menu in navList.menu %}
-          <div class="topnews">
 
-            <div class="h2" id="menu-{{menu.parentmenu.id}}">
-              <!-- {% if menu.submenus.length>0 %}
-              <div class="navbar-header pull-right">
-                              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-{{menu.parentmenu.id}}">
-                                  <i class="fa fa-bars" aria-hidden="true"></i>
-                              </button>
-
-                          </div>
-                          {% endif %} -->
-             <span>
-               <a href="/{{menu.parentmenu.urlrewrite}}-{{menu.parentmenu.id}}">Tất Cả>></a>
-             </span>
-             <a href="#" class="submenuclick" data-parentid={{menu.parentmenu.id}} data-id={{menu.parentmenu.id}}>{{menu.parentmenu.itemname}}</a>
-               {% if menu.submenus.length>0 %}
-             <div class="collapse navbar-collapse pull-right" id="navbar-collapse-{{menu.parentmenu.id}}">
-                             <ul class="nav navbar-nav">
-                               {% for submenu in menu.submenus %}
-                                 <li><a href="#" class="submenuclick" data-parentid={{submenu.parentid}} data-id={{submenu.id}}>{{submenu.itemname}}</a></li>
-                          {% endfor %}
-                             </ul>
-                         </div>
-                           {% endif %}
-            </div>
-
-            <div class="row" id="menunews-{{menu.parentmenu.id}}">
-              {% if menu.parentmenu.style==1 %}
-          {% article data = "topList",limit= "2",cid=menu.submenusid,iscategory=true %}
-
-             {% set comma = "" %}
-             {% if topList.length>0 %}
-             {% set i = 0 %}
-             {% for im in topList %}
-             {% set i=i+1 %}
-              {% if i!=topList.length %}
-            {% set comma=comma+im.id+"," %}
-            {% else %}
-            {% set comma=comma+im.id %}
-            {% endif %}
-               {% endfor %}
-             {% endif %}
-             {% article data = "newsList",limit= "6",rejectnews=comma,cid=menu.submenusid,iscategory=true %}
-           {% include "./inc/index_style1.html" %}
-        {% elif menu.parentmenu.style==2 %}
-        {% article data = "topList",limit= "2",cid=menu.submenusid,iscategory=true %}
-        {% set comma = "" %}
-        {% if topList.length>0 %}
-        {% set i = 0 %}
-        {% for im in topList %}
-        {% set i=i+1 %}
-         {% if i!=topList.length %}
-        {% set comma=comma+im.id+"," %}
-        {% else %}
-        {% set comma=comma+im.id %}
-        {% endif %}
-          {% endfor %}
-        {% endif %}
-         {% article data = "newsList",rejectnews=comma,limit= "3",cid=menu.submenusid,iscategory=true %}
-         {% if newsList.length>0 %}
-         {% set comma = comma+"," %}
-         {% set i = 0 %}
-         {% for im in newsList %}
-         {% set i=i+1 %}
-          {% if i!=newsList.length %}
-         {% set comma=comma+im.id+"," %}
-         {% else %}
-         {% set comma=comma+im.id %}
-         {% endif %}
-           {% endfor %}
-         {% endif %}
-          {% article data = "newsList1",rejectnews=comma,limit= "3",cid=menu.submenusid,iscategory=true %}
-
-          {% include "./inc/index_style2.html" %}
-          {% elif menu.parentmenu.style==3 %}
-          {% article data = "topList",limit= "6",cid=menu.submenusid,iscategory=true %}
-            {% include "./inc/index_style3.html" %}
-        {% endif %}
-
-
-        	</div>
-
-          </div>
-          {%endfor%}
     </article>
 </div>
 {% endblock %}

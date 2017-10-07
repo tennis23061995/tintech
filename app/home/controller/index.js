@@ -561,7 +561,7 @@ var _class = function (_Base) {
 
   _class.prototype.pageAction = function () {
     var _ref5 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee5() {
-      var aurl, aid, aurlrewrite, curl, cid, curlrewrite, menuInfo, blogInfo, viewcount, tagItem, acc, html, strArray, particle, ainfo, pid, id, relatearticle, title, strArrayVal, particleVal, cate, ca, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, i, tag;
+      var aurl, aid, aurlrewrite, curl, cid, curlrewrite, menuInfo, blogInfo, viewcount, tagItem, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
       return _regenerator2.default.wrap(function _callee5$(_context5) {
         while (1) {
           switch (_context5.prev = _context5.next) {
@@ -581,7 +581,7 @@ var _class = function (_Base) {
               console.log(menuInfo.itemname);
 
               if (!menuInfo.itemname) {
-                _context5.next = 91;
+                _context5.next = 102;
                 break;
               }
 
@@ -592,7 +592,7 @@ var _class = function (_Base) {
               blogInfo = _context5.sent;
 
               if (!(blogInfo.ispublished === 1)) {
-                _context5.next = 89;
+                _context5.next = 100;
                 break;
               }
 
@@ -643,6 +643,19 @@ var _class = function (_Base) {
 
               this.assign("relatearticle", relatearticle);
 
+              rejectarticles = [blogInfo.id];
+
+              for (i = 0; i < relatearticle.length; i++) {
+                rejectarticles.push(relatearticle[i].id);
+              }
+              console.log("rejectarticles:" + rejectarticles.toString());
+              _context5.next = 41;
+              return this.model("article").where({ id: ["NOTIN", rejectarticles], ispublished: 1 }).order("createtime DESC").limit(10).select();
+
+            case 41:
+              itemList = _context5.sent;
+
+              this.assign("itemList", itemList);
               //跳转到内容分页
               title = blogInfo.title || '';
               strArrayVal = strArray || '';
@@ -657,28 +670,35 @@ var _class = function (_Base) {
               cate = {};
 
               cate.category = menuInfo;
-              _context5.next = 48;
+              _context5.next = 55;
               return this.model("home").findOne("item", { id: menuInfo.parentid });
 
-            case 48:
+            case 55:
               ca = _context5.sent;
 
               if (!think.isEmpty(ca)) {
                 cate.categoryparent = ca;
               }
+              _context5.next = 59;
+              return this.model("home").findOne("source", { id: blogInfo.source });
+
+            case 59:
+              source = _context5.sent;
+
               this.assign('category', cate);
-              _context5.next = 53;
+              this.assign('source', source);
+              _context5.next = 64;
               return this.model('home').findOne('system_comment');
 
-            case 53:
+            case 64:
               setting = _context5.sent;
 
               this.assign("setting", setting);
               //comment
-              _context5.next = 57;
+              _context5.next = 68;
               return this.model("home").getReplyListInfo({ tid: aid });
 
-            case 57:
+            case 68:
               replyList = _context5.sent;
 
               this.assign("replyList", replyList);
@@ -690,29 +710,29 @@ var _class = function (_Base) {
               //this.assign('topicItem',topicItem.comment);
 
               //account
-              _context5.next = 61;
+              _context5.next = 72;
               return this.session('uInfo');
 
-            case 61:
+            case 72:
               uinfo = _context5.sent;
 
               if (think.isEmpty(uinfo)) {
-                _context5.next = 71;
+                _context5.next = 82;
                 break;
               }
 
-              _context5.next = 65;
+              _context5.next = 76;
               return this.model('home').findOne('user', { name: uinfo.name });
 
-            case 65:
+            case 76:
               loginuserinfo = _context5.sent;
 
               this.assign("loginuserinfo", loginuserinfo);
               //collection
-              _context5.next = 69;
+              _context5.next = 80;
               return this.model('home').findAll('user_collect', { aid: aid, type: 'article', author: uinfo.name, iscollect: 1 });
 
-            case 69:
+            case 80:
               collectList = _context5.sent;
 
               if (collectList.length > 0) {
@@ -723,43 +743,43 @@ var _class = function (_Base) {
                 this.assign("iscollect", 0);
               }
 
-            case 71:
+            case 82:
               tags = blogInfo.keywords.split(",");
               listtags = { tags: [] };
               keywords = "";
 
               if (think.isEmpty(tags)) {
-                _context5.next = 86;
+                _context5.next = 97;
                 break;
               }
 
               i = 0;
 
-            case 76:
+            case 87:
               if (!(i < tags.length)) {
-                _context5.next = 85;
+                _context5.next = 96;
                 break;
               }
 
               if (think.isEmpty(tags[i])) {
-                _context5.next = 82;
+                _context5.next = 93;
                 break;
               }
 
-              _context5.next = 80;
+              _context5.next = 91;
               return this.model("home").findOne("tags", { id: tags[i] });
 
-            case 80:
+            case 91:
               tag = _context5.sent;
 
               listtags.tags.push({ tag: JSON.parse((0, _stringify2.default)(tag)) });
 
-            case 82:
+            case 93:
               i++;
-              _context5.next = 76;
+              _context5.next = 87;
               break;
 
-            case 85:
+            case 96:
 
               if (listtags.tags.length > 0) {
                 for (i = 0; i < listtags.tags.length; i++) {
@@ -767,19 +787,19 @@ var _class = function (_Base) {
                 }
               }
 
-            case 86:
+            case 97:
               this.assign("keywords", keywords);
               this.assign("listtags", listtags);
               return _context5.abrupt('return', this.displayView('index_page'));
 
-            case 89:
-              _context5.next = 92;
+            case 100:
+              _context5.next = 103;
               break;
 
-            case 91:
+            case 102:
               return _context5.abrupt('return', this.displayView("../common/error_404"));
 
-            case 92:
+            case 103:
             case 'end':
               return _context5.stop();
           }
