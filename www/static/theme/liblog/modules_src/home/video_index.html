@@ -304,7 +304,12 @@
           __CSRF__:G_csrf
       }
            $.post("/home/index/getvideo",newData, function (data) {
-               var content = '<video width="100%"  controls><source src="' + data.data.content.linkvideo + '" type="video/mp4"><source src="mov_bbb.ogg" type="video/ogg">Your browser does not support HTML5 video.</video>'
+             var height="";
+             if(window.innerWidth <=1024)height=($(window).height()/2).toString()+"px";
+             else height=($(window).height()-150).toString()+"px";
+             var content='';
+              if(data.data.content.linkvideo.indexOf("youtube.com")!= -1) content='<iframe width="100%" height="'+height+'" src="' + data.data.content.linkvideo + '"></iframe>';
+              else content = '<video width="100%"  controls><source src="' + data.data.content.linkvideo + '" type="video/mp4"><source src="mov_bbb.ogg" type="video/ogg">Your browser does not support HTML5 video.</video>';
                $("#myVideo .modal-body").html(content);
                if(data.data.content.from!="")$("#myVideo .modal-header .from").html(" | Nguồn: "+data.data.content.from);
                $("#myVideo .modal-header .category").html('<a class="btn-video-detail" data-id="'+data.data.content.item+'">'+data.data.content.itemname+'</a>');
