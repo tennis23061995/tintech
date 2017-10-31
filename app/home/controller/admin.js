@@ -47,7 +47,7 @@ var _class = function (_Base) {
                               switch (_context.prev = _context.next) {
                                     case 0:
 
-                                          this.assign("title", "管理员登陆");
+                                          this.assign("title", "Đăng nhập của quản trị viên");
                                           return _context.abrupt('return', this.displayView('admin_login'));
 
                                     case 2:
