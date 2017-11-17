@@ -27,6 +27,8 @@
 }
 .topnews .h2{
 	margin-top: 0px;
+	margin-left: -10px;
+	margin-right: -10px;
 }
 .topnews .breadcrumb i{
 	font-size: 20px;
@@ -280,7 +282,7 @@
   border-radius: 4px;
   box-shadow: 0 2px 3px rgba(0,0,0,0.1);
 }
-.focusmo{overflow:hidden;padding-top: 21px;}
+.focusmo{overflow:hidden;;padding-top: 5px}
 .focusmo ul{list-style:none;margin:0;padding-left:50%}
 .focusmo li{width:50%;float:left;margin-bottom:6px}
 .focusmo a{margin-left:6px;display:block;overflow:hidden;height:145px;position:relative}
@@ -328,7 +330,6 @@
 .page_tags a:nth-child(8n+6){background-color:#B37333;}
 .page_tags a:nth-child(8n+7){background-color:#5CB85C;}
 .most-comment-posts ul {
-    margin: 0 0 20px;
     padding: 10px 0 0;
     list-style: none;
     overflow: hidden;
@@ -354,7 +355,7 @@
       font-size: 14px;
       border-bottom: solid 1px #e6e6e6;
   }
-  .most-comment-posts ul{margin:0 0 20px;list-style:none;overflow:hidden}
+  .most-comment-posts ul{list-style:none;overflow:hidden}
   .most-comment-posts li{overflow:hidden;clear:both;height:20px;margin-bottom:9px}
   .most-comment-posts p{float:right;font-size:12px;display:none}
   .most-comment-posts .label{margin-right:8px;padding:2px 7px;top:-1px}
@@ -466,7 +467,7 @@
 	.navbar-nav>li>a
 	{
 	padding: 8px 10px;
-	font-size: 14px;
+	font-size: 12px;
 	}
 	.topnews .navbar-toggle
 	{
@@ -548,6 +549,7 @@
 	{
 	width: 40%;
 	float: left;
+	clear: inherit;
 	}
 	#lp_right_select
 	{
@@ -691,4 +693,14 @@ position: absolute;
 	.featured-article {
 	height: 368px;
 }
+}
+@media (max-width: 414px)
+{
+	.focusmo,.most-comment-posts{
+		padding:10px;
+	}
+	.topnews
+	{
+		padding: 5px;
+	}
 }

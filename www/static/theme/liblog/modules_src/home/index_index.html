@@ -47,10 +47,8 @@
         </div>
         <div class="col-lg-3">
           <div class="most-comment-posts">
-            <h3 class="widget_titx">
-              <strong>Nổi bật</strong></h3>
             <ul>
-              {% article data = "torecomList",limit= "9",flag="torecom"%}
+              {% article data = "torecomList",limit= "10",flag="torecom"%}
               {% for item in torecomList %}
                 <li class="item-{{loop.index}}">
                   <span class="label label-1">{{loop.index}}</span>
