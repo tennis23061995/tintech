@@ -14,8 +14,8 @@ exports.default = {
       host: 'localhost',
       port: '3306',
       database: 'liblog',
-      user: 'root',
-      password: '',
+      user: 'da_admin',
+      password: 'ZDI5OTZh',
       prefix: 'li_',
       encoding: 'utf8'
     },
