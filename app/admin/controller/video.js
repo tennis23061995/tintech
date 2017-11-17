@@ -494,69 +494,75 @@ var _class = function (_Base) {
 
     _class.prototype.doaddAction = function () {
         var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-            var mycreatetime, data, item, rs, articleinfo;
+            var data, item, video, rs, articleinfo;
             return _regenerator2.default.wrap(function _callee6$(_context6) {
                 while (1) {
                     switch (_context6.prev = _context6.next) {
                         case 0:
                             //编辑或者新增
                             console.log("term");
-                            mycreatetime = think.datetime(this.post('createtime'));
-                            _context6.next = 4;
+                            _context6.next = 3;
                             return this.post();
 
-                        case 4:
+                        case 3:
                             data = _context6.sent;
 
                             if (!(data.item != 0)) {
-                                _context6.next = 11;
+                                _context6.next = 10;
                                 break;
                             }
 
-                            _context6.next = 8;
+                            _context6.next = 7;
                             return this.model("admin").findOne("item", { id: data.item });
 
-                        case 8:
+                        case 7:
                             item = _context6.sent;
 
                             data['itemurlrewrite'] = item.urlrewrite;
                             data['itemname'] = item.itemname;
 
-                        case 11:
+                        case 10:
                             console.log(data);
-                            data.createtime = mycreatetime;
 
                             if (think.isEmpty(this.post("id"))) {
-                                _context6.next = 21;
+                                _context6.next = 23;
                                 break;
                             }
 
-                            _context6.next = 16;
+                            _context6.next = 14;
+                            return this.model("admin").findOne("video", { id: this.post("id") });
+
+                        case 14:
+                            video = _context6.sent;
+
+                            data.createtime = video.createtime;
+                            _context6.next = 18;
                             return this.model("admin").updateRecord("video", {}, data);
 
-                        case 16:
+                        case 18:
                             rs = _context6.sent;
 
                             if (!rs) {
-                                _context6.next = 19;
+                                _context6.next = 21;
                                 break;
                             }
 
                             return _context6.abrupt("return", this.success());
 
-                        case 19:
-                            _context6.next = 25;
+                        case 21:
+                            _context6.next = 28;
                             break;
 
-                        case 21:
-                            _context6.next = 23;
+                        case 23:
+                            data.createtime = think.datetime(this.post('createtime'));
+                            _context6.next = 26;
                             return this.model("admin").addRecord("video", data);
 
-                        case 23:
+                        case 26:
                             articleinfo = _context6.sent;
                             return _context6.abrupt("return", this.success({ id: articleinfo }));
 
-                        case 25:
+                        case 28:
                         case "end":
                             return _context6.stop();
                     }

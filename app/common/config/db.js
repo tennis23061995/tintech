@@ -13,9 +13,9 @@ exports.default = {
     mysql: {
       host: 'localhost',
       port: '3306',
-      database: 'tintech',
-      user: 'da_admin',
-      password: 'ZDI5OTZh',
+      database: 'liblog',
+      user: 'root',
+      password: '',
       prefix: 'li_',
       encoding: 'utf8'
     },

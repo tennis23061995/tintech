@@ -158,32 +158,34 @@ var _class = function (_Base) {
                 id: this.post('id')
               };
 
+              info.data.lastmodified = think.datetime(new Date());
+
               if (!(!think.isEmpty(info.id) || info.id != 0)) {
-                _context3.next = 45;
+                _context3.next = 46;
                 break;
               }
 
-              _context3.next = 4;
+              _context3.next = 5;
               return this.model("admin").findOne("item", { id: info.id });
 
-            case 4:
+            case 5:
               menu = _context3.sent;
 
               if (!(menu.itemname != info.data.itemname)) {
-                _context3.next = 45;
+                _context3.next = 46;
                 break;
               }
 
-              _context3.next = 8;
+              _context3.next = 9;
               return this.model("admin").findAll("article", { item: info.id });
 
-            case 8:
+            case 9:
               items = _context3.sent;
               i = 0;
 
-            case 10:
+            case 11:
               if (!(i < items.length)) {
-                _context3.next = 19;
+                _context3.next = 20;
                 break;
               }
 
@@ -191,25 +193,25 @@ var _class = function (_Base) {
 
               item.itemurlrewrite = info.data.urlrewrite;
               item.itemname = info.data.itemname;
-              _context3.next = 16;
+              _context3.next = 17;
               return this.model("admin").updateRecord("article", {}, item);
 
-            case 16:
+            case 17:
               i++;
-              _context3.next = 10;
+              _context3.next = 11;
               break;
 
-            case 19:
-              _context3.next = 21;
+            case 20:
+              _context3.next = 22;
               return this.model("admin").findAll("video", { item: info.id });
 
-            case 21:
+            case 22:
               videos = _context3.sent;
               i = 0;
 
-            case 23:
+            case 24:
               if (!(i < videos.length)) {
-                _context3.next = 32;
+                _context3.next = 33;
                 break;
               }
 
@@ -217,25 +219,25 @@ var _class = function (_Base) {
 
               item.itemurlrewrite = info.data.urlrewrite;
               item.itemname = info.data.itemname;
-              _context3.next = 29;
+              _context3.next = 30;
               return this.model("admin").updateRecord("video", {}, item);
 
-            case 29:
+            case 30:
               i++;
-              _context3.next = 23;
+              _context3.next = 24;
               break;
 
-            case 32:
-              _context3.next = 34;
+            case 33:
+              _context3.next = 35;
               return this.model("admin").findAll("topic", { item: info.id });
 
-            case 34:
+            case 35:
               topics = _context3.sent;
               i = 0;
 
-            case 36:
+            case 37:
               if (!(i < topics.length)) {
-                _context3.next = 45;
+                _context3.next = 46;
                 break;
               }
 
@@ -243,30 +245,30 @@ var _class = function (_Base) {
 
               item.itemurlrewrite = info.data.urlrewrite;
               item.itemname = info.data.itemname;
-              _context3.next = 42;
+              _context3.next = 43;
               return this.model("admin").updateRecord("topic", {}, item);
 
-            case 42:
+            case 43:
               i++;
-              _context3.next = 36;
+              _context3.next = 37;
               break;
 
-            case 45:
+            case 46:
               think.cache('menuList', null);
-              _context3.next = 48;
+              _context3.next = 49;
               return this.model('util').doSave(info);
 
-            case 48:
+            case 49:
               mydata = _context3.sent;
 
               if (!(mydata.status === 1)) {
-                _context3.next = 51;
+                _context3.next = 52;
                 break;
               }
 
               return _context3.abrupt("return", this.success({ parentid: info.data.parentid }));
 
-            case 51:
+            case 52:
             case "end":
               return _context3.stop();
           }

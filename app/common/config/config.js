@@ -28,6 +28,7 @@ exports.default = {
     addcollect: 1,
     addtopic: 5,
     addcomment: 3
-  }
+  },
+  resource_reg: /^(static\/|theme\/|[^\/]+\.(?!js|html|xml)\w+$)/
 };
 //# sourceMappingURL=config.js.map

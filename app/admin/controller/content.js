@@ -2,6 +2,10 @@
 
 exports.__esModule = true;
 
+var _getIterator2 = require("babel-runtime/core-js/get-iterator");
+
+var _getIterator3 = _interopRequireDefault(_getIterator2);
+
 var _stringify = require("babel-runtime/core-js/json/stringify");
 
 var _stringify2 = _interopRequireDefault(_stringify);
@@ -244,7 +248,7 @@ var _class = function (_Base) {
 
     _class.prototype.articleAction = function () {
         var _ref3 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee3() {
-            var lstparentmenu, navList, i, submenu, submenusid, j, article, tags, keywords, tagname, item, picurl, tag_selected_id, item_selected_id;
+            var lstparentmenu, navList, i, submenu, submenusid, j, sources, article, tags, keywords, tagname, item, picurl, tag_selected_id, item_selected_id;
             return _regenerator2.default.wrap(function _callee3$(_context3) {
                 while (1) {
                     switch (_context3.prev = _context3.next) {
@@ -282,40 +286,47 @@ var _class = function (_Base) {
 
                         case 15:
                             this.assign("navList", navList);
+                            _context3.next = 18;
+                            return this.model("admin").findAll('source');
+
+                        case 18:
+                            sources = _context3.sent;
+
+                            this.assign("sources", sources);
                             //编辑或者新增
 
                             if (!this.get('id')) {
-                                _context3.next = 48;
+                                _context3.next = 52;
                                 break;
                             }
 
-                            _context3.next = 19;
+                            _context3.next = 23;
                             return this.model('admin').findOne('article', { id: this.get('id') });
 
-                        case 19:
+                        case 23:
                             article = _context3.sent;
 
                             console.log(article.keywords.substring(1, article.keywords.length - 1));
                             tags = '{"tags":[';
 
                             if (!article.keywords) {
-                                _context3.next = 34;
+                                _context3.next = 38;
                                 break;
                             }
 
                             keywords = article.keywords.substring(1, article.keywords.length - 1).split(",");
                             i = 0;
 
-                        case 25:
+                        case 29:
                             if (!(i < keywords.length)) {
-                                _context3.next = 34;
+                                _context3.next = 38;
                                 break;
                             }
 
-                            _context3.next = 28;
+                            _context3.next = 32;
                             return this.model("admin").findOne("tags", { id: keywords[i] });
 
-                        case 28:
+                        case 32:
                             tagname = _context3.sent.tagname;
 
                             console.log(tagname);
@@ -327,12 +338,12 @@ var _class = function (_Base) {
                                 if (keywords.length == i + 1) tags += item;else tags += item + ",";
                             }
 
-                        case 31:
+                        case 35:
                             i++;
-                            _context3.next = 25;
+                            _context3.next = 29;
                             break;
 
-                        case 34:
+                        case 38:
                             tags += "]}";
                             console.log(tags);
                             //  console.log((await this.model("admin").findOne("tags",{id: 3})).tagname);
@@ -357,10 +368,10 @@ var _class = function (_Base) {
 
                             this.assign("title", "Thêm bài viết");
 
-                            _context3.next = 55;
+                            _context3.next = 59;
                             break;
 
-                        case 48:
+                        case 52:
                             this.assign('article', {});
                             this.assign("selectedId", '');
                             this.assign("picurl", '');
@@ -369,11 +380,11 @@ var _class = function (_Base) {
                             this.assign("itemselectedId", '');
                             this.assign("title", "Thêm bài viết");
 
-                        case 55:
+                        case 59:
                             this.assign('ismarkdown', false); //不显示markdown导入
                             return _context3.abrupt("return", this.display());
 
-                        case 57:
+                        case 61:
                         case "end":
                             return _context3.stop();
                     }
@@ -490,7 +501,8 @@ var _class = function (_Base) {
 
     _class.prototype.doaddAction = function () {
         var _ref6 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-            var data, titleexist, article, mycreatetime, item, rs, uinfo, articleinfo;
+            var data, titleexist, article, item, _article, cg, citems, _iterator, _isArray, _i, _ref7, tagsList, _iterator2, _isArray2, _i2, _ref8, dateC, ct, sm, smap, rs, uinfo, articleinfo, _cg, _iterator3, _isArray3, _i3, _ref9, _tagsList, _iterator4, _isArray4, _i4, _ref10;
+
             return _regenerator2.default.wrap(function _callee6$(_context6) {
                 while (1) {
                     switch (_context6.prev = _context6.next) {
@@ -535,64 +547,361 @@ var _class = function (_Base) {
                             return _context6.abrupt("return", this.success({ titleexist: titleexist }));
 
                         case 17:
-                            mycreatetime = think.datetime(this.post('createtime'));
-
                             if (!(data.item != 0)) {
-                                _context6.next = 24;
+                                _context6.next = 23;
                                 break;
                             }
 
-                            _context6.next = 21;
+                            _context6.next = 20;
                             return this.model("admin").findOne("item", { id: data.item });
 
-                        case 21:
+                        case 20:
                             item = _context6.sent;
 
                             data['itemurlrewrite'] = item.urlrewrite;
                             data['itemname'] = item.itemname;
 
-                        case 24:
+                        case 23:
                             console.log(data);
-                            data.createtime = mycreatetime;
 
                             if (think.isEmpty(this.post("id"))) {
-                                _context6.next = 34;
+                                _context6.next = 96;
                                 break;
                             }
 
-                            _context6.next = 29;
+                            _context6.next = 27;
+                            return this.model("admin").findOne("article", { id: this.post("id") });
+
+                        case 27:
+                            _article = _context6.sent;
+
+                            data.createtime = _article.createtime;
+                            data.lastmodified = think.datetime(new Date());
+                            _context6.next = 32;
+                            return this.model("admin").findOne("item", { id: _article.item });
+
+                        case 32:
+                            cg = _context6.sent;
+
+                            if (think.isEmpty(cg)) {
+                                _context6.next = 37;
+                                break;
+                            }
+
+                            cg.lastmodified = data.lastmodified;
+                            _context6.next = 37;
+                            return this.model("admin").updateRecord("item", {}, cg);
+
+                        case 37:
+                            if (!(data.keywords.length > 0)) {
+                                _context6.next = 74;
+                                break;
+                            }
+
+                            citems = [];
+                            _iterator = data.keywords.split(","), _isArray = Array.isArray(_iterator), _i = 0, _iterator = _isArray ? _iterator : (0, _getIterator3.default)(_iterator);
+
+                        case 40:
+                            if (!_isArray) {
+                                _context6.next = 46;
+                                break;
+                            }
+
+                            if (!(_i >= _iterator.length)) {
+                                _context6.next = 43;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 54);
+
+                        case 43:
+                            _ref7 = _iterator[_i++];
+                            _context6.next = 50;
+                            break;
+
+                        case 46:
+                            _i = _iterator.next();
+
+                            if (!_i.done) {
+                                _context6.next = 49;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 54);
+
+                        case 49:
+                            _ref7 = _i.value;
+
+                        case 50:
+                            item = _ref7;
+
+                            if (!think.isEmpty(item)) citems.push(item);
+
+                        case 52:
+                            _context6.next = 40;
+                            break;
+
+                        case 54:
+                            _context6.next = 56;
+                            return this.model("tags").where({ id: ["IN", citems] }).select();
+
+                        case 56:
+                            tagsList = _context6.sent;
+                            _iterator2 = tagsList, _isArray2 = Array.isArray(_iterator2), _i2 = 0, _iterator2 = _isArray2 ? _iterator2 : (0, _getIterator3.default)(_iterator2);
+
+                        case 58:
+                            if (!_isArray2) {
+                                _context6.next = 64;
+                                break;
+                            }
+
+                            if (!(_i2 >= _iterator2.length)) {
+                                _context6.next = 61;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 74);
+
+                        case 61:
+                            _ref8 = _iterator2[_i2++];
+                            _context6.next = 68;
+                            break;
+
+                        case 64:
+                            _i2 = _iterator2.next();
+
+                            if (!_i2.done) {
+                                _context6.next = 67;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 74);
+
+                        case 67:
+                            _ref8 = _i2.value;
+
+                        case 68:
+                            item = _ref8;
+
+                            item.lastmodified = data.lastmodified;
+                            _context6.next = 72;
+                            return this.model("admin").updateRecord("tags", {}, item);
+
+                        case 72:
+                            _context6.next = 58;
+                            break;
+
+                        case 74:
+                            dateC = new Date(_article.createtime);
+                            ct = dateC.getFullYear() + "-" + ('0' + (dateC.getMonth() + 1)).slice(-2) + "-" + ('0' + dateC.getDate()).slice(-2);
+                            _context6.next = 78;
+                            return this.model("admin").findOne("sitemap", { createtime: ct });
+
+                        case 78:
+                            sm = _context6.sent;
+
+                            if (think.isEmpty(sm)) {
+                                _context6.next = 86;
+                                break;
+                            }
+
+                            smap = JSON.parse((0, _stringify2.default)(sm));
+
+                            smap.lastmodified = data.lastmodified;
+                            _context6.next = 84;
+                            return this.model("admin").updateRecord("sitemap", {}, smap);
+
+                        case 84:
+                            _context6.next = 89;
+                            break;
+
+                        case 86:
+                            smap = { createtime: ct, lastmodified: data.lastmodified };
+                            _context6.next = 89;
+                            return this.model("admin").addRecord("sitemap", smap);
+
+                        case 89:
+                            _context6.next = 91;
                             return this.model("admin").updateRecord("article", {}, data);
 
-                        case 29:
+                        case 91:
                             rs = _context6.sent;
 
                             if (!rs) {
-                                _context6.next = 32;
+                                _context6.next = 94;
                                 break;
                             }
 
                             return _context6.abrupt("return", this.success());
 
-                        case 32:
-                            _context6.next = 42;
+                        case 94:
+                            _context6.next = 166;
                             break;
 
-                        case 34:
-                            _context6.next = 36;
+                        case 96:
+                            _context6.next = 98;
                             return this.session("uInfo");
 
-                        case 36:
+                        case 98:
                             uinfo = _context6.sent;
 
+                            data.createtime = think.datetime(this.post('createtime'));
+                            data.lastmodified = data.createtime;
                             data['author'] = uinfo.name;
-                            _context6.next = 40;
+                            _context6.next = 104;
                             return this.model("admin").addRecord("article", data);
 
-                        case 40:
+                        case 104:
                             articleinfo = _context6.sent;
+                            _context6.next = 107;
+                            return this.model("admin").findOne("item", { id: data.item });
+
+                        case 107:
+                            _cg = _context6.sent;
+
+                            if (think.isEmpty(_cg)) {
+                                _context6.next = 112;
+                                break;
+                            }
+
+                            _cg.lastmodified = data.lastmodified;
+                            _context6.next = 112;
+                            return this.model("admin").updateRecord("item", {}, _cg);
+
+                        case 112:
+                            if (!(data.keywords.length > 0)) {
+                                _context6.next = 149;
+                                break;
+                            }
+
+                            citems = [];
+                            _iterator3 = data.keywords.split(","), _isArray3 = Array.isArray(_iterator3), _i3 = 0, _iterator3 = _isArray3 ? _iterator3 : (0, _getIterator3.default)(_iterator3);
+
+                        case 115:
+                            if (!_isArray3) {
+                                _context6.next = 121;
+                                break;
+                            }
+
+                            if (!(_i3 >= _iterator3.length)) {
+                                _context6.next = 118;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 129);
+
+                        case 118:
+                            _ref9 = _iterator3[_i3++];
+                            _context6.next = 125;
+                            break;
+
+                        case 121:
+                            _i3 = _iterator3.next();
+
+                            if (!_i3.done) {
+                                _context6.next = 124;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 129);
+
+                        case 124:
+                            _ref9 = _i3.value;
+
+                        case 125:
+                            item = _ref9;
+
+                            if (!think.isEmpty(item)) citems.push(item);
+
+                        case 127:
+                            _context6.next = 115;
+                            break;
+
+                        case 129:
+                            _context6.next = 131;
+                            return this.model("tags").where({ id: ["IN", citems] }).select();
+
+                        case 131:
+                            _tagsList = _context6.sent;
+                            _iterator4 = _tagsList, _isArray4 = Array.isArray(_iterator4), _i4 = 0, _iterator4 = _isArray4 ? _iterator4 : (0, _getIterator3.default)(_iterator4);
+
+                        case 133:
+                            if (!_isArray4) {
+                                _context6.next = 139;
+                                break;
+                            }
+
+                            if (!(_i4 >= _iterator4.length)) {
+                                _context6.next = 136;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 149);
+
+                        case 136:
+                            _ref10 = _iterator4[_i4++];
+                            _context6.next = 143;
+                            break;
+
+                        case 139:
+                            _i4 = _iterator4.next();
+
+                            if (!_i4.done) {
+                                _context6.next = 142;
+                                break;
+                            }
+
+                            return _context6.abrupt("break", 149);
+
+                        case 142:
+                            _ref10 = _i4.value;
+
+                        case 143:
+                            item = _ref10;
+
+                            item.lastmodified = data.lastmodified;
+                            _context6.next = 147;
+                            return this.model("admin").updateRecord("tags", {}, item);
+
+                        case 147:
+                            _context6.next = 133;
+                            break;
+
+                        case 149:
+                            dateC = new Date(data.createtime);
+
+                            console.log(dateC);
+                            ct = dateC.getFullYear() + "-" + ('0' + (dateC.getMonth() + 1)).slice(-2) + "-" + ('0' + dateC.getDate()).slice(-2);
+                            _context6.next = 154;
+                            return this.model("admin").findOne("sitemap", { createtime: ct });
+
+                        case 154:
+                            sm = _context6.sent;
+
+                            if (think.isEmpty(sm)) {
+                                _context6.next = 162;
+                                break;
+                            }
+
+                            smap = JSON.parse((0, _stringify2.default)(sm));
+
+                            smap.lastmodified = data.lastmodified;
+                            _context6.next = 160;
+                            return this.model("admin").updateRecord("sitemap", {}, smap);
+
+                        case 160:
+                            _context6.next = 165;
+                            break;
+
+                        case 162:
+                            smap = { createtime: ct, lastmodified: data.lastmodified };
+                            _context6.next = 165;
+                            return this.model("admin").addRecord("sitemap", smap);
+
+                        case 165:
                             return _context6.abrupt("return", this.success({ id: articleinfo }));
 
-                        case 42:
+                        case 166:
                         case "end":
                             return _context6.stop();
                     }
@@ -608,7 +917,7 @@ var _class = function (_Base) {
     }();
 
     _class.prototype.updatestatusAction = function () {
-        var _ref7 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+        var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
             var pid, status, rs;
             return _regenerator2.default.wrap(function _callee7$(_context7) {
                 while (1) {
@@ -652,7 +961,7 @@ var _class = function (_Base) {
         }));
 
         function updatestatusAction() {
-            return _ref7.apply(this, arguments);
+            return _ref11.apply(this, arguments);
         }
 
         return updatestatusAction;
@@ -661,7 +970,7 @@ var _class = function (_Base) {
 
 
     _class.prototype.delsomeAction = function () {
-        var _ref8 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+        var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
             var arr, where, rs;
             return _regenerator2.default.wrap(function _callee8$(_context8) {
                 while (1) {
@@ -695,7 +1004,7 @@ var _class = function (_Base) {
         }));
 
         function delsomeAction() {
-            return _ref8.apply(this, arguments);
+            return _ref12.apply(this, arguments);
         }
 
         return delsomeAction;
@@ -705,7 +1014,7 @@ var _class = function (_Base) {
 
 
     _class.prototype.uploadAction = function () {
-        var _ref9 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+        var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
             var IS_USE_OSS, ALIOSS, alioss, file, rs, _file, filepath, newpath, uploadPath, basename;
 
             return _regenerator2.default.wrap(function _callee9$(_context9) {
@@ -767,7 +1076,7 @@ var _class = function (_Base) {
         }));
 
         function uploadAction() {
-            return _ref9.apply(this, arguments);
+            return _ref13.apply(this, arguments);
         }
 
         return uploadAction;
@@ -777,7 +1086,7 @@ var _class = function (_Base) {
 
 
     _class.prototype.uploadeditorAction = function () {
-        var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+        var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
             var IS_USE_OSS, ALIOSS, alioss, file, rs, _file2, filepath, newpath, uploadPath, basename;
 
             return _regenerator2.default.wrap(function _callee10$(_context10) {
@@ -837,7 +1146,7 @@ var _class = function (_Base) {
         }));
 
         function uploadeditorAction() {
-            return _ref10.apply(this, arguments);
+            return _ref14.apply(this, arguments);
         }
 
         return uploadeditorAction;
@@ -846,7 +1155,7 @@ var _class = function (_Base) {
 
 
     _class.prototype.uploadfileAction = function () {
-        var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+        var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
             var marked, file, data, html, encodeHTMLContent, newHtml, ainfo, ainfo_obj, end, note;
             return _regenerator2.default.wrap(function _callee11$(_context11) {
                 while (1) {
@@ -929,7 +1238,7 @@ var _class = function (_Base) {
         }));
 
         function uploadfileAction() {
-            return _ref11.apply(this, arguments);
+            return _ref15.apply(this, arguments);
         }
 
         return uploadfileAction;

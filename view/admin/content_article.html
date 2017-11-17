@@ -56,9 +56,28 @@
                                           {% endfor %}
 
                                       {% endif %}
-                                  </li>
+
                                {% endfor %}
-                            </ul>
+                            
+                            {% endif %}
+
+                        </select>
+            </span>
+            </div>
+        </div>
+        <div class="row cl">
+            <label class="form-label col-xs-4 col-sm-2"><span class="c-red">*</span>Nguồn：</label>
+            <div class="formControls col-xs-8 col-sm-9">
+                    <span class="select-box">
+                        <select name="itemselect" class="select" id="itemselect">
+                            <option value="0">Chọn nguồn</option>
+                            {% if sources.length>0 %}
+
+                               {% for item in sources %}
+                                  <option value="{{item.id}}" {%if article.source==item.id %}selected{%endif%}>{{item.name}}</option>
+
+                               {% endfor %}
+
                             {% endif %}
 
                         </select>

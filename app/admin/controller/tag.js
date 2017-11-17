@@ -141,55 +141,57 @@ var _class = function (_Base) {
                 data: this.post(),
                 id: this.post('id')
               };
+
+              info.data.lastmodified = think.datetime(new Date());
               tagexist = false;
 
               if (think.isEmpty(info.data.id)) {
-                _context3.next = 9;
+                _context3.next = 10;
                 break;
               }
 
-              _context3.next = 5;
+              _context3.next = 6;
               return this.model("admin").findOne("tags", { tagname: info.data.tagname, id: ["NOTIN", info.data.id] });
 
-            case 5:
+            case 6:
               tag = _context3.sent;
 
               if (!think.isEmpty(tag)) tagexist = true;
-              _context3.next = 13;
+              _context3.next = 14;
               break;
 
-            case 9:
-              _context3.next = 11;
+            case 10:
+              _context3.next = 12;
               return this.model("admin").findOne("tags", { tagname: info.data.tagname });
 
-            case 11:
+            case 12:
               tag = _context3.sent;
 
               if (!think.isEmpty(tag)) tagexist = true;
 
-            case 13:
+            case 14:
               if (!tagexist) {
-                _context3.next = 15;
+                _context3.next = 16;
                 break;
               }
 
               return _context3.abrupt("return", this.success({ tagexist: tagexist }));
 
-            case 15:
-              _context3.next = 17;
+            case 16:
+              _context3.next = 18;
               return this.model('util').doSaveTags(info);
 
-            case 17:
+            case 18:
               mydata = _context3.sent;
 
               if (!(mydata.status === 1)) {
-                _context3.next = 20;
+                _context3.next = 21;
                 break;
               }
 
               return _context3.abrupt("return", this.success(mydata));
 
-            case 20:
+            case 21:
             case "end":
               return _context3.stop();
           }
