@@ -18,9 +18,9 @@
         "encoding",
         "mongo"
     ],
-    "mappings": "AAAA;AACA;;;;;;kBAIe;AACbA,QAAM,OADO;AAEbC,WAAS,IAFI;AAGbC,eAAa,IAHA;AAIbC,WAAS;AACPC,WAAO;AACLC,YAAM,WADD;AAELC,YAAM,MAFD;AAGLC,gBAAU,QAHL;AAILC,YAAM,UAJD;AAKLC,gBAAU,UALL;AAMLC,cAAQ,KANH;AAOLC,gBAAU;AAPL,KADA;AAUPC,WAAO;AAVA;AAJI,C",
+    "mappings": "AAAA;AACA;;;;;;kBAIe;AACbA,QAAM,OADO;AAEbC,WAAS,IAFI;AAGbC,eAAa,IAHA;AAIbC,WAAS;AACPC,WAAO;AACLC,YAAM,WADD;AAELC,YAAM,MAFD;AAGLC,gBAAU,SAHL;AAILC,YAAM,UAJD;AAKLC,gBAAU,UALL;AAMLC,cAAQ,KANH;AAOLC,gBAAU;AAPL,KADA;AAUPC,WAAO;AAVA;AAJI,C",
     "file": "..\\..\\..\\src\\common\\config\\db.js",
     "sourcesContent": [
-        "'use strict';\r\n/**\r\n * db config\r\n * @type {Object}\r\n */\r\nexport default {\r\n  type: 'mysql',\r\n  log_sql: true,\r\n  log_connect: true,\r\n  adapter: {\r\n    mysql: {\r\n      host: 'localhost',\r\n      port: '3306',\r\n      database: 'liblog',\r\n      user: 'da_admin',\r\n      password: 'ZDI5OTZh',\r\n      prefix: 'li_',\r\n      encoding: 'utf8'\r\n    },\r\n    mongo: {\r\n\r\n    }\r\n  }\r\n};\r\n"
+        "'use strict';\r\n/**\r\n * db config\r\n * @type {Object}\r\n */\r\nexport default {\r\n  type: 'mysql',\r\n  log_sql: true,\r\n  log_connect: true,\r\n  adapter: {\r\n    mysql: {\r\n      host: 'localhost',\r\n      port: '3306',\r\n      database: 'tintech',\r\n      user: 'da_admin',\r\n      password: 'ZDI5OTZh',\r\n      prefix: 'li_',\r\n      encoding: 'utf8'\r\n    },\r\n    mongo: {\r\n\r\n    }\r\n  }\r\n};\r\n"
     ]
 }

@@ -13,7 +13,7 @@ exports.default = {
     mysql: {
       host: 'localhost',
       port: '3306',
-      database: 'liblog',
+      database: 'tintech',
       user: 'da_admin',
       password: 'ZDI5OTZh',
       prefix: 'li_',
