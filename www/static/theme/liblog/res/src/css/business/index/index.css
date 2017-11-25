@@ -49,7 +49,7 @@
 	padding: 0px 5px; display: inline-block;
 }
 .blogs {
-	padding: 0px; overflow: hidden; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; border-bottom-style: solid; position: relative;
+	padding: 0px;margin: 0 -10px;overflow: hidden; border-bottom-color: rgb(204, 204, 204); border-bottom-width: 1px; border-bottom-style: solid; position: relative;
 }
 .blogs:hover{
 	background-color: #FAFDFF;

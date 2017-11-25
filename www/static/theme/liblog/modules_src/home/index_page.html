@@ -14,6 +14,14 @@
 <!-- <link rel="stylesheet" href="{{_web.url}}{{theme_url}}/vendors/github-markdown/github-markdown.css"> -->
 <link rel="stylesheet" href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/page/page.css">
 <style>
+.blogs
+{
+  margin: 0 -5px;
+}
+.content-article a
+{
+  color: blue;
+}
 .title
 {
   font-weight: bold;
@@ -122,7 +130,7 @@
 
             {%endif%}
             <h4>{{blogInfo.abstract}}</h4>
-            {{blogInfo.content|safe}}
+            <div class="content-article">{{blogInfo.content|safe}}</div>
             {%endif%}
         </div>
         {%if blogInfo.from!="" or (source.id!=null and source.id!=0) %}
@@ -134,7 +142,7 @@
         <div class="cloud main-right">
           <ul>
             {% for item in listtags.tags %}
-            <li><a href="/xu-huong/{{item.tag.urlrewrite}}-{{item.tag.id}}">{{item.tag.tagname}}</a></li>
+            <li><a href="/tag/{{item.tag.urlrewrite}}-{{item.tag.id}}">{{item.tag.tagname}}</a></li>
             {% endfor %}
             <ul>
         </div>

@@ -1,0 +1,149 @@
+{% extends "../common/inc/base_home.html" %}
+{% block head %}
+    <title>{{_web.sitename}}</title>
+    <meta name="keywords" content="{{_web.keywords}}">
+    <meta name="description" content="{{_web.description}}">
+    {{ super() }}
+    <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/index/index_topic.css" rel="stylesheet">
+{% endblock %}
+{% block content_top %}
+    <section class="focusbox-wrapper container">
+      <div class="row">
+        <div class="col-lg-9">
+          <div class="focusmo">
+            <ul>
+              {% article data = "largetopList",limit= "1",flag="flag_a"%}
+              {% set comma = "" %}
+              {% for item in largetopList %}
+                {% set curlrewrite = "category" %}
+                {% for menu in navList.menu %}
+                {% if menu.id===item.menu.parentmenu.item %}
+                    {% set curlrewrite = menu.parentmenu.urlrewrite %}
+                {% endif %}
+                {%endfor%}
+
+
+                {% set comma=comma+item.id+"," %}
+
+              <li class="large">
+                <span>
+                  <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+                    <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" alt="" class="thumb" title="{{item.title}}">
+                    <span>
+                      <h4>{{item.title}}</h4></span>
+                  </a>
+                </span>
+              </li>
+              {%endfor%}
+              {% article data = "topList",limit= "4",flag="totop"%}
+              {% set i = 0 %}
+              {% for item in topList %}
+                <li>
+                  <span>
+                      <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">
+                      <img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" alt="" class="thumb" title="{{item.title}}">
+                      <span>
+                        <h4>{{item.title}}</h4></span>
+                    </a>
+                  </span>
+                </li>
+                {% set i=i+1 %}
+                 {% if i!=topList.length %}
+                {% set comma=comma+item.id+"," %}
+                {% else %}
+                {% set comma=comma+item.id %}
+                {% endif %}
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+        <div class="col-lg-3">
+          <div class="most-comment-posts">
+            <ul>
+              {% article data = "torecomList",limit= "10",flag="torecom"%}
+              {% for item in torecomList %}
+                <li class="item-{{loop.index}}">
+                  <span class="label label-1">{{loop.index}}</span>
+                    <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">
+                    {{item.title}}
+                  </a>
+                </li>
+              {%endfor%}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+{% endblock %}
+{% block content %}
+<div class="topnews">
+			<div class="h2">
+				Tin Mới
+			</div>
+{% article data = "itemList",limit= "10",rejectnews=comma %}
+{% set i = 0 %}
+{% set comma=comma+"," %}
+			{% if itemList.length>0 %}
+				{% for item in itemList %}
+				<div class="blogs">
+					 <figure>
+						 <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
+						</figure>
+						<ul class="articleul">
+						<h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
+						 <p class="abstract">{{item.abstract}}</p>
+						 <p class="by-author">
+							 <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
+							 <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
+						 </p>
+						</ul>
+					</div>
+          {% set i=i+1 %}
+           {% if i!=itemList.length %}
+          {% set comma=comma+item.id+"," %}
+          {% else %}
+          {% set comma=comma+item.id %}
+          {% endif %}
+				{%endfor%}
+			{%endif%}
+		</div>
+    <div data-reject="{{comma}}" class="btn-loadmore" style="text-align:center;margin-top:10px;margin-bottom:15px;"><a href="#" style="font-size:20px;color:#3498db;font-weight:bold">Xem Thêm</a></div>
+
+{% endblock %}
+
+{% block footer_other %}
+<script>
+var result=true;
+$("body").on("click",".btn-loadmore", function (e) {
+  e.preventDefault();
+  var newData={
+      reject:$(".btn-loadmore").attr("data-reject"),
+      __CSRF__:G_csrf
+  }
+  if(result)
+  {
+  $.post("/home/index/getarticle",newData, function (data) {
+    result=false;
+    if(data.errno==0)
+    {
+    var lstarticle=data.data.articles;
+    var adata=$(".btn-loadmore").attr("data-reject");
+    if(lstarticle.length>0){
+    for (var i = 0; i < lstarticle.length; i++) {
+      adata=adata+",";
+      var content=
+'<div class="blogs"><figure><a href="/'+lstarticle[i].itemurlrewrite+'-'+lstarticle[i].item+'/'+lstarticle[i].urlrewrite+'-'+lstarticle[i].id+'"><img src="'+lstarticle[i].picurl+'" title="'+lstarticle[i].title+'"></a></figure><ul class="articleul"><h3> <a href="/'+lstarticle[i].itemurlrewrite+'-'+lstarticle[i].item+'/'+lstarticle[i].urlrewrite+'-'+lstarticle[i].id+'">'+lstarticle[i].title+'</a></h3><p class="abstract">'+lstarticle[i].abstract+'</p><p class="by-author"><span><a style="color: #3498db;" href="/'+lstarticle[i].itemurlrewrite+'-'+lstarticle[i].item+'">'+lstarticle[i].itemname+'</a></span><span><i class="glyphicon glyphicon-eye-open"></i> '+lstarticle[i].view+'</span></p></ul></div>';
+      $(".topnews").append(content);
+      adata+=lstarticle[i].id;
+    }
+    $(".btn-loadmore").attr("data-reject",adata);
+    result=true;
+  }else {
+    $(".btn-loadmore").html("Không còn bài viết nào nữa")
+  }
+  }
+  });
+}
+});
+</script>
+{% endblock %}

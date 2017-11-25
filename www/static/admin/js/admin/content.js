@@ -164,6 +164,7 @@ $(function () {
             topicrecom: topicrecomVal,
             flag_a: flag_aVal,
           //  tag: $("#tagselect").val(),
+            source:$("#sourceselect").val(),
             item: $("#itemselect").val(),
             keywords: keywords,
             from: $(".from").val(),

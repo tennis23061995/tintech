@@ -1,126 +1,92 @@
-<a id="back-top" class="w-gotop" href="javascript:void(0)"></a>
+<div class="footer">
 
-<footer class="footer">
-  <div class="container">
-  <div class="row">
-  <div class="col-md-8">
-    <p><span>Liên hệ: 01669091806</span>
-    <span>Email:
-    <a href="mailto:rpthanhtam@gmail.com" class="email">rpthanhtam@gmail.com</a>
-        <span>
+    <footer class="social-share">
+      <div class="block">
+      <div class="left">
+        <p><span>Liên hệ: 01669091806</span>
 
-    </span>
-    </p>
-    <p>Giấy phép số 74/GP-STTTT do Sở Thông tin và Truyền thông TP Hồ Chí Minh cấp ngày 16/11/2017</p>
-            </div>
-  <div class="social-share col-md-4">
-    <a href="https://www.facebook.com/tintech.vn"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
-    <a href="https://www.youtube.com/channel/UCG2NflZRgCWY2zJp7XJhTHw?disable_polymer=true"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
-    <!-- <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a> -->
-    <a href="https://plus.google.com/116363675295027294186?hl=vi"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
-  </div>
-  </div>
-  </div>
-</footer>
-<div id="fb-root"></div>
-<script>(function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0];
-  if (d.getElementById(id)) return;
-  js = d.createElement(s); js.id = id;
-  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=1239269852779405";
-  fjs.parentNode.insertBefore(js, fjs);
-}(document, 'script', 'facebook-jssdk'));</script>
-<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/jquery/jquery-1.9.1.min.js"></script>
+  <span>Email:
+  <a href="mailto:rpthanhtam@gmail.com" class="email">rpthanhtam@gmail.com</a>
+      <span>
 
-<!-- build:js -->
-<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/pagecommon/footer.js"></script>
-<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.js"></script>
-<script src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.vi.js"></script>
-<!-- endbuild -->
-<script type="text/javascript">
-    $('.timeago').timeago();
-    $(".submenuclick").click(function(e){
-      e.preventDefault();
-      var newData={
-          id:$(this).attr("data-id"),
-          __CSRF__:G_csrf
-      }
-      var parentid=$(this).attr("data-parentid");
-      $.ajax({
-          url:'/home/index/getnews',
-          data:newData,
-          type:'POST',
-          success:function(json){
-            console.log(json.data)
-              if(json.errno===0){
-                  console.log(parentid)
-                  $("#menunews-"+parentid).html(json.data.content);
-              }else{
-                  alert(json.errmsg)
-              }
-          }
-      })
-    });
-    (function($) {
-$.fn.menumaker = function(options) {
- var cssmenu = $(this), settings = $.extend({
-   format: "dropdown",
-   sticky: false
- }, options);
- return this.each(function() {
-   $(this).find(".menu-button").on('click', function(){
-    // $(this).toggleClass('menu-opened');
+  </span>
+  </p>
+  <p>Giấy phép số 74/GP-STTTT do Sở Thông tin và Truyền thông TP Hồ Chí Minh cấp ngày 16/11/2017</p>
+          </div>
+      <div class="right">
+        <a href="https://www.facebook.com/tintech.vn"><i class="fa fa-facebook-official" aria-hidden="true"></i></a>
+            <a href="https://www.youtube.com/channel/UCG2NflZRgCWY2zJp7XJhTHw?disable_polymer=true"><i class="fa fa-youtube-play" aria-hidden="true"></i></a>
+            <!-- <a href=""><i class="fa fa-twitter" aria-hidden="true"></i></a> -->
+            <a href="https://plus.google.com/116363675295027294186?hl=vi"><i class="fa fa-google-plus" aria-hidden="true"></i></a>
+      </div>
+      <div class="clearfix"></div>
+      </div>
+    </footer>
+</div>
 
-     var mainmenu = $(this).next('ul');
-     if (mainmenu.hasClass('open')) {
+    <noscript id="deferred-styles"> <!-- defer loading of style sheet -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+      <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/layout/layout.min.css" rel="stylesheet"> <!-- added media attribute -->
+    </noscript>
+    <script>
+      var loadDeferredStyles = function() {
+        var addStylesNode = document.getElementById('deferred-styles');
+        var replacement = document.createElement('div');
+        replacement.innerHTML = addStylesNode.textContent;
+        document.body.appendChild(replacement)
+        addStylesNode.parentElement.removeChild(addStylesNode);
+      };
+      var raf = requestAnimationFrame || mozRequestAnimationFrame ||
+          webkitRequestAnimationFrame || msRequestAnimationFrame;
+      if (raf) raf(function() { window.setTimeout(loadDeferredStyles, 0); });
+      else window.addEventListener('load', loadDeferredStyles);
+    </script>
+    <script> // webfont loader script to load google fonts asynchronously
+      WebFontConfig = {
+        google: {
+          families: ['Open Sans']
+        }
+      };
+      (function(d) {
+        var wf = d.createElement('script'), s = d.scripts[0];
+        wf.src = 'https://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';
+        wf.async = true;
+        s.parentNode.insertBefore(wf, s);
+      })(document);
+    </script>
+    <script> //moved analytics scripts to bottom of page
+      (function(w,g){w['GoogleAnalyticsObject']=g;
+      w[g]=w[g]||function(){(w[g].q=w[g].q||[]).push(arguments)};w[g].l=1*new Date();})(window,'ga');
 
-       mainmenu.slideToggle().removeClass('open');
-       $(this).find("i").removeClass("fa-remove").addClass('fa-bars');
-     }
-     else {
-       mainmenu.slideToggle().addClass('open');
-$(this).find("i").removeClass("fa-bars").addClass('fa-remove');
-       if (settings.format === "dropdown") {
-         mainmenu.find('ul').show();
-       }
-     }
-   });
-   cssmenu.find('li ul').parent().addClass('has-sub');
-multiTg = function() {
-     cssmenu.find(".has-sub").prepend('<span class="submenu-button"></span>');
-     cssmenu.find('.submenu-button').on('click', function() {
-       $(this).toggleClass('submenu-opened');
-       if ($(this).siblings('ul').hasClass('open')) {
-         $(this).siblings('ul').removeClass('open').slideToggle();
-       }
-       else {
-         $(this).siblings('ul').addClass('open').slideToggle();
-       }
-     });
-   };
-   if (settings.format === 'multitoggle') multiTg();
-   else cssmenu.addClass('dropdown');
-   if (settings.sticky === true) cssmenu.css('position', 'fixed');
-resizeFix = function() {
-  var mediasize = 1024;
-     if ($( window ).width() > mediasize) {
-       cssmenu.find('ul').show();
-     }
-    //  if ($(window).width() <= mediasize) {
-    //    cssmenu.find('ul').hide().removeClass('open');
-    //  }
-   };
-   resizeFix();
-   return $(window).on('resize', resizeFix);
- });
-  };
-})(jQuery);
+      // Optional TODO: replace with your Google Analytics profile ID.
+      ga('create', 'UA-XXXX-Y');
+      ga('send', 'pageview');
+    </script>
+    <script async src="http://www.google-analytics.com/analytics.js"></script>
+    <!-- <script async src="http://code.jquery.com/jquery-latest.js"></script>
+    <script defer src="js/dropdownmenu.js"></script> -->
+    <script async>
+    function loadScripts(urls, length, success){
+            if(length > 0){
+                script = document.createElement("SCRIPT");
+                script.src = urls[length-1];
+                console.log();
+                script.onload = function() {
+                    console.log('%c Script: ' + urls[length-1] + ' loaded!', 'color: #4CAF50');
+                    loadScripts(urls, length-1, success);
+                };
+                document.getElementsByTagName("body")[0].appendChild(script);
+            }
+            else
+                if(success)
+                    success();
+        }
+        urls = [
+            '{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/layout/dropdownmenu.js',
+            'http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'
+            ];
+            loadScripts(urls, urls.length, function(){
+              console.log("thành công");
+          });
 
-(function($){
-$(document).ready(function(){
-$("#cssmenu").menumaker({
-   format: "multitoggle"
-});
-});
-})(jQuery);
-</script>
+    </script>
