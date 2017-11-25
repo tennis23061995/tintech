@@ -1,7 +1,8 @@
-var $image = $("body").find("img[data-src]");
-if($image.length>0){
-for(var i=0;i<$image.length;i++)
-{
-	$image.eq(i).attr("src", $image.eq(i).attr("data-src"));
-}
-}
+
+function init() {
+var imgDefer = document.getElementsByTagName('img');
+for (var i=0; i<imgDefer.length; i++) {
+if(imgDefer[i].getAttribute('data-src')) {
+imgDefer[i].setAttribute('src',imgDefer[i].getAttribute('data-src'));
+} } }
+window.onload = init;
