@@ -199,6 +199,7 @@ body > header > div > nav {
 }
 nav.DropDownMenu {
     color: #fff;
+    display: none;
 }
 @media (min-width: 1024.1px) {
     footer,

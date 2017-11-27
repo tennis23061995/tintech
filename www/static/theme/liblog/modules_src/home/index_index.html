@@ -40,31 +40,6 @@
             </div>
             <div class="clearfix"></div>
           </div>
-          <div class="block-title">Tin Mới</div>
-          {% article data = "itemList",limit= "10",rejectnews=comma %}
-          {% set i = 0 %}
-          {% set comma=comma+"," %}
-          			{% if itemList.length>0 %}
-          				{% for item in itemList %}
-
-          <div class="item"> <!-- using data uri for images -->
-            <div class="item-left">
-              <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
-            </div>
-            <div class="item-right">
-             <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a>
-            <p class="summary">{{item.abstract}}</p>
-            <p class="category"><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></p>
-          </div>
-          <div class="clearfix"></div>
-          </div>
-          {% set i=i+1 %}
-           {% if i!=itemList.length %}
-          {% set comma=comma+item.id+"," %}
-          {% else %}
-          {% set comma=comma+item.id %}
-          {% endif %}
-				{%endfor%}
-			{%endif%}
+          {% include "./inc/new_article.html" %}
 </div>
 {% endblock %}

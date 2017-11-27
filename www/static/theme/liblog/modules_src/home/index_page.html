@@ -12,100 +12,133 @@
 <meta name="description" content="{{blogInfo.abstract}}-{{_web.sitename}}">
 {{ super() }}
 <!-- <link rel="stylesheet" href="{{_web.url}}{{theme_url}}/vendors/github-markdown/github-markdown.css"> -->
-<link rel="stylesheet" href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/page/page.css">
 <style>
-.blogs
+#showContent
 {
-  margin: 0 -5px;
+  border-bottom: 1px solid rgb(234, 234, 234);
+  border-top: 1px solid rgb(234, 234, 234);
 }
-.content-article a
-{
-  color: blue;
+#showContent figure{
+  margin: 0;
 }
-.title
+.breadcrumb {
+    list-style: none;
+    padding: 9px 5px;
+    font-size: 14px;
+    border-bottom: 1px solid rgb(234, 234, 234);
+    margin: 0;
+  }
+  .breadcrumb a{
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+  }
+.breadcrumb>li {
+    display: inline-block;
+}
+.breadcrumb>li+li:before
 {
+  content: "/\00a0";
+  padding: 0 5px;
+}
+.article-header
+{
+  text-align: center;
+  margin: 10px 0;
+}
+.article-header .title{
+  font-size: 18px;
   font-weight: bold;
-  font-size: 24px;
-}
-@media (max-width:480px)  {
-.title {
-           font-size: 14px;
-       }
-.description {
-          font-size: 12px;
-       }
 }
 
-/*reply comment*/
-
-.topnews .header {
-    padding: 10px;
-    background-color: #e9e9e9;
-    border-radius: 3px 3px 0 0;
-    z-index: 0;
-}
-
-.description a{
+.description-category a{
+  text-decoration: none;
   color: #3498db;
   font-weight: bold;
 }
-.markdown-body .cloud ul
-{
+.from{
+  text-align: right;
+}
+.from a{
+  text-decoration: none;
+}
+.tags {
+  list-style: none;
   margin: 0;
+  overflow: hidden;
+  padding: 0;
+  margin-top:10px;
 }
-.markdown-body .cloud
-{
-  margin-top: -10px;
-  margin-bottom: 5px;
-  padding: 5px 0;
+
+.tags li {
+  float: left;
 }
-.from
-{
-  margin-bottom: 10px;
+
+.tag {
+  background: #eee;
+  border-radius: 3px 0 0 3px;
+  color: #999;
+  display: inline-block;
+  height: 26px;
+  line-height: 26px;
+  padding: 0 20px 0 23px;
+  position: relative;
+  margin: 0 10px 10px 0;
+  text-decoration: none;
+  -webkit-transition: color 0.2s;
 }
-.markdown-body .recom ul
-{
-  margin-left: -10px;
+
+.tag::before {
+  background: #fff;
+  border-radius: 10px;
+  box-shadow: inset 0 1px rgba(0, 0, 0, 0.25);
+  content: '';
+  height: 6px;
+  left: 10px;
+  position: absolute;
+  width: 6px;
+  top: 10px;
 }
-.markdown-body .bd-news
-{
-  margin-top: -20px;
+
+.tag::after {
+  background: #fff;
+  border-bottom: 13px solid transparent;
+  border-left: 10px solid #eee;
+  border-top: 13px solid transparent;
+  content: '';
+  position: absolute;
+  right: 0;
+  top: 0;
 }
-#showContent .bd-news
-{
-  margin-top: -40px;
+
+.tag:hover {
+  background-color: crimson;
+  color: white;
 }
-#showContent .bd-news ul
-{
-  margin-left: -10px;
+
+.tag:hover::after {
+   border-left-color: crimson;
 }
 </style>
 {% endblock %}
 
 {% block content %}
-<div class="topnews">
-    <div class="h2">
-        <ol class="breadcrumb">
-          <li><a href="{{_web.url}}"><i class="fa fa-home"></i></a></li>
-          {% if category.categoryparent!=null %}
-          <li><a href="/{{category.categoryparent.urlrewrite}}-{{category.categoryparent.id}}">{{category.categoryparent.itemname}}</a></li>
-          <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
-          {% else %}
-           <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
-          {% endif %}
-        </ol>
-    </div>
-    <article class="markdown-body">
+<div class="block">
+  <ol class="breadcrumb">
+    <li><a href="{{_web.url}}"><i class="fa fa-home"></i></a></li>
+    {% if category.categoryparent!=null %}
+    <li><a href="/{{category.categoryparent.urlrewrite}}-{{category.categoryparent.id}}">{{category.categoryparent.itemname}}</a></li>
+    <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
+    {% else %}
+     <li class="active"><a href="/{{category.category.urlrewrite}}-{{category.category.id}}">{{category.category.itemname}}</a></li>
+    {% endif %}
+  </ol>
         <header class="article-header">
-
-
-
-
                            <p class="title" id="article-title">{{blogInfo.title}}</p>
                            <p class="description">
-                               <span><a href="/{{blogInfo.itemurlrewrite}}-{{blogInfo.item}}">{{itemname}}</a></span>
-                               <span><i class="glyphicon glyphicon-time"></i> <time class="timeago" datetime="{{think.datetime(blogInfo.createtime)}}"></time></span>
-                               <span><i class="glyphicon glyphicon-eye-open"></i> {{blogInfo.view}}</span>
+                               <span class="description-category"><a href="/{{blogInfo.itemurlrewrite}}-{{blogInfo.item}}">{{itemname}}</a></span>
+                               <span class="time"><i class="fa fa-clock-o" aria-hidden="true"></i> <time class="timeago" datetime="{{think.datetime(blogInfo.createtime)}}"></time></span>
+                               <!-- <span><i class="glyphicon glyphicon-eye-open"></i> {{blogInfo.view}}</span> -->
 
                            </p>
 
@@ -114,88 +147,43 @@
 <div class="fb-like" data-href="/{{blogInfo.itemurlrewrite}}-{{blogInfo.item}}/{{blogInfo.urlrewrite}}-{{blogInfo.id}}.html" data-layout="button_count" data-action="like" data-size="large" data-show-faces="true" data-share="true"></div>
 
                 </header>
+                {%if particle.length>0 %}
+                {{particle}}
+                {%else%}
+                {%if relatearticle.length!=0 %}
+                          {% for item in relatearticle %}
+                          <div class="item"><a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">
+                              {{item.title}}
+                            </a></div>
+                          {% endfor %}
+
+
+                {%endif%}
         <div id="showContent">
-            {%if particle.length>0 %}
-            {{particle}}
-            {%else%}
-            {%if relatearticle.length!=0 %}
-
-              <div class="bd bd-news" style="display:block;">
-                  <ul>
-                      {% for item in relatearticle %}
-                      <li> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">{{item.title}}</a></li>
-                      {% endfor %}
-                  </ul>
-              </div>
-
-            {%endif%}
             <h4>{{blogInfo.abstract}}</h4>
             <div class="content-article">{{blogInfo.content|safe}}</div>
             {%endif%}
-        </div>
-        {%if blogInfo.from!="" or (source.id!=null and source.id!=0) %}
-        <div class="from">
-            {{blogInfo.from}} {%if source.id!=null and source.id!=0 %}{%if blogInfo.from!="" %} - {%endif%}<a href="{{source.url}}">{{source.name}}</a>{%endif%}
-        </div>
-        {%endif%}
-        {%if listtags.tags.length>0 %}
-        <div class="cloud main-right">
-          <ul>
-            {% for item in listtags.tags %}
-            <li><a href="/tag/{{item.tag.urlrewrite}}-{{item.tag.id}}">{{item.tag.tagname}}</a></li>
-            {% endfor %}
-            <ul>
-        </div>
-        {%endif%}
-        <div style="margin-top:10px; font-size:20px;font-weight:bold">Tin mới</div>
-        {% for item in itemList %}
-        <div class="blogs">
-           <figure>
-             <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
-            </figure>
-            <ul class="articleul">
-            <h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
-             <p class="abstract">{{item.abstract}}</p>
-             <p class="by-author">
-               <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
-               <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
-             </p>
-            </ul>
-          </div>
-        {%endfor%}
-        <!-- <div class="copyrights">
-            感谢你的阅读，本文由 <a href="http://www.jsout.com">前端汇</a> 版权所有。<br />
-            如若转载，请注明出处：前端汇（{{_web.url}}page/{{blogInfo.id}}.html）
-        </div> -->
-          <!-- {%if relatearticle.length!=0 %}
-        <div class="topnews recom">
-            <div class="h2">
-                <span>
-                    <a href="/{{menu.urlrewrite}}-{{menu.id}}">{{menu.itemname}}&gt;&gt;</a>
-                </span>
-                Bạn có thể quan tâm
+            {%if blogInfo.from!="" or (source.id!=null and source.id!=0) %}
+            <div class="from">
+                Nguồn: {{blogInfo.from}} {%if source.id!=null and source.id!=0 %}{%if blogInfo.from!="" %} - {%endif%}<a href="{{source.url}}">{{source.name}}</a>{%endif%}
             </div>
-            <div class="bd bd-news" style="display:block;">
+            {%endif%}
+            {%if listtags.tags.length>0 %}
+            <div class="cloud main-right">
+              <ul class="tags">
+                {% for item in listtags.tags %}
+                <li><a class="tag" href="/tag/{{item.tag.urlrewrite}}-{{item.tag.id}}">{{item.tag.tagname}}</a></li>
+                {% endfor %}
                 <ul>
-                    {% for item in relatearticle %}
-                    <li> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}" title="{{item.title}}">{{item.title}}</a></li>
-                    {% endfor %}
-                </ul>
             </div>
         </div>
-          {%endif%} -->
-
-    </article>
+        {%endif%}
+        {% include "./inc/new_article.html" %}
 </div>
 {% endblock %}
 {% block footer_other %}
 <script>
-$("#showContent img").removeAttr("style");
-$("#showContent img").removeAttr("width");
-$("#showContent img").removeAttr("height");
-$("#showContent img").css("width","100%");
-$("#showContent video").removeAttr("style");
-$("#showContent video").css("width","100%");
+urls.unshift("{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/page/index.js");
 </script>
 {% endblock %}
 </body>

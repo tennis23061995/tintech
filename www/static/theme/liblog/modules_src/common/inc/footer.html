@@ -25,6 +25,15 @@
 </div>
 <span id="crp-stats"></span>
 
+<div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v2.10&appId=1239269852779405";
+  js.async=true;
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
     <noscript id="deferred-styles"> <!-- defer loading of style sheet -->
       <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
       <link href="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}css/business/layout/layout.min.css" rel="stylesheet"> <!-- added media attribute -->
@@ -67,28 +76,12 @@
     <script async src="http://www.google-analytics.com/analytics.js"></script>
     <!-- <script async src="http://code.jquery.com/jquery-latest.js"></script>
     <script defer src="js/dropdownmenu.js"></script> -->
-    <script async>
-    function loadScripts(urls, length, success){
-            if(length > 0){
-                script = document.createElement("SCRIPT");
-                script.src = urls[length-1];
-                console.log();
-                script.onload = function() {
-                    console.log('%c Script: ' + urls[length-1] + ' loaded!', 'color: #4CAF50');
-                    loadScripts(urls, length-1, success);
-                };
-                document.getElementsByTagName("body")[0].appendChild(script);
-            }
-            else
-                if(success)
-                    success();
-        }
+    <script>
         urls = [
+          '{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.vi.js',
+          '{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/widget/timeago/jquery.timeago.js',
             '{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/layout/dropdownmenu.js',
             'http://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js'
             ];
-            loadScripts(urls, urls.length, function(){
-              console.log("thành công");
-          });
-
     </script>
+    <script async src="{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/layout/loadasyncimage.js"></script>
