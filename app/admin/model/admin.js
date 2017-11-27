@@ -97,7 +97,7 @@ var _class = function (_think$model$base) {
 
 
     _class.prototype.getArticleJoinRecord = function getArticleJoinRecord(where, page, pagesize) {
-        return this.model("article").field("*,li_article.id as aid").join({
+        return this.model("article").field("*,li_article.urlrewrite as aurlrewrite,li_article.id as aid").join({
             tags: { on: "tag, id" },
             item: { on: ["item", "id"] }
         }).where(where).page(page, pagesize).order("createtime DESC").select();

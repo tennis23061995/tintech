@@ -139,7 +139,7 @@ var _class = function (_Base) {
               break;
 
             case 25:
-              obj = { url: "/video", changefreq: 'weekly', priority: 0.8 };
+              obj = { url: "/video", lastmodISO: "2017-11-20T12:26:38+07:00", changefreq: 'weekly', priority: 0.8 };
 
               urls.push(obj);
               sm = require('sitemap');
@@ -225,7 +225,7 @@ var _class = function (_Base) {
 
             case 17:
               item = _ref4;
-              url = "/xu-huong/" + item.urlrewrite + "-" + item.id;
+              url = "/tag/" + item.urlrewrite + "-" + item.id;
               lM = new Date(item.lastmodified);
               lastM = lM.getFullYear() + "-" + ('0' + (lM.getMonth() + 1)).slice(-2) + "-" + ('0' + lM.getDate()).slice(-2) + "T" + pad(lM.getHours()) + ":" + pad(lM.getMinutes()) + ":" + pad(lM.getSeconds()) + "+07:00";
               obj = { url: url, lastmodISO: lastM, changefreq: 'weekly', priority: 0.8 };
@@ -383,7 +383,7 @@ var _class = function (_Base) {
               aurl = _context4.sent;
               ct = aurl.substring(0, 4) + "-" + aurl.substring(4, 6) + "-" + aurl.substring(6, 8);
               _context4.next = 6;
-              return this.model("article").where({ createtime: ['like', '%' + ct + '%'] }).order('lastmodified DESC').select();
+              return this.model("article").where({ createtime: ['like', '%' + ct + '%'], ispublished: 1 }).order('lastmodified DESC').select();
 
             case 6:
               items = _context4.sent;
@@ -391,7 +391,7 @@ var _class = function (_Base) {
               content = "";
 
               if (think.isEmpty(items)) {
-                _context4.next = 40;
+                _context4.next = 41;
                 break;
               }
 
@@ -411,7 +411,7 @@ var _class = function (_Base) {
                 break;
               }
 
-              return _context4.abrupt('break', 38);
+              return _context4.abrupt('break', 39);
 
             case 17:
               _ref8 = _iterator4[_i4++];
@@ -426,7 +426,7 @@ var _class = function (_Base) {
                 break;
               }
 
-              return _context4.abrupt('break', 38);
+              return _context4.abrupt('break', 39);
 
             case 23:
               _ref8 = _i4.value;
@@ -463,12 +463,13 @@ var _class = function (_Base) {
               obj = { url: url, img: imgs, lastmodISO: lastM, changefreq: 'weekly', priority: 0.8 };
 
               urls.push(obj);
+              imgs = [];
 
-            case 36:
+            case 37:
               _context4.next = 14;
               break;
 
-            case 38:
+            case 39:
               sm = require('sitemap');
 
               content = sm.createSitemap({
@@ -477,11 +478,11 @@ var _class = function (_Base) {
                 urls: urls
               }).toString();
 
-            case 40:
+            case 41:
               this.header('Content-Type', 'application/xml');
               this.end(content);
 
-            case 42:
+            case 43:
             case 'end':
               return _context4.stop();
           }
@@ -532,28 +533,74 @@ var _class = function (_Base) {
     return indexAction;
   }();
 
-  _class.prototype.getvideoAction = function () {
+  _class.prototype.getarticleAction = function () {
     var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-      var id, item;
+      var reject, lstreject, areject, _iterator5, _isArray5, _i5, _ref11, item, articles;
+
       return _regenerator2.default.wrap(function _callee6$(_context6) {
         while (1) {
           switch (_context6.prev = _context6.next) {
             case 0:
               _context6.next = 2;
-              return this.post("id");
+              return this.post("reject");
 
             case 2:
-              id = _context6.sent;
-
-              console.log("video" + id);
-              _context6.next = 6;
-              return this.model("home").findOne("video", { id: id });
+              reject = _context6.sent;
+              lstreject = reject.split(",");
+              areject = [];
+              _iterator5 = lstreject, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : (0, _getIterator3.default)(_iterator5);
 
             case 6:
-              item = _context6.sent;
-              return _context6.abrupt('return', this.success({ content: item }));
+              if (!_isArray5) {
+                _context6.next = 12;
+                break;
+              }
 
-            case 8:
+              if (!(_i5 >= _iterator5.length)) {
+                _context6.next = 9;
+                break;
+              }
+
+              return _context6.abrupt('break', 20);
+
+            case 9:
+              _ref11 = _iterator5[_i5++];
+              _context6.next = 16;
+              break;
+
+            case 12:
+              _i5 = _iterator5.next();
+
+              if (!_i5.done) {
+                _context6.next = 15;
+                break;
+              }
+
+              return _context6.abrupt('break', 20);
+
+            case 15:
+              _ref11 = _i5.value;
+
+            case 16:
+              item = _ref11;
+
+              areject.push(item);
+
+            case 18:
+              _context6.next = 6;
+              break;
+
+            case 20:
+              _context6.next = 22;
+              return this.model("article").where({ id: ["NOTIN", areject], ispublished: 1 }).order("createtime DESC").limit(10).select();
+
+            case 22:
+              articles = _context6.sent;
+
+              console.log(reject);
+              return _context6.abrupt('return', this.success({ articles: articles }));
+
+            case 25:
             case 'end':
               return _context6.stop();
           }
@@ -561,17 +608,16 @@ var _class = function (_Base) {
       }, _callee6, this);
     }));
 
-    function getvideoAction() {
+    function getarticleAction() {
       return _ref10.apply(this, arguments);
     }
 
-    return getvideoAction;
+    return getarticleAction;
   }();
 
-  _class.prototype.getnewsAction = function () {
-    var _ref11 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
-      var id, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList, _newsList, newsList1, _topList2;
-
+  _class.prototype.getvideoAction = function () {
+    var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+      var id, item;
       return _regenerator2.default.wrap(function _callee7$(_context7) {
         while (1) {
           switch (_context7.prev = _context7.next) {
@@ -581,16 +627,53 @@ var _class = function (_Base) {
 
             case 2:
               id = _context7.sent;
-              _context7.next = 5;
+
+              console.log("video" + id);
+              _context7.next = 6;
+              return this.model("home").findOne("video", { id: id });
+
+            case 6:
+              item = _context7.sent;
+              return _context7.abrupt('return', this.success({ content: item }));
+
+            case 8:
+            case 'end':
+              return _context7.stop();
+          }
+        }
+      }, _callee7, this);
+    }));
+
+    function getvideoAction() {
+      return _ref12.apply(this, arguments);
+    }
+
+    return getvideoAction;
+  }();
+
+  _class.prototype.getnewsAction = function () {
+    var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+      var id, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList, _newsList, newsList1, _topList2;
+
+      return _regenerator2.default.wrap(function _callee8$(_context8) {
+        while (1) {
+          switch (_context8.prev = _context8.next) {
+            case 0:
+              _context8.next = 2;
+              return this.post("id");
+
+            case 2:
+              id = _context8.sent;
+              _context8.next = 5;
               return this.model("home").findOne("item", { id: id });
 
             case 5:
-              category = _context7.sent;
-              _context7.next = 8;
+              category = _context8.sent;
+              _context8.next = 8;
               return this.model("home").findAll("item", { parentid: id });
 
             case 8:
-              lstcategory = _context7.sent;
+              lstcategory = _context8.sent;
               categories = [category.id];
 
               for (i = 0; i < lstcategory.length; i++) {
@@ -600,23 +683,23 @@ var _class = function (_Base) {
               rejectarticles = [0];
 
               if (!category.itemname) {
-                _context7.next = 65;
+                _context8.next = 65;
                 break;
               }
 
               if (!(category.style == 1)) {
-                _context7.next = 32;
+                _context8.next = 32;
                 break;
               }
 
-              _context7.next = 17;
+              _context8.next = 17;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(2).select();
 
             case 17:
-              topList = _context7.sent;
+              topList = _context8.sent;
 
               if (think.isEmpty(topList)) {
-                _context7.next = 30;
+                _context8.next = 30;
                 break;
               }
 
@@ -627,41 +710,41 @@ var _class = function (_Base) {
                 rejectnews.push(topList[i].id);
               }
 
-              _context7.next = 23;
+              _context8.next = 23;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(6).select();
 
             case 23:
-              newsList = _context7.sent;
+              newsList = _context8.sent;
 
               for (i = 0; i < newsList.length; i++) {
                 rejectarticles.push(newsList[i].id);
               }
               this.assign("topList", topList);
               this.assign("newsList", newsList);
-              _context7.next = 29;
+              _context8.next = 29;
               return this.fetch("home/index/style1");
 
             case 29:
-              content = _context7.sent;
+              content = _context8.sent;
 
             case 30:
-              _context7.next = 65;
+              _context8.next = 65;
               break;
 
             case 32:
               if (!(category.style == 2)) {
-                _context7.next = 55;
+                _context8.next = 55;
                 break;
               }
 
-              _context7.next = 35;
+              _context8.next = 35;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(2).select();
 
             case 35:
-              _topList = _context7.sent;
+              _topList = _context8.sent;
 
               if (think.isEmpty(_topList)) {
-                _context7.next = 53;
+                _context8.next = 53;
                 break;
               }
 
@@ -672,22 +755,22 @@ var _class = function (_Base) {
                 rejectnews.push(_topList[i].id);
               }
 
-              _context7.next = 41;
+              _context8.next = 41;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(3).select();
 
             case 41:
-              _newsList = _context7.sent;
+              _newsList = _context8.sent;
 
 
               for (i = 0; i < _newsList.length; i++) {
                 rejectarticles.push(_newsList[i].id);
                 rejectnews.push(_newsList[i].id);
               }
-              _context7.next = 45;
+              _context8.next = 45;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(3).select();
 
             case 45:
-              newsList1 = _context7.sent;
+              newsList1 = _context8.sent;
 
               for (i = 0; i < newsList1.length; i++) {
                 rejectarticles.push(newsList1[i].id);
@@ -695,30 +778,30 @@ var _class = function (_Base) {
               this.assign("topList", _topList);
               this.assign("newsList", _newsList);
               this.assign("newsList1", newsList1);
-              _context7.next = 52;
+              _context8.next = 52;
               return this.fetch("home/index/style2");
 
             case 52:
-              content = _context7.sent;
+              content = _context8.sent;
 
             case 53:
-              _context7.next = 65;
+              _context8.next = 65;
               break;
 
             case 55:
               if (!(category.style == 3)) {
-                _context7.next = 65;
+                _context8.next = 65;
                 break;
               }
 
-              _context7.next = 58;
+              _context8.next = 58;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(6).select();
 
             case 58:
-              _topList2 = _context7.sent;
+              _topList2 = _context8.sent;
 
               if (think.isEmpty(_topList2)) {
-                _context7.next = 65;
+                _context8.next = 65;
                 break;
               }
 
@@ -726,61 +809,59 @@ var _class = function (_Base) {
                 rejectarticles.push(_topList2[i].id);
               }
               this.assign("topList", _topList2);
-              _context7.next = 64;
+              _context8.next = 64;
               return this.fetch("home/index/style3");
 
             case 64:
-              content = _context7.sent;
+              content = _context8.sent;
 
             case 65:
               console.log(content);
-              return _context7.abrupt('return', this.success({ content: content }));
+              return _context8.abrupt('return', this.success({ content: content }));
 
             case 67:
             case 'end':
-              return _context7.stop();
+              return _context8.stop();
           }
         }
-      }, _callee7, this);
+      }, _callee8, this);
     }));
 
     function getnewsAction() {
-      return _ref11.apply(this, arguments);
+      return _ref13.apply(this, arguments);
     }
 
     return getnewsAction;
   }();
 
   _class.prototype.menuAction = function () {
-    var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
-      var b, pagenumber, pagesize, aurl, itemId, urlrewrite, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList3, _newsList2, newsList1, _topList4, parentids, items, itemList, result, Page, page, pageData, cate, ca;
+    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+      var pagenumber, pagesize, aurl, arrU, itemId, urlrewrite, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList3, _newsList2, newsList1, _topList4, parentids, items, itemList, result, Page, page, pageData, cate, ca;
 
-      return _regenerator2.default.wrap(function _callee8$(_context8) {
+      return _regenerator2.default.wrap(function _callee9$(_context9) {
         while (1) {
-          switch (_context8.prev = _context8.next) {
+          switch (_context9.prev = _context9.next) {
             case 0:
-              b = this.get("page");
-
-              console.log(b);
               pagenumber = this.get("page") || 1;
               pagesize = this.get("pagesize") || 10;
-              _context8.next = 6;
+              _context9.next = 4;
               return this.get("curl");
 
-            case 6:
-              aurl = _context8.sent;
-              itemId = aurl.split('-')[aurl.split('-').length - 1];
-              urlrewrite = aurl.replace("-" + itemId, "");
-              _context8.next = 11;
+            case 4:
+              aurl = _context9.sent;
+              arrU = aurl.split('-');
+              itemId = arrU.splice(-1, 1);
+              urlrewrite = arrU.join("-");
+              _context9.next = 10;
               return this.model("home").findOne("item", { urlrewrite: urlrewrite, id: itemId });
 
-            case 11:
-              category = _context8.sent;
-              _context8.next = 14;
+            case 10:
+              category = _context9.sent;
+              _context9.next = 13;
               return this.model("home").findAll("item", { parentid: itemId });
 
-            case 14:
-              lstcategory = _context8.sent;
+            case 13:
+              lstcategory = _context9.sent;
               categories = [category.id];
 
               for (i = 0; i < lstcategory.length; i++) {
@@ -791,23 +872,23 @@ var _class = function (_Base) {
               rejectarticles = [0];
 
               if (!category.itemname) {
-                _context8.next = 103;
+                _context9.next = 102;
                 break;
               }
 
               if (!(category.style == 1)) {
-                _context8.next = 39;
+                _context9.next = 38;
                 break;
               }
 
-              _context8.next = 24;
+              _context9.next = 23;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(2).select();
 
-            case 24:
-              topList = _context8.sent;
+            case 23:
+              topList = _context9.sent;
 
               if (think.isEmpty(topList)) {
-                _context8.next = 37;
+                _context9.next = 36;
                 break;
               }
 
@@ -818,41 +899,41 @@ var _class = function (_Base) {
                 rejectnews.push(topList[i].id);
               }
 
-              _context8.next = 30;
+              _context9.next = 29;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(6).select();
 
-            case 30:
-              newsList = _context8.sent;
+            case 29:
+              newsList = _context9.sent;
 
               for (i = 0; i < newsList.length; i++) {
                 rejectarticles.push(newsList[i].id);
               }
               this.assign("topList", topList);
               this.assign("newsList", newsList);
-              _context8.next = 36;
+              _context9.next = 35;
               return this.fetch("home/index/style1");
 
-            case 36:
-              content = _context8.sent;
+            case 35:
+              content = _context9.sent;
 
-            case 37:
-              _context8.next = 72;
+            case 36:
+              _context9.next = 71;
               break;
 
-            case 39:
+            case 38:
               if (!(category.style == 2)) {
-                _context8.next = 62;
+                _context9.next = 61;
                 break;
               }
 
-              _context8.next = 42;
+              _context9.next = 41;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(2).select();
 
-            case 42:
-              _topList3 = _context8.sent;
+            case 41:
+              _topList3 = _context9.sent;
 
               if (think.isEmpty(_topList3)) {
-                _context8.next = 60;
+                _context9.next = 59;
                 break;
               }
 
@@ -863,22 +944,22 @@ var _class = function (_Base) {
                 rejectnews.push(_topList3[i].id);
               }
 
-              _context8.next = 48;
+              _context9.next = 47;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(3).select();
 
-            case 48:
-              _newsList2 = _context8.sent;
+            case 47:
+              _newsList2 = _context9.sent;
 
 
               for (i = 0; i < _newsList2.length; i++) {
                 rejectarticles.push(_newsList2[i].id);
                 rejectnews.push(_newsList2[i].id);
               }
-              _context8.next = 52;
+              _context9.next = 51;
               return this.model("article").where({ item: ["IN", categories], id: ["NOTIN", rejectnews] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(3).select();
 
-            case 52:
-              newsList1 = _context8.sent;
+            case 51:
+              newsList1 = _context9.sent;
 
               for (i = 0; i < newsList1.length; i++) {
                 rejectarticles.push(newsList1[i].id);
@@ -886,30 +967,30 @@ var _class = function (_Base) {
               this.assign("topList", _topList3);
               this.assign("newsList", _newsList2);
               this.assign("newsList1", newsList1);
-              _context8.next = 59;
+              _context9.next = 58;
               return this.fetch("home/index/style2");
 
-            case 59:
-              content = _context8.sent;
+            case 58:
+              content = _context9.sent;
 
-            case 60:
-              _context8.next = 72;
+            case 59:
+              _context9.next = 71;
               break;
 
-            case 62:
+            case 61:
               if (!(category.style == 3)) {
-                _context8.next = 72;
+                _context9.next = 71;
                 break;
               }
 
-              _context8.next = 65;
+              _context9.next = 64;
               return this.model("article").where({ item: ["IN", categories] }).order("flag_a DESC,totop DESC,torecom DESC,topicrecom DESC,createtime DESC").limit(6).select();
 
-            case 65:
-              _topList4 = _context8.sent;
+            case 64:
+              _topList4 = _context9.sent;
 
               if (think.isEmpty(_topList4)) {
-                _context8.next = 72;
+                _context9.next = 71;
                 break;
               }
 
@@ -917,25 +998,25 @@ var _class = function (_Base) {
                 rejectarticles.push(_topList4[i].id);
               }
               this.assign("topList", _topList4);
-              _context8.next = 71;
+              _context9.next = 70;
               return this.fetch("home/index/style3");
 
-            case 71:
-              content = _context8.sent;
+            case 70:
+              content = _context9.sent;
 
-            case 72:
+            case 71:
               parentids = [category.id];
 
               if (!(category.parentid == 0)) {
-                _context8.next = 78;
+                _context9.next = 77;
                 break;
               }
 
-              _context8.next = 76;
+              _context9.next = 75;
               return this.model("home").findAll("item", { parentid: category.id });
 
-            case 76:
-              items = _context8.sent;
+            case 75:
+              items = _context9.sent;
 
               if (items.length > 0) {
                 for (i = 0; i < items.length; i++) {
@@ -943,22 +1024,22 @@ var _class = function (_Base) {
                 }
               }
 
-            case 78:
+            case 77:
               console.log("reject:" + rejectarticles);
-              _context8.next = 81;
+              _context9.next = 80;
               return this.model("home").getPageSelect({ item: ["IN", parentids], id: ["NOTIN", rejectarticles], ispublished: 1 }, pagenumber, pagesize);
 
-            case 81:
-              itemList = _context8.sent;
-              _context8.next = 84;
+            case 80:
+              itemList = _context9.sent;
+              _context9.next = 83;
               return this.model("home").getPageCountSelect({
                 item: ["IN", parentids],
                 id: ["NOTIN", rejectarticles],
                 ispublished: 1
               }, pagenumber, pagesize);
 
-            case 84:
-              result = _context8.sent;
+            case 83:
+              result = _context9.sent;
               Page = think.adapter("template", "page");
               page = new Page(this.http);
               pageData = page.pagination(result);
@@ -970,11 +1051,11 @@ var _class = function (_Base) {
               cate = {};
 
               cate.category = category;
-              _context8.next = 94;
+              _context9.next = 93;
               return this.model("home").findOne("item", { id: category.parentid });
 
-            case 94:
-              ca = _context8.sent;
+            case 93:
+              ca = _context9.sent;
 
               if (!think.isEmpty(ca)) {
                 cate.categoryparent = ca;
@@ -983,83 +1064,79 @@ var _class = function (_Base) {
               this.assign('content', content);
               this.assign('more', 0);
               this.assign('menu', urlrewrite + '-' + itemId);
-              return _context8.abrupt('return', this.displayView('index_menu'));
+              return _context9.abrupt('return', this.displayView('index_menu'));
+
+            case 102:
+              return _context9.abrupt('return', this.displayView("../common/error_404"));
 
             case 103:
-              return _context8.abrupt('return', this.displayView("../common/error_404"));
-
-            case 104:
             case 'end':
-              return _context8.stop();
+              return _context9.stop();
           }
         }
-      }, _callee8, this);
+      }, _callee9, this);
     }));
 
     function menuAction() {
-      return _ref12.apply(this, arguments);
+      return _ref14.apply(this, arguments);
     }
 
     return menuAction;
   }();
+
   //文章页
 
 
   _class.prototype.pageAction = function () {
-    var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
-      var aurl, aid, aurlrewrite, curl, cid, curlrewrite, menuInfo, blogInfo, viewcount, tagItem, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
-      return _regenerator2.default.wrap(function _callee9$(_context9) {
+    var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+      var aurl, arrU, aid, aurlrewrite, curl, arrC, cid, curlrewrite, menuInfo, blogInfo, viewcount, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
+      return _regenerator2.default.wrap(function _callee10$(_context10) {
         while (1) {
-          switch (_context9.prev = _context9.next) {
+          switch (_context10.prev = _context10.next) {
             case 0:
               aurl = this.get("aurl");
-              aid = aurl.split('-')[aurl.split('-').length - 1];
-              aurlrewrite = aurl.replace("-" + aid, "");
+              arrU = aurl.split('-');
+              aid = arrU.splice(-1, 1);
+              aurlrewrite = arrU.join("-");
               curl = this.get("curl");
-              cid = curl.split('-')[curl.split('-').length - 1];
-              curlrewrite = curl.replace("-" + cid, "");
-              _context9.next = 8;
+              arrC = curl.split('-');
+              cid = arrC.splice(-1, 1);
+              curlrewrite = arrC.join("-");
+              _context10.next = 10;
               return this.model("home").findOne('item', { urlrewrite: curlrewrite, id: cid });
 
-            case 8:
-              menuInfo = _context9.sent;
+            case 10:
+              menuInfo = _context10.sent;
 
-              console.log(menuInfo.itemname);
-
-              if (!menuInfo.itemname) {
-                _context9.next = 102;
+              if (think.isEmpty(menuInfo)) {
+                _context10.next = 100;
                 break;
               }
 
-              _context9.next = 13;
+              _context10.next = 14;
               return this.model("home").findOne('article', { urlrewrite: aurlrewrite, id: aid, item: cid });
 
-            case 13:
-              blogInfo = _context9.sent;
+            case 14:
+              blogInfo = _context10.sent;
 
-              if (!(blogInfo.ispublished === 1)) {
-                _context9.next = 100;
+              if (think.isEmpty(blogInfo)) {
+                _context10.next = 98;
                 break;
               }
 
-              _context9.next = 17;
+              _context10.next = 18;
               return this.model("home").addViewCount({ id: aid });
 
-            case 17:
-              viewcount = _context9.sent;
-              _context9.next = 20;
-              return this.model("home").findOne("item", { id: blogInfo.item });
-
-            case 20:
-              tagItem = _context9.sent;
-              _context9.next = 23;
+            case 18:
+              viewcount = _context10.sent;
+              _context10.next = 21;
               return this.model("home").findOne("user", { name: blogInfo.author });
 
-            case 23:
-              acc = _context9.sent;
+            case 21:
+              acc = _context10.sent;
 
               console.log(blogInfo.author);
-              this.assign('itemname', tagItem.itemname);
+              this.assign('itemname', menuInfo.itemname);
               this.assign('blogInfo', blogInfo);
               this.assign('acc', acc);
               //设置文章分页
@@ -1081,11 +1158,11 @@ var _class = function (_Base) {
                 }
               }
               //关联文章
-              _context9.next = 34;
+              _context10.next = 32;
               return this.model("home").getArticleList({ id: ['!=', aid], item: blogInfo.item, ispublished: 1 });
 
-            case 34:
-              relatearticle = _context9.sent;
+            case 32:
+              relatearticle = _context10.sent;
 
               this.assign("relatearticle", relatearticle);
 
@@ -1095,11 +1172,11 @@ var _class = function (_Base) {
                 rejectarticles.push(relatearticle[i].id);
               }
               console.log("rejectarticles:" + rejectarticles.toString());
-              _context9.next = 41;
+              _context10.next = 39;
               return this.model("article").where({ id: ["NOTIN", rejectarticles], ispublished: 1 }).order("createtime DESC").limit(10).select();
 
-            case 41:
-              itemList = _context9.sent;
+            case 39:
+              itemList = _context10.sent;
 
               this.assign("itemList", itemList);
               //跳转到内容分页
@@ -1116,36 +1193,36 @@ var _class = function (_Base) {
               cate = {};
 
               cate.category = menuInfo;
-              _context9.next = 55;
+              _context10.next = 53;
               return this.model("home").findOne("item", { id: menuInfo.parentid });
 
-            case 55:
-              ca = _context9.sent;
+            case 53:
+              ca = _context10.sent;
 
               if (!think.isEmpty(ca)) {
                 cate.categoryparent = ca;
               }
-              _context9.next = 59;
+              _context10.next = 57;
               return this.model("home").findOne("source", { id: blogInfo.source });
 
-            case 59:
-              source = _context9.sent;
+            case 57:
+              source = _context10.sent;
 
               this.assign('category', cate);
               this.assign('source', source);
-              _context9.next = 64;
+              _context10.next = 62;
               return this.model('home').findOne('system_comment');
 
-            case 64:
-              setting = _context9.sent;
+            case 62:
+              setting = _context10.sent;
 
               this.assign("setting", setting);
               //comment
-              _context9.next = 68;
+              _context10.next = 66;
               return this.model("home").getReplyListInfo({ tid: aid });
 
-            case 68:
-              replyList = _context9.sent;
+            case 66:
+              replyList = _context10.sent;
 
               this.assign("replyList", replyList);
 
@@ -1156,30 +1233,30 @@ var _class = function (_Base) {
               //this.assign('topicItem',topicItem.comment);
 
               //account
-              _context9.next = 72;
+              _context10.next = 70;
               return this.session('uInfo');
 
-            case 72:
-              uinfo = _context9.sent;
+            case 70:
+              uinfo = _context10.sent;
 
               if (think.isEmpty(uinfo)) {
-                _context9.next = 82;
+                _context10.next = 80;
                 break;
               }
 
-              _context9.next = 76;
+              _context10.next = 74;
               return this.model('home').findOne('user', { name: uinfo.name });
 
-            case 76:
-              loginuserinfo = _context9.sent;
+            case 74:
+              loginuserinfo = _context10.sent;
 
               this.assign("loginuserinfo", loginuserinfo);
               //collection
-              _context9.next = 80;
+              _context10.next = 78;
               return this.model('home').findAll('user_collect', { aid: aid, type: 'article', author: uinfo.name, iscollect: 1 });
 
-            case 80:
-              collectList = _context9.sent;
+            case 78:
+              collectList = _context10.sent;
 
               if (collectList.length > 0) {
                 this.assign("cid", collectList[0].id);
@@ -1189,43 +1266,43 @@ var _class = function (_Base) {
                 this.assign("iscollect", 0);
               }
 
-            case 82:
+            case 80:
               tags = blogInfo.keywords.split(",");
               listtags = { tags: [] };
               keywords = "";
 
               if (think.isEmpty(tags)) {
-                _context9.next = 97;
+                _context10.next = 95;
                 break;
               }
 
               i = 0;
 
-            case 87:
+            case 85:
               if (!(i < tags.length)) {
-                _context9.next = 96;
+                _context10.next = 94;
                 break;
               }
 
               if (think.isEmpty(tags[i])) {
-                _context9.next = 93;
+                _context10.next = 91;
                 break;
               }
 
-              _context9.next = 91;
+              _context10.next = 89;
               return this.model("home").findOne("tags", { id: tags[i] });
 
-            case 91:
-              tag = _context9.sent;
+            case 89:
+              tag = _context10.sent;
 
               listtags.tags.push({ tag: JSON.parse((0, _stringify2.default)(tag)) });
 
-            case 93:
+            case 91:
               i++;
-              _context9.next = 87;
+              _context10.next = 85;
               break;
 
-            case 96:
+            case 94:
 
               if (listtags.tags.length > 0) {
                 for (i = 0; i < listtags.tags.length; i++) {
@@ -1233,62 +1310,80 @@ var _class = function (_Base) {
                 }
               }
 
-            case 97:
+            case 95:
               this.assign("keywords", keywords);
               this.assign("listtags", listtags);
-              return _context9.abrupt('return', this.displayView('index_page'));
+              return _context10.abrupt('return', this.displayView('index_page'));
 
-            case 100:
-              _context9.next = 103;
+            case 98:
+              _context10.next = 101;
               break;
 
-            case 102:
-              return _context9.abrupt('return', this.displayView("../common/error_404"));
+            case 100:
+              return _context10.abrupt('return', this.displayView("../common/error_404"));
 
-            case 103:
+            case 101:
             case 'end':
-              return _context9.stop();
+              return _context10.stop();
           }
         }
-      }, _callee9, this);
+      }, _callee10, this);
     }));
 
     function pageAction() {
-      return _ref13.apply(this, arguments);
+      return _ref15.apply(this, arguments);
     }
 
     return pageAction;
   }();
 
   _class.prototype.previewAction = function () {
-    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
-      var aid, blogInfo, viewcount, tagItem, html, strArray, particle, ainfo, pid, id, tagname, title, strArrayVal, particleVal;
-      return _regenerator2.default.wrap(function _callee10$(_context10) {
+    var _ref16 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+      var aurl, arrU, aid, aurlrewrite, curl, arrC, cid, curlrewrite, menuInfo, blogInfo, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
+      return _regenerator2.default.wrap(function _callee11$(_context11) {
         while (1) {
-          switch (_context10.prev = _context10.next) {
+          switch (_context11.prev = _context11.next) {
             case 0:
-              _context10.next = 2;
-              return this.get("aid");
+              aurl = this.get("aurl");
+              arrU = aurl.split('-');
+              aid = arrU.splice(-1, 1);
+              aurlrewrite = arrU.join("-");
+              curl = this.get("curl");
+              arrC = curl.split('-');
+              cid = arrC.splice(-1, 1);
+              curlrewrite = arrC.join("-");
+              _context11.next = 10;
+              return this.model("home").findOne('item', { urlrewrite: curlrewrite, id: cid });
 
-            case 2:
-              aid = _context10.sent;
-              _context10.next = 5;
-              return this.model("home").findOne("article", { id: aid });
+            case 10:
+              menuInfo = _context11.sent;
 
-            case 5:
-              blogInfo = _context10.sent;
-              _context10.next = 8;
-              return this.model("home").addViewCount({ id: aid });
+              if (think.isEmpty(menuInfo)) {
+                _context11.next = 97;
+                break;
+              }
 
-            case 8:
-              viewcount = _context10.sent;
-              _context10.next = 11;
-              return this.model("home").findOne("tags", { id: blogInfo.tag });
+              _context11.next = 14;
+              return this.model("home").findOne('article', { urlrewrite: aurlrewrite, id: aid, item: cid });
 
-            case 11:
-              tagItem = _context10.sent;
+            case 14:
+              blogInfo = _context11.sent;
 
+              if (think.isEmpty(blogInfo)) {
+                _context11.next = 95;
+                break;
+              }
+
+              _context11.next = 18;
+              return this.model("home").findOne("user", { name: blogInfo.author });
+
+            case 18:
+              acc = _context11.sent;
+
+              console.log(blogInfo.author);
+              this.assign('itemname', menuInfo.itemname);
               this.assign('blogInfo', blogInfo);
+              this.assign('acc', acc);
               //设置文章分页
               html = blogInfo.content;
               strArray = [], particle = '', ainfo = '';
@@ -1307,8 +1402,29 @@ var _class = function (_Base) {
                   }
                 }
               }
+              //关联文章
+              _context11.next = 29;
+              return this.model("home").getArticleList({ id: ['!=', aid], item: blogInfo.item, ispublished: 1 });
+
+            case 29:
+              relatearticle = _context11.sent;
+
+              this.assign("relatearticle", relatearticle);
+
+              rejectarticles = [blogInfo.id];
+
+              for (i = 0; i < relatearticle.length; i++) {
+                rejectarticles.push(relatearticle[i].id);
+              }
+              console.log("rejectarticles:" + rejectarticles.toString());
+              _context11.next = 36;
+              return this.model("article").where({ id: ["NOTIN", rejectarticles], ispublished: 1 }).order("createtime DESC").limit(10).select();
+
+            case 36:
+              itemList = _context11.sent;
+
+              this.assign("itemList", itemList);
               //跳转到内容分页
-              tagname = tagItem.tagname || '';
               title = blogInfo.title || '';
               strArrayVal = strArray || '';
               particleVal = particle || '';
@@ -1318,19 +1434,149 @@ var _class = function (_Base) {
               this.assign('strArray', strArrayVal);
               this.assign('particle', particleVal);
               this.assign('pid', pid);
-              this.assign('tagname', tagname);
-              return _context10.abrupt('return', this.displayView('index_preview'));
+              this.assign('menu', menuInfo);
+              cate = {};
 
-            case 27:
+              cate.category = menuInfo;
+              _context11.next = 50;
+              return this.model("home").findOne("item", { id: menuInfo.parentid });
+
+            case 50:
+              ca = _context11.sent;
+
+              if (!think.isEmpty(ca)) {
+                cate.categoryparent = ca;
+              }
+              _context11.next = 54;
+              return this.model("home").findOne("source", { id: blogInfo.source });
+
+            case 54:
+              source = _context11.sent;
+
+              this.assign('category', cate);
+              this.assign('source', source);
+              _context11.next = 59;
+              return this.model('home').findOne('system_comment');
+
+            case 59:
+              setting = _context11.sent;
+
+              this.assign("setting", setting);
+              //comment
+              _context11.next = 63;
+              return this.model("home").getReplyListInfo({ tid: aid });
+
+            case 63:
+              replyList = _context11.sent;
+
+              this.assign("replyList", replyList);
+
+              //let topicItem=await this.model("topic").findOne("topic_item",{name:topicInfo.item});
+              //let viewcount=await this.model("article").where({id:aid}).increment('view',1);
+              //this.assign('topicInfo',topicInfo);
+              //this.assign("replycount",blogInfo.replycount);
+              //this.assign('topicItem',topicItem.comment);
+
+              //account
+              _context11.next = 67;
+              return this.session('uInfo');
+
+            case 67:
+              uinfo = _context11.sent;
+
+              if (think.isEmpty(uinfo)) {
+                _context11.next = 77;
+                break;
+              }
+
+              _context11.next = 71;
+              return this.model('home').findOne('user', { name: uinfo.name });
+
+            case 71:
+              loginuserinfo = _context11.sent;
+
+              this.assign("loginuserinfo", loginuserinfo);
+              //collection
+              _context11.next = 75;
+              return this.model('home').findAll('user_collect', { aid: aid, type: 'article', author: uinfo.name, iscollect: 1 });
+
+            case 75:
+              collectList = _context11.sent;
+
+              if (collectList.length > 0) {
+                this.assign("cid", collectList[0].id);
+                this.assign("iscollect", 1);
+              } else {
+                this.assign("cid", "");
+                this.assign("iscollect", 0);
+              }
+
+            case 77:
+              tags = blogInfo.keywords.split(",");
+              listtags = { tags: [] };
+              keywords = "";
+
+              if (think.isEmpty(tags)) {
+                _context11.next = 92;
+                break;
+              }
+
+              i = 0;
+
+            case 82:
+              if (!(i < tags.length)) {
+                _context11.next = 91;
+                break;
+              }
+
+              if (think.isEmpty(tags[i])) {
+                _context11.next = 88;
+                break;
+              }
+
+              _context11.next = 86;
+              return this.model("home").findOne("tags", { id: tags[i] });
+
+            case 86:
+              tag = _context11.sent;
+
+              listtags.tags.push({ tag: JSON.parse((0, _stringify2.default)(tag)) });
+
+            case 88:
+              i++;
+              _context11.next = 82;
+              break;
+
+            case 91:
+
+              if (listtags.tags.length > 0) {
+                for (i = 0; i < listtags.tags.length; i++) {
+                  if (i == listtags.tags.length - 1) keywords += listtags.tags[i].tag.tagname;else keywords += listtags.tags[i].tag.tagname + ", ";
+                }
+              }
+
+            case 92:
+              this.assign("keywords", keywords);
+              this.assign("listtags", listtags);
+              return _context11.abrupt('return', this.displayView('index_preview'));
+
+            case 95:
+              _context11.next = 98;
+              break;
+
+            case 97:
+              return _context11.abrupt('return', this.displayView("../common/error_404"));
+
+            case 98:
             case 'end':
-              return _context10.stop();
+              return _context11.stop();
           }
         }
-      }, _callee10, this);
+      }, _callee11, this);
     }));
 
     function previewAction() {
-      return _ref14.apply(this, arguments);
+      return _ref16.apply(this, arguments);
     }
 
     return previewAction;
@@ -1339,37 +1585,12 @@ var _class = function (_Base) {
 
 
   _class.prototype.newsAction = function () {
-    var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
-      return _regenerator2.default.wrap(function _callee11$(_context11) {
-        while (1) {
-          switch (_context11.prev = _context11.next) {
-            case 0:
-              this.getList(2, 'news');
-
-            case 1:
-            case 'end':
-              return _context11.stop();
-          }
-        }
-      }, _callee11, this);
-    }));
-
-    function newsAction() {
-      return _ref15.apply(this, arguments);
-    }
-
-    return newsAction;
-  }();
-  //nodejs文章
-
-
-  _class.prototype.nodeAction = function () {
-    var _ref16 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+    var _ref17 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
       return _regenerator2.default.wrap(function _callee12$(_context12) {
         while (1) {
           switch (_context12.prev = _context12.next) {
             case 0:
-              this.getList(3, 'node');
+              this.getList(2, 'news');
 
             case 1:
             case 'end':
@@ -1379,22 +1600,22 @@ var _class = function (_Base) {
       }, _callee12, this);
     }));
 
-    function nodeAction() {
-      return _ref16.apply(this, arguments);
+    function newsAction() {
+      return _ref17.apply(this, arguments);
     }
 
-    return nodeAction;
+    return newsAction;
   }();
-  //苹果精品软件
+  //nodejs文章
 
 
-  _class.prototype.downloadAction = function () {
-    var _ref17 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+  _class.prototype.nodeAction = function () {
+    var _ref18 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
       return _regenerator2.default.wrap(function _callee13$(_context13) {
         while (1) {
           switch (_context13.prev = _context13.next) {
             case 0:
-              this.getList(4, 'download');
+              this.getList(3, 'node');
 
             case 1:
             case 'end':
@@ -1404,22 +1625,22 @@ var _class = function (_Base) {
       }, _callee13, this);
     }));
 
-    function downloadAction() {
-      return _ref17.apply(this, arguments);
+    function nodeAction() {
+      return _ref18.apply(this, arguments);
     }
 
-    return downloadAction;
+    return nodeAction;
   }();
-  //活动
+  //苹果精品软件
 
 
-  _class.prototype.activityAction = function () {
-    var _ref18 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
+  _class.prototype.downloadAction = function () {
+    var _ref19 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
       return _regenerator2.default.wrap(function _callee14$(_context14) {
         while (1) {
           switch (_context14.prev = _context14.next) {
             case 0:
-              this.getList(6, 'activity');
+              this.getList(4, 'download');
 
             case 1:
             case 'end':
@@ -1429,22 +1650,22 @@ var _class = function (_Base) {
       }, _callee14, this);
     }));
 
-    function activityAction() {
-      return _ref18.apply(this, arguments);
+    function downloadAction() {
+      return _ref19.apply(this, arguments);
     }
 
-    return activityAction;
+    return downloadAction;
   }();
-  //大杂烩
+  //活动
 
 
-  _class.prototype.othersAction = function () {
-    var _ref19 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+  _class.prototype.activityAction = function () {
+    var _ref20 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
       return _regenerator2.default.wrap(function _callee15$(_context15) {
         while (1) {
           switch (_context15.prev = _context15.next) {
             case 0:
-              this.getList(1, 'others');
+              this.getList(6, 'activity');
 
             case 1:
             case 'end':
@@ -1454,22 +1675,22 @@ var _class = function (_Base) {
       }, _callee15, this);
     }));
 
-    function othersAction() {
-      return _ref19.apply(this, arguments);
+    function activityAction() {
+      return _ref20.apply(this, arguments);
     }
 
-    return othersAction;
+    return activityAction;
   }();
-  //招聘
+  //大杂烩
 
 
-  _class.prototype.jobsAction = function () {
-    var _ref20 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
+  _class.prototype.othersAction = function () {
+    var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
       return _regenerator2.default.wrap(function _callee16$(_context16) {
         while (1) {
           switch (_context16.prev = _context16.next) {
             case 0:
-              this.getList(5, 'jobs');
+              this.getList(1, 'others');
 
             case 1:
             case 'end':
@@ -1479,8 +1700,33 @@ var _class = function (_Base) {
       }, _callee16, this);
     }));
 
+    function othersAction() {
+      return _ref21.apply(this, arguments);
+    }
+
+    return othersAction;
+  }();
+  //招聘
+
+
+  _class.prototype.jobsAction = function () {
+    var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+      return _regenerator2.default.wrap(function _callee17$(_context17) {
+        while (1) {
+          switch (_context17.prev = _context17.next) {
+            case 0:
+              this.getList(5, 'jobs');
+
+            case 1:
+            case 'end':
+              return _context17.stop();
+          }
+        }
+      }, _callee17, this);
+    }));
+
     function jobsAction() {
-      return _ref20.apply(this, arguments);
+      return _ref22.apply(this, arguments);
     }
 
     return jobsAction;
@@ -1489,26 +1735,26 @@ var _class = function (_Base) {
 
 
   _class.prototype.getList = function () {
-    var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17(itemId, menu) {
+    var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18(itemId, menu) {
       var pagenumber, pagesize, itemList, result, Page, page, pageData, item;
-      return _regenerator2.default.wrap(function _callee17$(_context17) {
+      return _regenerator2.default.wrap(function _callee18$(_context18) {
         while (1) {
-          switch (_context17.prev = _context17.next) {
+          switch (_context18.prev = _context18.next) {
             case 0:
               pagenumber = this.get("page") || 1;
               pagesize = this.get("pagesize") || 10;
               //分页
 
-              _context17.next = 4;
+              _context18.next = 4;
               return this.model("home").getPageSelect({ item: itemId, ispublished: 1 }, pagenumber, pagesize);
 
             case 4:
-              itemList = _context17.sent;
-              _context17.next = 7;
+              itemList = _context18.sent;
+              _context18.next = 7;
               return this.model("home").getPageCountSelect({ item: itemId, ispublished: 1 }, pagenumber, pagesize);
 
             case 7:
-              result = _context17.sent;
+              result = _context18.sent;
               Page = think.adapter("template", "page");
               page = new Page(this.http);
               pageData = page.pagination(result);
@@ -1519,48 +1765,48 @@ var _class = function (_Base) {
               this.assign('menu', menu);
               //分页
 
-              _context17.next = 16;
+              _context18.next = 16;
               return this.model("home").findOne("item", { id: itemId });
 
             case 16:
-              item = _context17.sent;
+              item = _context18.sent;
 
               this.assign('categoryName', item.itemname);
               this.assign('more', 0);
-              return _context17.abrupt('return', this.displayView("index_item"));
+              return _context18.abrupt('return', this.displayView("index_item"));
 
             case 20:
             case 'end':
-              return _context17.stop();
+              return _context18.stop();
           }
         }
-      }, _callee17, this);
+      }, _callee18, this);
     }));
 
     function getList(_x, _x2) {
-      return _ref21.apply(this, arguments);
+      return _ref23.apply(this, arguments);
     }
 
     return getList;
   }();
 
   _class.prototype.moreAction = function () {
-    var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18() {
+    var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
       var murl, itemId, urlrewrite, pagenumber, pagesize, items, lsttags, i, item, itemList, result, Page, page, pageData;
-      return _regenerator2.default.wrap(function _callee18$(_context18) {
+      return _regenerator2.default.wrap(function _callee19$(_context19) {
         while (1) {
-          switch (_context18.prev = _context18.next) {
+          switch (_context19.prev = _context19.next) {
             case 0:
               murl = this.get("murl");
               itemId = murl.split('-')[murl.split('-').length - 1];
               urlrewrite = murl.replace("-" + itemId, "");
               pagenumber = this.get("page") || 1;
               pagesize = this.get("pagesize") || 10;
-              _context18.next = 7;
+              _context19.next = 7;
               return this.model("home").findAll("item", { parentid: parseInt(itemId) });
 
             case 7:
-              items = _context18.sent;
+              items = _context19.sent;
               lsttags = [parseInt(itemId)];
 
               for (i = 0; i < items.length; i++) {
@@ -1568,27 +1814,27 @@ var _class = function (_Base) {
                 lsttags.push(items[i].id);
               }
               console.log(lsttags);
-              _context18.next = 13;
+              _context19.next = 13;
               return this.model("home").findOne("item", { urlrewrite: urlrewrite, id: ['IN', lsttags] });
 
             case 13:
-              item = _context18.sent;
+              item = _context19.sent;
 
               if (!item.itemname) {
-                _context18.next = 32;
+                _context19.next = 32;
                 break;
               }
 
-              _context18.next = 17;
+              _context19.next = 17;
               return this.model("home").getPageSelect({ ispublished: 1, item: itemId }, pagenumber, pagesize);
 
             case 17:
-              itemList = _context18.sent;
-              _context18.next = 20;
+              itemList = _context19.sent;
+              _context19.next = 20;
               return this.model("home").getPageCountSelect({ ispublished: 1, item: itemId }, pagenumber, pagesize);
 
             case 20:
-              result = _context18.sent;
+              result = _context19.sent;
               Page = think.adapter("template", "page");
               page = new Page(this.http);
               pageData = page.pagination(result);
@@ -1600,21 +1846,21 @@ var _class = function (_Base) {
               //分页
               this.assign('more', 1);
               this.assign('categoryName', '全部文章');
-              return _context18.abrupt('return', this.displayView("index_category"));
+              return _context19.abrupt('return', this.displayView("index_category"));
 
             case 32:
-              return _context18.abrupt('return', this.displayView("../common/error_404"));
+              return _context19.abrupt('return', this.displayView("../common/error_404"));
 
             case 33:
             case 'end':
-              return _context18.stop();
+              return _context19.stop();
           }
         }
-      }, _callee18, this);
+      }, _callee19, this);
     }));
 
     function moreAction() {
-      return _ref22.apply(this, arguments);
+      return _ref24.apply(this, arguments);
     }
 
     return moreAction;
@@ -1623,51 +1869,46 @@ var _class = function (_Base) {
 
 
   _class.prototype.categoryAction = function () {
-    var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
-      var b, pagenumber, pagesize, aurl, itemId, urlrewrite, category, itemList, result, Page, page, pageData;
-      return _regenerator2.default.wrap(function _callee19$(_context19) {
+    var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+      var pagenumber, pagesize, aurl, arrU, itemId, urlrewrite, category, itemList, result, Page, page, pageData;
+      return _regenerator2.default.wrap(function _callee20$(_context20) {
         while (1) {
-          switch (_context19.prev = _context19.next) {
+          switch (_context20.prev = _context20.next) {
             case 0:
-              b = this.get("page");
-
-              console.log(b);
               pagenumber = this.get("page") || 1;
               pagesize = this.get("pagesize") || 10;
-              _context19.next = 6;
+              _context20.next = 4;
               return this.get("aurl");
 
-            case 6:
-              aurl = _context19.sent;
-              itemId = aurl.split('-')[aurl.split('-').length - 1];
-              urlrewrite = aurl.replace("-" + itemId, "");
-
-              console.log(itemId);
-              console.log(urlrewrite);
-              _context19.next = 13;
+            case 4:
+              aurl = _context20.sent;
+              arrU = aurl.split('-');
+              itemId = arrU.splice(-1, 1);
+              urlrewrite = arrU.join("-");
+              _context20.next = 10;
               return this.model("home").findOne("tags", { urlrewrite: urlrewrite, id: itemId });
 
-            case 13:
-              category = _context19.sent;
+            case 10:
+              category = _context20.sent;
 
               if (!category.tagname) {
-                _context19.next = 33;
+                _context20.next = 30;
                 break;
               }
 
-              _context19.next = 17;
+              _context20.next = 14;
               return this.model("home").getPageSelect({ keywords: ["like", "%," + itemId.toString() + ",%"], ispublished: 1 }, pagenumber, pagesize);
 
-            case 17:
-              itemList = _context19.sent;
-              _context19.next = 20;
+            case 14:
+              itemList = _context20.sent;
+              _context20.next = 17;
               return this.model("home").getPageCountSelect({
                 keywords: ["like", "%," + itemId.toString() + ",%"],
                 ispublished: 1
               }, pagenumber, pagesize);
 
-            case 20:
-              result = _context19.sent;
+            case 17:
+              result = _context20.sent;
               Page = think.adapter("template", "page");
               page = new Page(this.http);
               pageData = page.pagination(result);
@@ -1678,22 +1919,22 @@ var _class = function (_Base) {
               //分页
               this.assign('category', category);
               this.assign('more', 0);
-              this.assign('menu', 'xu-huong/' + urlrewrite + '-' + itemId);
-              return _context19.abrupt('return', this.displayView('index_category'));
+              this.assign('menu', 'tag/' + urlrewrite + '-' + itemId);
+              return _context20.abrupt('return', this.displayView('index_category'));
 
-            case 33:
-              return _context19.abrupt('return', this.displayView("../common/error_404"));
+            case 30:
+              return _context20.abrupt('return', this.displayView("../common/error_404"));
 
-            case 34:
+            case 31:
             case 'end':
-              return _context19.stop();
+              return _context20.stop();
           }
         }
-      }, _callee19, this);
+      }, _callee20, this);
     }));
 
     function categoryAction() {
-      return _ref23.apply(this, arguments);
+      return _ref25.apply(this, arguments);
     }
 
     return categoryAction;
@@ -1703,55 +1944,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.linkssaveAction = function () {
-    var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
-      var mydata, rs;
-      return _regenerator2.default.wrap(function _callee20$(_context20) {
-        while (1) {
-          switch (_context20.prev = _context20.next) {
-            case 0:
-              _context20.next = 2;
-              return this.post();
-
-            case 2:
-              mydata = _context20.sent;
-
-              if (!(mydata.domain !== '' && mydata.link !== '' && mydata.qq !== '')) {
-                _context20.next = 9;
-                break;
-              }
-
-              _context20.next = 6;
-              return this.model("home").addRecord("links", mydata);
-
-            case 6:
-              rs = _context20.sent;
-
-              if (!rs) {
-                _context20.next = 9;
-                break;
-              }
-
-              return _context20.abrupt('return', this.success());
-
-            case 9:
-            case 'end':
-              return _context20.stop();
-          }
-        }
-      }, _callee20, this);
-    }));
-
-    function linkssaveAction() {
-      return _ref24.apply(this, arguments);
-    }
-
-    return linkssaveAction;
-  }();
-  // 留言提交接口
-
-
-  _class.prototype.guestsaveAction = function () {
-    var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
+    var _ref26 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
       var mydata, rs;
       return _regenerator2.default.wrap(function _callee21$(_context21) {
         while (1) {
@@ -1763,13 +1956,13 @@ var _class = function (_Base) {
             case 2:
               mydata = _context21.sent;
 
-              if (!(mydata.nickname !== '' && mydata.contact !== '' && mydata.guest !== '')) {
+              if (!(mydata.domain !== '' && mydata.link !== '' && mydata.qq !== '')) {
                 _context21.next = 9;
                 break;
               }
 
               _context21.next = 6;
-              return this.model("home").addRecord("guest", mydata);
+              return this.model("home").addRecord("links", mydata);
 
             case 6:
               rs = _context21.sent;
@@ -1789,23 +1982,47 @@ var _class = function (_Base) {
       }, _callee21, this);
     }));
 
-    function guestsaveAction() {
-      return _ref25.apply(this, arguments);
+    function linkssaveAction() {
+      return _ref26.apply(this, arguments);
     }
 
-    return guestsaveAction;
+    return linkssaveAction;
   }();
+  // 留言提交接口
 
-  _class.prototype.guestAction = function () {
-    var _ref26 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+
+  _class.prototype.guestsaveAction = function () {
+    var _ref27 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+      var mydata, rs;
       return _regenerator2.default.wrap(function _callee22$(_context22) {
         while (1) {
           switch (_context22.prev = _context22.next) {
             case 0:
-              this.assign("title", "留言板");
-              return _context22.abrupt('return', this.displayView("index_guest"));
+              _context22.next = 2;
+              return this.post();
 
             case 2:
+              mydata = _context22.sent;
+
+              if (!(mydata.nickname !== '' && mydata.contact !== '' && mydata.guest !== '')) {
+                _context22.next = 9;
+                break;
+              }
+
+              _context22.next = 6;
+              return this.model("home").addRecord("guest", mydata);
+
+            case 6:
+              rs = _context22.sent;
+
+              if (!rs) {
+                _context22.next = 9;
+                break;
+              }
+
+              return _context22.abrupt('return', this.success());
+
+            case 9:
             case 'end':
               return _context22.stop();
           }
@@ -1813,21 +2030,21 @@ var _class = function (_Base) {
       }, _callee22, this);
     }));
 
-    function guestAction() {
-      return _ref26.apply(this, arguments);
+    function guestsaveAction() {
+      return _ref27.apply(this, arguments);
     }
 
-    return guestAction;
+    return guestsaveAction;
   }();
 
-  _class.prototype.aboutAction = function () {
-    var _ref27 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
+  _class.prototype.guestAction = function () {
+    var _ref28 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
       return _regenerator2.default.wrap(function _callee23$(_context23) {
         while (1) {
           switch (_context23.prev = _context23.next) {
             case 0:
-              this.assign("title", "关于我们");
-              return _context23.abrupt('return', this.displayView("index_about"));
+              this.assign("title", "留言板");
+              return _context23.abrupt('return', this.displayView("index_guest"));
 
             case 2:
             case 'end':
@@ -1837,21 +2054,21 @@ var _class = function (_Base) {
       }, _callee23, this);
     }));
 
-    function aboutAction() {
-      return _ref27.apply(this, arguments);
+    function guestAction() {
+      return _ref28.apply(this, arguments);
     }
 
-    return aboutAction;
+    return guestAction;
   }();
 
-  _class.prototype.adsAction = function () {
-    var _ref28 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
+  _class.prototype.aboutAction = function () {
+    var _ref29 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
       return _regenerator2.default.wrap(function _callee24$(_context24) {
         while (1) {
           switch (_context24.prev = _context24.next) {
             case 0:
-              this.assign("title", "推广服务");
-              return _context24.abrupt('return', this.displayView("index_ads"));
+              this.assign("title", "关于我们");
+              return _context24.abrupt('return', this.displayView("index_about"));
 
             case 2:
             case 'end':
@@ -1861,21 +2078,21 @@ var _class = function (_Base) {
       }, _callee24, this);
     }));
 
-    function adsAction() {
-      return _ref28.apply(this, arguments);
+    function aboutAction() {
+      return _ref29.apply(this, arguments);
     }
 
-    return adsAction;
+    return aboutAction;
   }();
 
-  _class.prototype.copyrightAction = function () {
-    var _ref29 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+  _class.prototype.adsAction = function () {
+    var _ref30 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
       return _regenerator2.default.wrap(function _callee25$(_context25) {
         while (1) {
           switch (_context25.prev = _context25.next) {
             case 0:
-              this.assign("title", "版权声明");
-              return _context25.abrupt('return', this.displayView("index_copyright"));
+              this.assign("title", "推广服务");
+              return _context25.abrupt('return', this.displayView("index_ads"));
 
             case 2:
             case 'end':
@@ -1885,21 +2102,21 @@ var _class = function (_Base) {
       }, _callee25, this);
     }));
 
-    function copyrightAction() {
-      return _ref29.apply(this, arguments);
+    function adsAction() {
+      return _ref30.apply(this, arguments);
     }
 
-    return copyrightAction;
+    return adsAction;
   }();
 
-  _class.prototype.linksAction = function () {
-    var _ref30 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+  _class.prototype.copyrightAction = function () {
+    var _ref31 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
       return _regenerator2.default.wrap(function _callee26$(_context26) {
         while (1) {
           switch (_context26.prev = _context26.next) {
             case 0:
-              this.assign("title", "友情链接");
-              return _context26.abrupt('return', this.displayView("index_links"));
+              this.assign("title", "版权声明");
+              return _context26.abrupt('return', this.displayView("index_copyright"));
 
             case 2:
             case 'end':
@@ -1909,21 +2126,21 @@ var _class = function (_Base) {
       }, _callee26, this);
     }));
 
-    function linksAction() {
-      return _ref30.apply(this, arguments);
+    function copyrightAction() {
+      return _ref31.apply(this, arguments);
     }
 
-    return linksAction;
+    return copyrightAction;
   }();
 
-  _class.prototype.policyAction = function () {
-    var _ref31 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
+  _class.prototype.linksAction = function () {
+    var _ref32 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
       return _regenerator2.default.wrap(function _callee27$(_context27) {
         while (1) {
           switch (_context27.prev = _context27.next) {
             case 0:
-              this.assign("title", "注册协议");
-              return _context27.abrupt('return', this.displayView("index_policy"));
+              this.assign("title", "友情链接");
+              return _context27.abrupt('return', this.displayView("index_links"));
 
             case 2:
             case 'end':
@@ -1933,21 +2150,21 @@ var _class = function (_Base) {
       }, _callee27, this);
     }));
 
-    function policyAction() {
-      return _ref31.apply(this, arguments);
+    function linksAction() {
+      return _ref32.apply(this, arguments);
     }
 
-    return policyAction;
+    return linksAction;
   }();
 
-  _class.prototype.donateAction = function () {
-    var _ref32 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
+  _class.prototype.policyAction = function () {
+    var _ref33 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
       return _regenerator2.default.wrap(function _callee28$(_context28) {
         while (1) {
           switch (_context28.prev = _context28.next) {
             case 0:
-              this.assign("title", "捐赠");
-              return _context28.abrupt('return', this.displayView("index_donate"));
+              this.assign("title", "注册协议");
+              return _context28.abrupt('return', this.displayView("index_policy"));
 
             case 2:
             case 'end':
@@ -1957,21 +2174,21 @@ var _class = function (_Base) {
       }, _callee28, this);
     }));
 
-    function donateAction() {
-      return _ref32.apply(this, arguments);
+    function policyAction() {
+      return _ref33.apply(this, arguments);
     }
 
-    return donateAction;
+    return policyAction;
   }();
 
-  _class.prototype.dologoutAction = function () {
-    var _ref33 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+  _class.prototype.donateAction = function () {
+    var _ref34 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
       return _regenerator2.default.wrap(function _callee29$(_context29) {
         while (1) {
           switch (_context29.prev = _context29.next) {
             case 0:
-              this.session("uInfo", "");
-              return _context29.abrupt('return', this.redirect("/"));
+              this.assign("title", "捐赠");
+              return _context29.abrupt('return', this.displayView("index_donate"));
 
             case 2:
             case 'end':
@@ -1981,8 +2198,32 @@ var _class = function (_Base) {
       }, _callee29, this);
     }));
 
+    function donateAction() {
+      return _ref34.apply(this, arguments);
+    }
+
+    return donateAction;
+  }();
+
+  _class.prototype.dologoutAction = function () {
+    var _ref35 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+      return _regenerator2.default.wrap(function _callee30$(_context30) {
+        while (1) {
+          switch (_context30.prev = _context30.next) {
+            case 0:
+              this.session("uInfo", "");
+              return _context30.abrupt('return', this.redirect("/"));
+
+            case 2:
+            case 'end':
+              return _context30.stop();
+          }
+        }
+      }, _callee30, this);
+    }));
+
     function dologoutAction() {
-      return _ref33.apply(this, arguments);
+      return _ref35.apply(this, arguments);
     }
 
     return dologoutAction;
@@ -1992,40 +2233,40 @@ var _class = function (_Base) {
 
 
   _class.prototype.sitemapAction = function () {
-    var _ref34 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+    var _ref36 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
       var data, sysdata, list, article, topic, user, others;
-      return _regenerator2.default.wrap(function _callee30$(_context30) {
+      return _regenerator2.default.wrap(function _callee31$(_context31) {
         while (1) {
-          switch (_context30.prev = _context30.next) {
+          switch (_context31.prev = _context31.next) {
             case 0:
 
               //生成xml
               data = {};
-              _context30.next = 3;
+              _context31.next = 3;
               return this.model("home").findOne("system", { id: 1 });
 
             case 3:
-              sysdata = _context30.sent;
-              _context30.next = 6;
+              sysdata = _context31.sent;
+              _context31.next = 6;
               return this.model("home").findAll("item");
 
             case 6:
-              list = _context30.sent;
-              _context30.next = 9;
+              list = _context31.sent;
+              _context31.next = 9;
               return this.model("home").findAll("article");
 
             case 9:
-              article = _context30.sent;
-              _context30.next = 12;
+              article = _context31.sent;
+              _context31.next = 12;
               return this.model("home").findAll("topic");
 
             case 12:
-              topic = _context30.sent;
-              _context30.next = 15;
+              topic = _context31.sent;
+              _context31.next = 15;
               return this.model("home").findAll("user");
 
             case 15:
-              user = _context30.sent;
+              user = _context31.sent;
               others = [{ id: 1, itemname: '大杂烩', url: 'others.html' }, { id: 2, itemname: '前端资讯', url: 'news.html' }, { id: 3, itemname: 'nodejs', url: 'node.html' }, { id: 4, itemname: '资源下载', url: 'download.html' }, { id: 5, itemname: '招聘', url: 'jobs.html' }, { id: 6, itemname: '活动', url: 'activity.html' }, { id: 7, itemname: '关于', url: 'about.html' }, { id: 8, itemname: '友情链接', url: 'links.html' }, { id: 9, itemname: '注册', url: 'register.html' }, { id: 10, itemname: '捐赠', url: 'donate.html' }, { id: 11, itemname: '推广服务', url: 'ads.html' }, { id: 12, itemname: '注册协议', url: 'policy.html' }, { id: 13, itemname: '版权声明', url: 'copyright.html' }, { id: 14, itemname: '会员登录', url: 'login.html' }, { id: 15, itemname: '留言板', url: 'guest.html' }, { id: 16, itemname: 'liblog', url: 'liblog.html' }];
 
               data = {
@@ -2037,32 +2278,9 @@ var _class = function (_Base) {
                 user: user
               };
               _sitemap2.default.createXml(data);
-              return _context30.abrupt('return', this.displayView("index_sitemap"));
+              return _context31.abrupt('return', this.displayView("index_sitemap"));
 
             case 20:
-            case 'end':
-              return _context30.stop();
-          }
-        }
-      }, _callee30, this);
-    }));
-
-    function sitemapAction() {
-      return _ref34.apply(this, arguments);
-    }
-
-    return sitemapAction;
-  }();
-
-  _class.prototype.liblogAction = function () {
-    var _ref35 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
-      return _regenerator2.default.wrap(function _callee31$(_context31) {
-        while (1) {
-          switch (_context31.prev = _context31.next) {
-            case 0:
-              return _context31.abrupt('return', this.displayView("index_liblog"));
-
-            case 1:
             case 'end':
               return _context31.stop();
           }
@@ -2070,20 +2288,43 @@ var _class = function (_Base) {
       }, _callee31, this);
     }));
 
+    function sitemapAction() {
+      return _ref36.apply(this, arguments);
+    }
+
+    return sitemapAction;
+  }();
+
+  _class.prototype.liblogAction = function () {
+    var _ref37 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+      return _regenerator2.default.wrap(function _callee32$(_context32) {
+        while (1) {
+          switch (_context32.prev = _context32.next) {
+            case 0:
+              return _context32.abrupt('return', this.displayView("index_liblog"));
+
+            case 1:
+            case 'end':
+              return _context32.stop();
+          }
+        }
+      }, _callee32, this);
+    }));
+
     function liblogAction() {
-      return _ref35.apply(this, arguments);
+      return _ref37.apply(this, arguments);
     }
 
     return liblogAction;
   }();
 
   _class.prototype.savereplyAction = function () {
-    var _ref36 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+    var _ref38 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
       var marked, mycreatetime, data, html, isexist, tid, updata, rs, _updata, _rs, points, replycount;
 
-      return _regenerator2.default.wrap(function _callee32$(_context32) {
+      return _regenerator2.default.wrap(function _callee33$(_context33) {
         while (1) {
-          switch (_context32.prev = _context32.next) {
+          switch (_context33.prev = _context33.next) {
             case 0:
               console.log("aaa");
               //编辑或者新增回复
@@ -2100,20 +2341,20 @@ var _class = function (_Base) {
                 smartypants: false
               });
               mycreatetime = think.datetime(this.post('createtime'));
-              _context32.next = 6;
+              _context33.next = 6;
               return this.post();
 
             case 6:
-              data = _context32.sent;
+              data = _context33.sent;
 
               data.createtime = mycreatetime;
 
               if (!(data.text === '')) {
-                _context32.next = 12;
+                _context33.next = 12;
                 break;
               }
 
-              return _context32.abrupt('return', this.json({ status: 0, errno: 1, errmsg: 'Trả lời không để trống!' }));
+              return _context33.abrupt('return', this.json({ status: 0, errno: 1, errmsg: 'Trả lời không để trống!' }));
 
             case 12:
               // 解析markdown
@@ -2121,23 +2362,23 @@ var _class = function (_Base) {
               // data.comment=html;
 
               if (think.isEmpty(data.id)) {
-                _context32.next = 32;
+                _context33.next = 32;
                 break;
               }
 
-              _context32.next = 16;
+              _context33.next = 16;
               return this.model("home").findOne("article_comment", { id: data.id });
 
             case 16:
-              isexist = _context32.sent;
-              _context32.next = 19;
+              isexist = _context33.sent;
+              _context33.next = 19;
               return this.model("home").findOne("article", { id: data.tid });
 
             case 19:
-              tid = _context32.sent;
+              tid = _context33.sent;
 
               if (!(!think.isEmpty(isexist) && !think.isEmpty(tid))) {
-                _context32.next = 29;
+                _context33.next = 29;
                 break;
               }
 
@@ -2151,28 +2392,28 @@ var _class = function (_Base) {
               //更新最后回复数据
               // 更新回复
 
-              _context32.next = 24;
+              _context33.next = 24;
               return this.model("home").updateRecord("article_comment", { id: data.id }, data);
 
             case 24:
-              rs = _context32.sent;
+              rs = _context33.sent;
 
               if (!rs) {
-                _context32.next = 27;
+                _context33.next = 27;
                 break;
               }
 
-              return _context32.abrupt('return', this.success());
+              return _context33.abrupt('return', this.success());
 
             case 27:
-              _context32.next = 30;
+              _context33.next = 30;
               break;
 
             case 29:
-              return _context32.abrupt('return', this.fail("该主题或回复不存在或已删除！"));
+              return _context33.abrupt('return', this.fail("该主题或回复不存在或已删除！"));
 
             case 30:
-              _context32.next = 47;
+              _context33.next = 47;
               break;
 
             case 32:
@@ -2189,82 +2430,30 @@ var _class = function (_Base) {
               //更新最后回复数据
               //增加
               console.log("thanh cong2");
-              _context32.next = 38;
+              _context33.next = 38;
               return this.model("article_comment").add(data);
 
             case 38:
-              _rs = _context32.sent;
-              _context32.next = 41;
+              _rs = _context33.sent;
+              _context33.next = 41;
               return this.model("home").increpoint({ name: data.author }, this.config('point.addcomment'));
 
             case 41:
-              points = _context32.sent;
-              _context32.next = 44;
+              points = _context33.sent;
+              _context33.next = 44;
               return this.model("article").where({ id: data.tid }).increment('replycount', 1);
 
             case 44:
-              replycount = _context32.sent;
-
-              if (!_rs) {
-                _context32.next = 47;
-                break;
-              }
-
-              return _context32.abrupt('return', this.success());
-
-            case 47:
-            case 'end':
-              return _context32.stop();
-          }
-        }
-      }, _callee32, this);
-    }));
-
-    function savereplyAction() {
-      return _ref36.apply(this, arguments);
-    }
-
-    return savereplyAction;
-  }();
-
-  _class.prototype.removereplyAction = function () {
-    var _ref37 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
-      var data, myid, rs, replycount;
-      return _regenerator2.default.wrap(function _callee33$(_context33) {
-        while (1) {
-          switch (_context33.prev = _context33.next) {
-            case 0:
-              _context33.next = 2;
-              return this.post();
-
-            case 2:
-              data = _context33.sent;
-              myid = data.id;
-
-              if (think.isEmpty(myid)) {
-                _context33.next = 13;
-                break;
-              }
-
-              _context33.next = 7;
-              return this.model("article_comment").where({ id: myid }).delete();
-
-            case 7:
-              rs = _context33.sent;
-              _context33.next = 10;
-              return this.model("article").where({ id: data.tid }).decrement('replycount', 1);
-
-            case 10:
               replycount = _context33.sent;
 
-              if (!rs) {
-                _context33.next = 13;
+              if (!_rs) {
+                _context33.next = 47;
                 break;
               }
 
               return _context33.abrupt('return', this.success());
 
-            case 13:
+            case 47:
             case 'end':
               return _context33.stop();
           }
@@ -2272,17 +2461,16 @@ var _class = function (_Base) {
       }, _callee33, this);
     }));
 
-    function removereplyAction() {
-      return _ref37.apply(this, arguments);
+    function savereplyAction() {
+      return _ref38.apply(this, arguments);
     }
 
-    return removereplyAction;
+    return savereplyAction;
   }();
 
-  _class.prototype.postlikeAction = function () {
-    var _ref38 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
-      var data, liker, myid, item, arr, likers, n, newlikers, m, rs, _m, _newlikers, _rs2;
-
+  _class.prototype.removereplyAction = function () {
+    var _ref39 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
+      var data, myid, rs, replycount;
       return _regenerator2.default.wrap(function _callee34$(_context34) {
         while (1) {
           switch (_context34.prev = _context34.next) {
@@ -2292,66 +2480,32 @@ var _class = function (_Base) {
 
             case 2:
               data = _context34.sent;
-              liker = data.likers;
               myid = data.id;
 
               if (think.isEmpty(myid)) {
-                _context34.next = 31;
+                _context34.next = 13;
                 break;
               }
 
-              _context34.next = 8;
-              return this.model("home").findOne("article_comment", { id: myid });
+              _context34.next = 7;
+              return this.model("article_comment").where({ id: myid }).delete();
 
-            case 8:
-              item = _context34.sent;
-              arr = !item.likers ? [] : item.likers.split(",");
-              likers = arr || [];
-              n = likers.indexOf(liker);
-
-              if (!(n < 0)) {
-                _context34.next = 23;
-                break;
-              }
-
-              likers.push(liker);
-              newlikers = likers.join(",");
-              m = likers.length;
-              _context34.next = 18;
-              return this.model("article_comment").where({ id: myid }).update({ like: m, likers: newlikers });
-
-            case 18:
+            case 7:
               rs = _context34.sent;
+              _context34.next = 10;
+              return this.model("article").where({ id: data.tid }).decrement('replycount', 1);
+
+            case 10:
+              replycount = _context34.sent;
 
               if (!rs) {
-                _context34.next = 21;
+                _context34.next = 13;
                 break;
               }
 
-              return _context34.abrupt('return', this.success({ likeCount: m }));
+              return _context34.abrupt('return', this.success());
 
-            case 21:
-              _context34.next = 31;
-              break;
-
-            case 23:
-              likers.splice(n, 1);
-              _m = likers.length;
-              _newlikers = likers.join(",");
-              _context34.next = 28;
-              return this.model("article_comment").where({ id: myid }).update({ like: _m, likers: _newlikers });
-
-            case 28:
-              _rs2 = _context34.sent;
-
-              if (!_rs2) {
-                _context34.next = 31;
-                break;
-              }
-
-              return _context34.abrupt('return', this.success({ likeCount: _m }));
-
-            case 31:
+            case 13:
             case 'end':
               return _context34.stop();
           }
@@ -2359,8 +2513,95 @@ var _class = function (_Base) {
       }, _callee34, this);
     }));
 
+    function removereplyAction() {
+      return _ref39.apply(this, arguments);
+    }
+
+    return removereplyAction;
+  }();
+
+  _class.prototype.postlikeAction = function () {
+    var _ref40 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
+      var data, liker, myid, item, arr, likers, n, newlikers, m, rs, _m, _newlikers, _rs2;
+
+      return _regenerator2.default.wrap(function _callee35$(_context35) {
+        while (1) {
+          switch (_context35.prev = _context35.next) {
+            case 0:
+              _context35.next = 2;
+              return this.post();
+
+            case 2:
+              data = _context35.sent;
+              liker = data.likers;
+              myid = data.id;
+
+              if (think.isEmpty(myid)) {
+                _context35.next = 31;
+                break;
+              }
+
+              _context35.next = 8;
+              return this.model("home").findOne("article_comment", { id: myid });
+
+            case 8:
+              item = _context35.sent;
+              arr = !item.likers ? [] : item.likers.split(",");
+              likers = arr || [];
+              n = likers.indexOf(liker);
+
+              if (!(n < 0)) {
+                _context35.next = 23;
+                break;
+              }
+
+              likers.push(liker);
+              newlikers = likers.join(",");
+              m = likers.length;
+              _context35.next = 18;
+              return this.model("article_comment").where({ id: myid }).update({ like: m, likers: newlikers });
+
+            case 18:
+              rs = _context35.sent;
+
+              if (!rs) {
+                _context35.next = 21;
+                break;
+              }
+
+              return _context35.abrupt('return', this.success({ likeCount: m }));
+
+            case 21:
+              _context35.next = 31;
+              break;
+
+            case 23:
+              likers.splice(n, 1);
+              _m = likers.length;
+              _newlikers = likers.join(",");
+              _context35.next = 28;
+              return this.model("article_comment").where({ id: myid }).update({ like: _m, likers: _newlikers });
+
+            case 28:
+              _rs2 = _context35.sent;
+
+              if (!_rs2) {
+                _context35.next = 31;
+                break;
+              }
+
+              return _context35.abrupt('return', this.success({ likeCount: _m }));
+
+            case 31:
+            case 'end':
+              return _context35.stop();
+          }
+        }
+      }, _callee35, this);
+    }));
+
     function postlikeAction() {
-      return _ref38.apply(this, arguments);
+      return _ref40.apply(this, arguments);
     }
 
     return postlikeAction;
