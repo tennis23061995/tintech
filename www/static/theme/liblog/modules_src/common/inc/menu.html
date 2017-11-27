@@ -17,8 +17,8 @@
            {% for item in navList.menu %}
               <li>
                   {% if item.submenus.length>0 %}
-                    <a href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }} +</a>
-                    <ul>
+                    <a class="menu-title" href="/{{ item.parentmenu.urlrewrite }}-{{ item.parentmenu.id }}">{{ item.parentmenu.itemname }}</a><a href="#" class="btn-submenu">+</a>
+                    <ul class="clearfix">
                       {% for it in item.submenus %}
                         <li><a href="/{{ it.urlrewrite }}-{{ it.id }}">{{it.itemname}}</a></li>
                         {% endfor %}
