@@ -1,10 +1,14 @@
-<div class="block-title">Tin Mới</div>
-{% article data = "itemList",limit= "10",rejectnews=comma %}
+{% if areaTitle!=null %}<div class="block-title">{{areaTitle}}</div>{% endif %}
+{% article data = "itemList",limit= "10",cid=cid,iscategory=iscategory,tagid=tagid,istag=istag,rejectnews=comma %}
 {% set i = 0 %}
+{% if comma!=null %}
 {% set comma=comma+"," %}
+{% else %}
+{% set comma="" %}
+{% endif %}
       {% if itemList.length>0 %}
+      <div class="topnews">
         {% for item in itemList %}
-
 <div class="item"> <!-- using data uri for images -->
   <div class="item-left">
     <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
@@ -26,4 +30,6 @@
 {% set comma=comma+item.id %}
 {% endif %}
 {%endfor%}
+</div>
 {%endif%}
+<div data-reject="{{comma}}" data-is="{{datais}}" data-isid="{{isid}}" class="btn-loadmore" style="text-align:center;padding:10px 0;border-top:1px solid rgb(234, 234, 234)"><a href="#" style="font-size:20px;color:#3498db;font-weight:bold">Xem Thêm</a></div>

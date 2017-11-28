@@ -1,33 +1,34 @@
-<div class="topnews">
-  <div class="h2">
+<style>
+.breadcrumb {
+    list-style: none;
+    padding: 9px 5px;
+    font-size: 14px;
+    border-bottom: 1px solid rgb(234, 234, 234);
+    margin: 0;
+  }
+  .breadcrumb a{
+    text-decoration: none;
+    color: #3498db;
+    font-weight: bold;
+  }
+.breadcrumb>li {
+    display: inline-block;
+}
+.breadcrumb>li+li:before
+{
+  content: "/\00a0";
+  padding: 0 5px;
+}
+
+</style>
+<div class="block">
      <ol class="breadcrumb">
         <li><a href="{{_web.url}}"><i class="fa fa-home"></i></a></li>
          <li class="active"><a href="/xu-huong/{{category.urlrewrite}}-{{category.id}}">{{category.tagname}}</a></li>
      </ol>
-  </div>
-  {% if itemList.length!=0 %}
-  {% for item in itemList %}
-  <div class="blogs">
-     <figure>
-       <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}"><img src="{{_web.url}}{{'static/common/images/common/default.jpg' if item.picurl=='' else item.picurl }}" title="{{item.title}}"></a>
-      </figure>
-      <ul class="articleul">
-      <h3> <a href="/{{item.itemurlrewrite}}-{{item.item}}/{{item.urlrewrite}}-{{item.id}}">{{item.title}}</a></h3>
-       <p class="abstract">{{item.abstract}}</p>
-       <p class="by-author">
-         <span><a style="color: #3498db;" href="/{{item.itemurlrewrite}}-{{item.item}}">{{item.itemname}}</a></span>
-         <span><i class="glyphicon glyphicon-eye-open"></i> {{item.view}}</span>
-       </p>
-      </ul>
-    </div>
-  {%endfor%}
-  {%else%}
-  <div style="text-align:center">Hiện không có bài viết nào</div>
-  {%endif%}
+     {% set istag= true %}
+     {% set tagid= category.id %}
+     {% set datais= "tag" %}
+     {% set isid= category.id %}
+     {% include "./new_article.html" %}
 </div>
-{% block pagination %}
-    {%if pageData.count>10 %}
-       {% include "../../common/inc/pagination.html" %}
-    {%endif%}
-    <div style="clear:both"></div>
-{% endblock %}

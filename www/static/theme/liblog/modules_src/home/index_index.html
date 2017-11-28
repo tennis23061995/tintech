@@ -40,6 +40,12 @@
             </div>
             <div class="clearfix"></div>
           </div>
+          {% set areaTitle="Tin Mới" %}
           {% include "./inc/new_article.html" %}
 </div>
+{% endblock %}
+{% block footer_other %}
+<script>
+urls.unshift("{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/layout/loadmorearticle.js");
+</script>
 {% endblock %}

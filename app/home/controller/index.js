@@ -535,7 +535,7 @@ var _class = function (_Base) {
 
   _class.prototype.getarticleAction = function () {
     var _ref10 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee6() {
-      var reject, lstreject, areject, _iterator5, _isArray5, _i5, _ref11, item, articles;
+      var reject, datais, isid, lstreject, areject, articles, _iterator5, _isArray5, _i5, _ref11, item, arrid, ids, _iterator6, _isArray6, _i6, _ref12;
 
       return _regenerator2.default.wrap(function _callee6$(_context6) {
         while (1) {
@@ -546,61 +546,159 @@ var _class = function (_Base) {
 
             case 2:
               reject = _context6.sent;
+              _context6.next = 5;
+              return this.post("datais");
+
+            case 5:
+              datais = _context6.sent;
+              _context6.next = 8;
+              return this.post("isid");
+
+            case 8:
+              isid = _context6.sent;
               lstreject = reject.split(",");
               areject = [];
+              articles = {};
               _iterator5 = lstreject, _isArray5 = Array.isArray(_iterator5), _i5 = 0, _iterator5 = _isArray5 ? _iterator5 : (0, _getIterator3.default)(_iterator5);
 
-            case 6:
+            case 13:
               if (!_isArray5) {
-                _context6.next = 12;
+                _context6.next = 19;
                 break;
               }
 
               if (!(_i5 >= _iterator5.length)) {
-                _context6.next = 9;
+                _context6.next = 16;
                 break;
               }
 
-              return _context6.abrupt('break', 20);
+              return _context6.abrupt('break', 27);
 
-            case 9:
+            case 16:
               _ref11 = _iterator5[_i5++];
-              _context6.next = 16;
+              _context6.next = 23;
               break;
 
-            case 12:
+            case 19:
               _i5 = _iterator5.next();
 
               if (!_i5.done) {
-                _context6.next = 15;
+                _context6.next = 22;
                 break;
               }
 
-              return _context6.abrupt('break', 20);
+              return _context6.abrupt('break', 27);
 
-            case 15:
+            case 22:
               _ref11 = _i5.value;
 
-            case 16:
+            case 23:
               item = _ref11;
 
               areject.push(item);
 
-            case 18:
-              _context6.next = 6;
+            case 25:
+              _context6.next = 13;
               break;
 
-            case 20:
-              _context6.next = 22;
+            case 27:
+              if (!(datais == "category")) {
+                _context6.next = 54;
+                break;
+              }
+
+              arrid = isid.split(",");
+              ids = [];
+
+              if (!(arrid.length > 0)) {
+                _context6.next = 48;
+                break;
+              }
+
+              _iterator6 = arrid, _isArray6 = Array.isArray(_iterator6), _i6 = 0, _iterator6 = _isArray6 ? _iterator6 : (0, _getIterator3.default)(_iterator6);
+
+            case 32:
+              if (!_isArray6) {
+                _context6.next = 38;
+                break;
+              }
+
+              if (!(_i6 >= _iterator6.length)) {
+                _context6.next = 35;
+                break;
+              }
+
+              return _context6.abrupt('break', 46);
+
+            case 35:
+              _ref12 = _iterator6[_i6++];
+              _context6.next = 42;
+              break;
+
+            case 38:
+              _i6 = _iterator6.next();
+
+              if (!_i6.done) {
+                _context6.next = 41;
+                break;
+              }
+
+              return _context6.abrupt('break', 46);
+
+            case 41:
+              _ref12 = _i6.value;
+
+            case 42:
+              item = _ref12;
+
+              ids.push(item);
+
+            case 44:
+              _context6.next = 32;
+              break;
+
+            case 46:
+              _context6.next = 49;
+              break;
+
+            case 48:
+              ids.push(isid);
+
+            case 49:
+              _context6.next = 51;
+              return this.model("article").where({ id: ["NOTIN", areject], ispublished: 1, item: ["IN", ids] }).order("createtime DESC").limit(10).select();
+
+            case 51:
+              articles = _context6.sent;
+              _context6.next = 63;
+              break;
+
+            case 54:
+              if (!(datais == "tag")) {
+                _context6.next = 60;
+                break;
+              }
+
+              _context6.next = 57;
+              return this.model("article").where({ id: ["NOTIN", areject], ispublished: 1, keywords: ["like", "%," + isid.toString() + ",%"] }).order("createtime DESC").limit(10).select();
+
+            case 57:
+              articles = _context6.sent;
+              _context6.next = 63;
+              break;
+
+            case 60:
+              _context6.next = 62;
               return this.model("article").where({ id: ["NOTIN", areject], ispublished: 1 }).order("createtime DESC").limit(10).select();
 
-            case 22:
+            case 62:
               articles = _context6.sent;
 
+            case 63:
               console.log(reject);
               return _context6.abrupt('return', this.success({ articles: articles }));
 
-            case 25:
+            case 65:
             case 'end':
               return _context6.stop();
           }
@@ -616,7 +714,7 @@ var _class = function (_Base) {
   }();
 
   _class.prototype.getvideoAction = function () {
-    var _ref12 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
+    var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee7() {
       var id, item;
       return _regenerator2.default.wrap(function _callee7$(_context7) {
         while (1) {
@@ -645,14 +743,14 @@ var _class = function (_Base) {
     }));
 
     function getvideoAction() {
-      return _ref12.apply(this, arguments);
+      return _ref13.apply(this, arguments);
     }
 
     return getvideoAction;
   }();
 
   _class.prototype.getnewsAction = function () {
-    var _ref13 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
+    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee8() {
       var id, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList, _newsList, newsList1, _topList2;
 
       return _regenerator2.default.wrap(function _callee8$(_context8) {
@@ -828,14 +926,14 @@ var _class = function (_Base) {
     }));
 
     function getnewsAction() {
-      return _ref13.apply(this, arguments);
+      return _ref14.apply(this, arguments);
     }
 
     return getnewsAction;
   }();
 
   _class.prototype.menuAction = function () {
-    var _ref14 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
+    var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee9() {
       var pagenumber, pagesize, aurl, arrU, itemId, urlrewrite, category, lstcategory, categories, i, content, rejectarticles, topList, rejectnews, newsList, _topList3, _newsList2, newsList1, _topList4, parentids, items, itemList, result, Page, page, pageData, cate, ca;
 
       return _regenerator2.default.wrap(function _callee9$(_context9) {
@@ -872,7 +970,7 @@ var _class = function (_Base) {
               rejectarticles = [0];
 
               if (!category.itemname) {
-                _context9.next = 102;
+                _context9.next = 103;
                 break;
               }
 
@@ -1060,16 +1158,18 @@ var _class = function (_Base) {
               if (!think.isEmpty(ca)) {
                 cate.categoryparent = ca;
               }
+
+              this.assign("categories", categories);
               this.assign('category', cate);
               this.assign('content', content);
               this.assign('more', 0);
               this.assign('menu', urlrewrite + '-' + itemId);
               return _context9.abrupt('return', this.displayView('index_menu'));
 
-            case 102:
+            case 103:
               return _context9.abrupt('return', this.displayView("../common/error_404"));
 
-            case 103:
+            case 104:
             case 'end':
               return _context9.stop();
           }
@@ -1078,7 +1178,7 @@ var _class = function (_Base) {
     }));
 
     function menuAction() {
-      return _ref14.apply(this, arguments);
+      return _ref15.apply(this, arguments);
     }
 
     return menuAction;
@@ -1088,7 +1188,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.pageAction = function () {
-    var _ref15 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
+    var _ref16 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee10() {
       var aurl, arrU, aid, aurlrewrite, curl, arrC, cid, curlrewrite, menuInfo, blogInfo, viewcount, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
       return _regenerator2.default.wrap(function _callee10$(_context10) {
         while (1) {
@@ -1331,14 +1431,14 @@ var _class = function (_Base) {
     }));
 
     function pageAction() {
-      return _ref15.apply(this, arguments);
+      return _ref16.apply(this, arguments);
     }
 
     return pageAction;
   }();
 
   _class.prototype.previewAction = function () {
-    var _ref16 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
+    var _ref17 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee11() {
       var aurl, arrU, aid, aurlrewrite, curl, arrC, cid, curlrewrite, menuInfo, blogInfo, acc, html, strArray, particle, ainfo, pid, id, relatearticle, rejectarticles, i, itemList, title, strArrayVal, particleVal, cate, ca, source, setting, replyList, uinfo, loginuserinfo, collectList, tags, listtags, keywords, tag;
       return _regenerator2.default.wrap(function _callee11$(_context11) {
         while (1) {
@@ -1576,7 +1676,7 @@ var _class = function (_Base) {
     }));
 
     function previewAction() {
-      return _ref16.apply(this, arguments);
+      return _ref17.apply(this, arguments);
     }
 
     return previewAction;
@@ -1585,7 +1685,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.newsAction = function () {
-    var _ref17 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
+    var _ref18 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee12() {
       return _regenerator2.default.wrap(function _callee12$(_context12) {
         while (1) {
           switch (_context12.prev = _context12.next) {
@@ -1601,7 +1701,7 @@ var _class = function (_Base) {
     }));
 
     function newsAction() {
-      return _ref17.apply(this, arguments);
+      return _ref18.apply(this, arguments);
     }
 
     return newsAction;
@@ -1610,7 +1710,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.nodeAction = function () {
-    var _ref18 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
+    var _ref19 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee13() {
       return _regenerator2.default.wrap(function _callee13$(_context13) {
         while (1) {
           switch (_context13.prev = _context13.next) {
@@ -1626,7 +1726,7 @@ var _class = function (_Base) {
     }));
 
     function nodeAction() {
-      return _ref18.apply(this, arguments);
+      return _ref19.apply(this, arguments);
     }
 
     return nodeAction;
@@ -1635,7 +1735,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.downloadAction = function () {
-    var _ref19 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
+    var _ref20 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee14() {
       return _regenerator2.default.wrap(function _callee14$(_context14) {
         while (1) {
           switch (_context14.prev = _context14.next) {
@@ -1651,7 +1751,7 @@ var _class = function (_Base) {
     }));
 
     function downloadAction() {
-      return _ref19.apply(this, arguments);
+      return _ref20.apply(this, arguments);
     }
 
     return downloadAction;
@@ -1660,7 +1760,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.activityAction = function () {
-    var _ref20 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
+    var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee15() {
       return _regenerator2.default.wrap(function _callee15$(_context15) {
         while (1) {
           switch (_context15.prev = _context15.next) {
@@ -1676,7 +1776,7 @@ var _class = function (_Base) {
     }));
 
     function activityAction() {
-      return _ref20.apply(this, arguments);
+      return _ref21.apply(this, arguments);
     }
 
     return activityAction;
@@ -1685,7 +1785,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.othersAction = function () {
-    var _ref21 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
+    var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee16() {
       return _regenerator2.default.wrap(function _callee16$(_context16) {
         while (1) {
           switch (_context16.prev = _context16.next) {
@@ -1701,7 +1801,7 @@ var _class = function (_Base) {
     }));
 
     function othersAction() {
-      return _ref21.apply(this, arguments);
+      return _ref22.apply(this, arguments);
     }
 
     return othersAction;
@@ -1710,7 +1810,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.jobsAction = function () {
-    var _ref22 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
+    var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee17() {
       return _regenerator2.default.wrap(function _callee17$(_context17) {
         while (1) {
           switch (_context17.prev = _context17.next) {
@@ -1726,7 +1826,7 @@ var _class = function (_Base) {
     }));
 
     function jobsAction() {
-      return _ref22.apply(this, arguments);
+      return _ref23.apply(this, arguments);
     }
 
     return jobsAction;
@@ -1735,7 +1835,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.getList = function () {
-    var _ref23 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18(itemId, menu) {
+    var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee18(itemId, menu) {
       var pagenumber, pagesize, itemList, result, Page, page, pageData, item;
       return _regenerator2.default.wrap(function _callee18$(_context18) {
         while (1) {
@@ -1784,14 +1884,14 @@ var _class = function (_Base) {
     }));
 
     function getList(_x, _x2) {
-      return _ref23.apply(this, arguments);
+      return _ref24.apply(this, arguments);
     }
 
     return getList;
   }();
 
   _class.prototype.moreAction = function () {
-    var _ref24 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
+    var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee19() {
       var murl, itemId, urlrewrite, pagenumber, pagesize, items, lsttags, i, item, itemList, result, Page, page, pageData;
       return _regenerator2.default.wrap(function _callee19$(_context19) {
         while (1) {
@@ -1860,7 +1960,7 @@ var _class = function (_Base) {
     }));
 
     function moreAction() {
-      return _ref24.apply(this, arguments);
+      return _ref25.apply(this, arguments);
     }
 
     return moreAction;
@@ -1869,7 +1969,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.categoryAction = function () {
-    var _ref25 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
+    var _ref26 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee20() {
       var pagenumber, pagesize, aurl, arrU, itemId, urlrewrite, category, itemList, result, Page, page, pageData;
       return _regenerator2.default.wrap(function _callee20$(_context20) {
         while (1) {
@@ -1934,7 +2034,7 @@ var _class = function (_Base) {
     }));
 
     function categoryAction() {
-      return _ref25.apply(this, arguments);
+      return _ref26.apply(this, arguments);
     }
 
     return categoryAction;
@@ -1944,7 +2044,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.linkssaveAction = function () {
-    var _ref26 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
+    var _ref27 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee21() {
       var mydata, rs;
       return _regenerator2.default.wrap(function _callee21$(_context21) {
         while (1) {
@@ -1983,7 +2083,7 @@ var _class = function (_Base) {
     }));
 
     function linkssaveAction() {
-      return _ref26.apply(this, arguments);
+      return _ref27.apply(this, arguments);
     }
 
     return linkssaveAction;
@@ -1992,7 +2092,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.guestsaveAction = function () {
-    var _ref27 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
+    var _ref28 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee22() {
       var mydata, rs;
       return _regenerator2.default.wrap(function _callee22$(_context22) {
         while (1) {
@@ -2031,14 +2131,14 @@ var _class = function (_Base) {
     }));
 
     function guestsaveAction() {
-      return _ref27.apply(this, arguments);
+      return _ref28.apply(this, arguments);
     }
 
     return guestsaveAction;
   }();
 
   _class.prototype.guestAction = function () {
-    var _ref28 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
+    var _ref29 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee23() {
       return _regenerator2.default.wrap(function _callee23$(_context23) {
         while (1) {
           switch (_context23.prev = _context23.next) {
@@ -2055,14 +2155,14 @@ var _class = function (_Base) {
     }));
 
     function guestAction() {
-      return _ref28.apply(this, arguments);
+      return _ref29.apply(this, arguments);
     }
 
     return guestAction;
   }();
 
   _class.prototype.aboutAction = function () {
-    var _ref29 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
+    var _ref30 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee24() {
       return _regenerator2.default.wrap(function _callee24$(_context24) {
         while (1) {
           switch (_context24.prev = _context24.next) {
@@ -2079,14 +2179,14 @@ var _class = function (_Base) {
     }));
 
     function aboutAction() {
-      return _ref29.apply(this, arguments);
+      return _ref30.apply(this, arguments);
     }
 
     return aboutAction;
   }();
 
   _class.prototype.adsAction = function () {
-    var _ref30 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
+    var _ref31 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee25() {
       return _regenerator2.default.wrap(function _callee25$(_context25) {
         while (1) {
           switch (_context25.prev = _context25.next) {
@@ -2103,14 +2203,14 @@ var _class = function (_Base) {
     }));
 
     function adsAction() {
-      return _ref30.apply(this, arguments);
+      return _ref31.apply(this, arguments);
     }
 
     return adsAction;
   }();
 
   _class.prototype.copyrightAction = function () {
-    var _ref31 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
+    var _ref32 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee26() {
       return _regenerator2.default.wrap(function _callee26$(_context26) {
         while (1) {
           switch (_context26.prev = _context26.next) {
@@ -2127,14 +2227,14 @@ var _class = function (_Base) {
     }));
 
     function copyrightAction() {
-      return _ref31.apply(this, arguments);
+      return _ref32.apply(this, arguments);
     }
 
     return copyrightAction;
   }();
 
   _class.prototype.linksAction = function () {
-    var _ref32 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
+    var _ref33 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee27() {
       return _regenerator2.default.wrap(function _callee27$(_context27) {
         while (1) {
           switch (_context27.prev = _context27.next) {
@@ -2151,14 +2251,14 @@ var _class = function (_Base) {
     }));
 
     function linksAction() {
-      return _ref32.apply(this, arguments);
+      return _ref33.apply(this, arguments);
     }
 
     return linksAction;
   }();
 
   _class.prototype.policyAction = function () {
-    var _ref33 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
+    var _ref34 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee28() {
       return _regenerator2.default.wrap(function _callee28$(_context28) {
         while (1) {
           switch (_context28.prev = _context28.next) {
@@ -2175,14 +2275,14 @@ var _class = function (_Base) {
     }));
 
     function policyAction() {
-      return _ref33.apply(this, arguments);
+      return _ref34.apply(this, arguments);
     }
 
     return policyAction;
   }();
 
   _class.prototype.donateAction = function () {
-    var _ref34 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
+    var _ref35 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee29() {
       return _regenerator2.default.wrap(function _callee29$(_context29) {
         while (1) {
           switch (_context29.prev = _context29.next) {
@@ -2199,14 +2299,14 @@ var _class = function (_Base) {
     }));
 
     function donateAction() {
-      return _ref34.apply(this, arguments);
+      return _ref35.apply(this, arguments);
     }
 
     return donateAction;
   }();
 
   _class.prototype.dologoutAction = function () {
-    var _ref35 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
+    var _ref36 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee30() {
       return _regenerator2.default.wrap(function _callee30$(_context30) {
         while (1) {
           switch (_context30.prev = _context30.next) {
@@ -2223,7 +2323,7 @@ var _class = function (_Base) {
     }));
 
     function dologoutAction() {
-      return _ref35.apply(this, arguments);
+      return _ref36.apply(this, arguments);
     }
 
     return dologoutAction;
@@ -2233,7 +2333,7 @@ var _class = function (_Base) {
 
 
   _class.prototype.sitemapAction = function () {
-    var _ref36 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
+    var _ref37 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee31() {
       var data, sysdata, list, article, topic, user, others;
       return _regenerator2.default.wrap(function _callee31$(_context31) {
         while (1) {
@@ -2289,14 +2389,14 @@ var _class = function (_Base) {
     }));
 
     function sitemapAction() {
-      return _ref36.apply(this, arguments);
+      return _ref37.apply(this, arguments);
     }
 
     return sitemapAction;
   }();
 
   _class.prototype.liblogAction = function () {
-    var _ref37 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
+    var _ref38 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee32() {
       return _regenerator2.default.wrap(function _callee32$(_context32) {
         while (1) {
           switch (_context32.prev = _context32.next) {
@@ -2312,14 +2412,14 @@ var _class = function (_Base) {
     }));
 
     function liblogAction() {
-      return _ref37.apply(this, arguments);
+      return _ref38.apply(this, arguments);
     }
 
     return liblogAction;
   }();
 
   _class.prototype.savereplyAction = function () {
-    var _ref38 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
+    var _ref39 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee33() {
       var marked, mycreatetime, data, html, isexist, tid, updata, rs, _updata, _rs, points, replycount;
 
       return _regenerator2.default.wrap(function _callee33$(_context33) {
@@ -2462,14 +2562,14 @@ var _class = function (_Base) {
     }));
 
     function savereplyAction() {
-      return _ref38.apply(this, arguments);
+      return _ref39.apply(this, arguments);
     }
 
     return savereplyAction;
   }();
 
   _class.prototype.removereplyAction = function () {
-    var _ref39 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
+    var _ref40 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee34() {
       var data, myid, rs, replycount;
       return _regenerator2.default.wrap(function _callee34$(_context34) {
         while (1) {
@@ -2514,14 +2614,14 @@ var _class = function (_Base) {
     }));
 
     function removereplyAction() {
-      return _ref39.apply(this, arguments);
+      return _ref40.apply(this, arguments);
     }
 
     return removereplyAction;
   }();
 
   _class.prototype.postlikeAction = function () {
-    var _ref40 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
+    var _ref41 = (0, _asyncToGenerator3.default)(_regenerator2.default.mark(function _callee35() {
       var data, liker, myid, item, arr, likers, n, newlikers, m, rs, _m, _newlikers, _rs2;
 
       return _regenerator2.default.wrap(function _callee35$(_context35) {
@@ -2601,7 +2701,7 @@ var _class = function (_Base) {
     }));
 
     function postlikeAction() {
-      return _ref40.apply(this, arguments);
+      return _ref41.apply(this, arguments);
     }
 
     return postlikeAction;

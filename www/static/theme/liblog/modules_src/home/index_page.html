@@ -178,13 +178,14 @@
             </div>
         </div>
         {%endif%}
+        {% set comma= blogInfo.id.toString() %}
+        {% set areaTitle="Tin Mới" %}
         {% include "./inc/new_article.html" %}
 </div>
 {% endblock %}
 {% block footer_other %}
 <script>
 urls.unshift("{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/page/index.js");
+urls.unshift("{{_web.url}}{{theme_url}}/{{think.Dev_Src}}js/business/layout/loadmorearticle.js");
 </script>
 {% endblock %}
-</body>
-</html>
