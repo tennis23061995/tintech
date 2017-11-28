@@ -45,6 +45,9 @@ global.article = function () {
                             if (args.iscategory) {
                                 where = think.extend({}, where, cid);
                             }
+                            if (args.istag) {
+                                where = think.extend({}, where, { keywords: ["like", "%," + args.tagid.toString() + ",%"] });
+                            }
                             if (!think.isEmpty(args.rejectnews)) {
                                 rejectnews = [];
 
@@ -100,17 +103,17 @@ global.article = function () {
                                 }
                             }
 
-                            _context.next = 14;
+                            _context.next = 15;
                             return think.model('article', think.config("db")).where(where).limit(limit).order(type).select();
 
-                        case 14:
+                        case 15:
                             article = _context.sent;
 
 
                             context.ctx[data] = article;
                             return _context.abrupt('return', callback(null, ''));
 
-                        case 17:
+                        case 18:
                         case 'end':
                             return _context.stop();
                     }
