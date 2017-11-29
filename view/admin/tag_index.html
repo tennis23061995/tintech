@@ -33,7 +33,7 @@
                 <tr class="text-c odd" role="row">
                     <td><input type="checkbox" value="{{item.id}}" name=""></td>
                     <td>{{item.id}}</td>
-                    <td>{{item.tagname}}</td>
+                    <td><a href="/xu-huong/{{item.urlrewrite}}-{{item.id}}">{{item.tagname}}</a></td>
                     <td class="td-status">
                         {% if item.appear==1 %}
                             <span class="label label-success radius">显示</span>
