@@ -65,9 +65,9 @@
                         <td class="sorting_1">{{(pagecount-1)*pagesize+loop.index0+1}}</td>
                         <td class="text-l">
                             {% if item.ispublished==1 %}
-                                <a style="cursor:pointer" class="text-primary" onclick="window.open('/page/{{item.aid}}','_blank')" title="查看">{{item.title}}</a>
+                                <a style="cursor:pointer" class="text-primary" onclick="window.open('/preview/{{item.urlrewrite}}-{{item.item}}/{{item.aurlrewrite}}-{{item.aid}}','_blank')" title="查看">{{item.title}}</a>
                             {%else%}
-                            <a style="cursor:pointer" class="text-primary" onclick="window.open('/preview/{{item.aid}}','_blank')" title="查看">{{item.title}}</a>
+                            <a style="cursor:pointer" class="text-primary" onclick="window.open('/preview/{{item.urlrewrite}}-{{item.item}}/{{item.aurlrewrite}}-{{item.aid}}','_blank')" title="查看">{{item.title}}</a>
                             {%endif%}
                         </td>
                         <td>{{item.itemname}}</td>
