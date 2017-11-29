@@ -6,7 +6,7 @@
 exports.__esModule = true;
 exports.default = {
   //key: value
-  port: process.env.PORT || 9000,
+  port: process.env.PORT || 8361,
   pagesize: 10,
   route_on: true,
   encoding: "utf-8",
